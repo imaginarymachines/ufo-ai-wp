@@ -12,7 +12,9 @@
  *
  * @package           content-machine-plugin
  */
-
+if ( file_exists( __DIR__ . '/keys.php' ) ) {
+	require_once __DIR__ . '/keys.php';
+}
 
  //include autoloader from composer
 require_once __DIR__ . '/vendor/autoload.php';
