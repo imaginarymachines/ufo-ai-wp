@@ -13,8 +13,12 @@
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
-		"env": "wp-env"
-	},
+		"env": "wp-env",
+		"test:php": "npm run composer test",
+		"test:watch": "npm run composer test:watch",
+		"composer": "wp-env run phpunit composer --working-dir=/var/www/html/wp-content/plugins/content-machine-wp",
+		"preinstall": "composer install"
+		},
 	"devDependencies": {
 		"@wordpress/env": "^5.8.0",
 		"@wordpress/scripts": "^25.0.0"

@@ -1,5 +1,6 @@
 build
-
+vendor
+wordpress
 # Logs
 logs
 *.log

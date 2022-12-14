@@ -13,6 +13,11 @@
  * @package           content-machine-plugin
  */
 
+
+ //include autoloader from composer
+require_once __DIR__ . '/vendor/autoload.php';
+\ImaginaryMachines\ContentMachine\ContentMachine::addHooks();
+
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
  * Behind the scenes, it registers also all assets so they can be enqueued
