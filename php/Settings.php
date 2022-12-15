@@ -72,11 +72,12 @@ class Settings {
 			);
 		}
 		$settings = get_option( self::API_SETTINGS, array() );
-		if ( ! is_array( $settings ) || ! array_key_exists( $key, $settings ) ) {
-			$setting = $defaults[ $key ];
-		} else {
-			$setting = $settings[ $key ];
+		// return if in array
+		if ( array_key_exists( $key, $settings ) ) {
+			return $settings[ $key ];
 		}
+		// return default
+		$setting = $defaults[ $key ];
 		return $setting;
 	}
 	// set a setting

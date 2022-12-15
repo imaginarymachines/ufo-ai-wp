@@ -40,7 +40,6 @@ const SettingsForm = () => {
 	const id = "settings-form";
 	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log(values);
 		setIsSaving(true);
 		saveSettings(values).then(({update}) => {
 			setValues({...values,update});

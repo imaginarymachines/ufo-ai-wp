@@ -37,9 +37,16 @@ class Client  implements ClientContract {
 
 	// Create from saved settings
 	public static function fromSettings(): Client {
+		$settings = Settings::getAll();
+		if ( isset( $settings[ SETTINGS::KEY ] ) ) {
+			$key = $settings[ SETTINGS::KEY ];
+		} else {
+			$key = Settings::getDefault( Settings::KEY );
+		}
+
 		return new Client(
-			Settings::get( Settings::URL, ),
-			Settings::get( Settings::KEY ),
+			Settings::getDefault( Settings::URL ),
+			$key,
 			self::latestApiVersion()
 		);
 	}

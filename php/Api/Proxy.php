@@ -5,6 +5,7 @@ namespace ImaginaryMachines\ContentMachine\Api;
 use ImaginaryMachines\ContentMachine\Client;
 use ImaginaryMachines\ContentMachine\ContentMachine;
 use ImaginaryMachines\ContentMachine\PromptRequest;
+use ImaginaryMachines\ContentMachine\Settings;
 
 /**
  * REST API endpoints for proxying requests to the Content Machine API
@@ -65,6 +66,7 @@ class Proxy {
 	 * Create a prompt from a post
 	 */
 	public function forPost( $request ) {
+
 		$what = 'paragraphs';
 
 		$post_id      = $request->get_param( 'post' );
