@@ -46,6 +46,10 @@ class Proxy {
 						'required' => true,
 						'type'     => 'integer',
 					),
+					'length'     => array(
+						'required' => false,
+						'type'     => 'integer',
+					),
 				),
 			)
 		);
@@ -73,6 +77,7 @@ class Proxy {
 		$categories   = $request->get_param( 'categories' );
 		$tags         = $request->get_param( 'tags' );
 		$title        = $request->get_param( 'title' );
+		$length       = (int)$request->get_param( 'length',1 );
 		$that         = array(
 			'about' => '',
 		);
@@ -133,7 +138,7 @@ class Proxy {
 			$what,
 			$for,
 			$that,
-			1
+			$length
 		);
 		try {
 			$texts = $client->prompt( $promptRequest );
