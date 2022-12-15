@@ -13,17 +13,21 @@ import {
 import apiFetch from '@wordpress/api-fetch';
 
 //Function for saving settings
-const saveSettings = (values) => {
-	apiFetch( {
+const  saveSettings = async (values) => {
+	const r = await apiFetch( {
 		path: '/content-machine/v1/settings',
 		method: 'POST',
 		data: values,
 	} ).then( ( res ) => {
-		console.log(res);
+		return res;
 	} );
+	return {update:r};
 }
-const SettingsForm = () => {
 
+
+const SettingsForm = () => {
+	const [isSaving,setIsSaving] = React.useState(false);
+	const [hasSaved,setHasSaved] = React.useState(false);
 	const [values,setValues] = React.useState(() => {
 		if( CONTENT_MACHINE.settings ){
 			return CONTENT_MACHINE.settings;
@@ -37,8 +41,23 @@ const SettingsForm = () => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		console.log(values);
-		saveSettings(values);
+		setIsSaving(true);
+		saveSettings(values).then(({update}) => {
+			setValues({...values,update});
+			setHasSaved(true);
+		});
 	}
+
+	//Reset the isSaving state after 2 seconds
+	React.useEffect(() => {
+		if( hasSaved ){
+			const timer = setTimeout(() => {
+				setIsSaving(false);
+			}, 2000);
+			return () => clearTimeout(timer);
+		}
+
+	  }, [hasSaved]);
 	return (
 		<Form id={id} onSubmit={onSubmit}>
 		  <FormTable >
@@ -73,6 +92,7 @@ const SettingsForm = () => {
 					  name={'submit-button'}
 					  value={'Save'}
 				  />
+				  <>{isSaving ? "Saving..." : ""}</>
 			  </>
 		  </FormTable>
 	  </Form>

@@ -50,12 +50,9 @@ class ContentMachine {
 
 	public static function getClient(): ClientContract {
 		if ( ! isset( self::$container['client'] ) ) {
-			// self::$container['client'] = Client::fromSettings();
+			self::$container['client'] = Client::fromSettings();
 
-			self::$container['client'] = new Client(
-				CONTENT_MACHINE_URL,
-				CONTENT_MACHINE_API_KEY,
-			);
+
 		}
 		return self::$container['client'];
 	}

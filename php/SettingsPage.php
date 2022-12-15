@@ -14,7 +14,7 @@ class SettingsPage {
 		// Add the page
 		$hook_suffix = add_options_page(
 			__( 'Content Machine', 'content-machine-plugin' ),
-			__( 'Settings', 'content-machine-plugin' ),
+			__( 'Content Machine', 'content-machine-plugin' ),
 			'manage_options',
 			self::SCREEN,
 			array( __CLASS__, 'render_page' )
@@ -61,8 +61,8 @@ class SettingsPage {
 		wp_enqueue_script( self::SCREEN );
 		$settings = Settings::getAll();
 		wp_localize_script(
-			self::SCREEN, 
-			'CONTENT_MACHINE', 
+			self::SCREEN,
+			'CONTENT_MACHINE',
 			array(
 				'apiUrl'   => rest_url( 'content-machine/v1/settings' ),
 				'settings' => $settings,
