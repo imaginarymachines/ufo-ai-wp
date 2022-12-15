@@ -59,6 +59,12 @@ class SettingsPage {
 	 */
 	public static function render_page() {
 		wp_enqueue_script(SettingsPage::SCREEN);
+		$settings = Settings::getAll();
+		wp_localize_script(SettingsPage::SCREEN,'CONTENT_MACHINE',[
+			'apiUrl' => rest_url('content-machine/v1/settings'),
+			'settings' => $settings,
+		]);
+
 		?>
 			<div class="content-machine-plugin-wrap">
 				<h1>
