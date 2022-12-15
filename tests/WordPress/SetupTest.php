@@ -69,6 +69,16 @@ class SetupTest extends WP_UnitTestCase {
 				'content_machine_plugin_content_machine_plugin_block_init'
 			)
 		);
+		//Test this worked
+		//add_action( 'admin_enqueue_scripts', 'content_machine_plugin_admin_register_scripts' );
+
+		$this->assertGreaterThan(
+			0,
+			has_action(
+				'admin_enqueue_scripts',
+				'content_machine_plugin_admin_register_scripts'
+			)
+		);
 
 	}
 }

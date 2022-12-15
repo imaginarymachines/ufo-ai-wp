@@ -12,6 +12,9 @@
  *
  * @package           content-machine-plugin
  */
+
+use ImaginaryMachines\ContentMachine\SettingsPage;
+
 if ( file_exists( __DIR__ . '/keys.php' ) ) {
 	require_once __DIR__ . '/keys.php';
 }
@@ -47,3 +50,20 @@ function content_machine_plugin_content_machine_plugin_block_init() {
 	register_block_type( __DIR__ . '/build' );
 }
 add_action( 'init', 'content_machine_plugin_content_machine_plugin_block_init' );
+
+//Register script built in build/admin.js
+function content_machine_plugin_admin_register_scripts() {
+	$dependencies = [];
+	//Use asset file if it exists
+	if ( file_exists( __DIR__ . '/build/admin.asset.php' ) ) {
+		$asset_file = include __DIR__ . '/build/admin.asset.php';
+		$dependencies = $asset_file['dependencies'];
+	}
+	wp_register_script(
+		SettingsPage::SCREEN,
+		plugins_url( 'build/admin.js', __FILE__ ),
+		$dependencies,
+		CONTENT_MACHINE_VERSION,
+	);
+}
+add_action( 'admin_enqueue_scripts', 'content_machine_plugin_admin_register_scripts' );

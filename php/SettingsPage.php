@@ -13,8 +13,8 @@ class SettingsPage {
 
 		// Add the page
 		$hook_suffix = add_options_page(
-			__( 'Content Machine', 'core-style-plugin' ),
-			__( 'Settings', 'core-style-plugin' ),
+			__( 'Content Machine', 'content-machine-plugin' ),
+			__( 'Settings', 'content-machine-plugin' ),
 			'manage_options',
 			self::SCREEN,
 			array( __CLASS__, 'render_page' )
@@ -45,7 +45,7 @@ class SettingsPage {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( add_query_arg( 'page', self::SCREEN, admin_url( 'options-general.php' ) ) ),
-			esc_html__( 'Settings', 'core-style-plugin' )
+			esc_html__( 'Settings', 'content-machine-plugin' )
 		);
 		array_unshift( $links, $settings_link );
 
@@ -58,13 +58,13 @@ class SettingsPage {
 	 * @since 0.0.1
 	 */
 	public static function render_page() {
+		wp_enqueue_script(SettingsPage::SCREEN);
 		?>
-			<div class="core-style-plugin-wrap">
+			<div class="content-machine-plugin-wrap">
 				<h1>
-					<?php esc_html_e( 'Core Style Plugin', 'core-style-plugin' ); ?>
+					<?php esc_html_e( 'Content Machine', 'content-machine-plugin' ); ?>
 				</h1>
-
-
+				<div id="content-machine-settings"></div>
 			</div>
 		<?php
 	}
