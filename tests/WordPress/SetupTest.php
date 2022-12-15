@@ -59,5 +59,15 @@ class SetupTest extends WP_UnitTestCase {
 				[Settings::class,'registerSettings']
 			)
 		);
+		//Test this worked
+		//add_action( 'init', 'content_machine_plugin_content_machine_plugin_block_init' );
+
+		$this->assertGreaterThan(
+			0,
+			has_action(
+				'init',
+				'content_machine_plugin_content_machine_plugin_block_init'
+			)
+		);
 	}
 }
