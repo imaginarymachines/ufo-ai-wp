@@ -10,7 +10,18 @@ import {
 	TrSubmitButton
   }
   from  "@imaginary-machines/wp-admin-components";
+import apiFetch from '@wordpress/api-fetch';
 
+//Function for saving settings
+const saveSettings = (values) => {
+	apiFetch( {
+		path: '/content-machine/v1/settings',
+		method: 'POST',
+		data: values,
+	} ).then( ( res ) => {
+		console.log(res);
+	} );
+}
 const SettingsForm = () => {
 
 	const [values,setValues] = React.useState(() => {
@@ -26,17 +37,18 @@ const SettingsForm = () => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		console.log(values);
+		saveSettings(values);
 	}
 	return (
 		<Form id={id} onSubmit={onSubmit}>
 		  <FormTable >
 			  <>
 				  <TrInput
-					  label={'Input Field'}
+					  label={'Api Key'}
 					  id={'input'}
-					  name={'input'}
+					  name={'key'}
 					  value={values.key}
-					  onChange={(value) => setValues({...values,input:value})}
+					  onChange={(value) => setValues({...values,key:value})}
 				  />
 				  <TrSelect
 					  label={'Select Field'}

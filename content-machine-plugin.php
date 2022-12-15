@@ -51,12 +51,12 @@ function content_machine_plugin_content_machine_plugin_block_init() {
 }
 add_action( 'init', 'content_machine_plugin_content_machine_plugin_block_init' );
 
-//Register script built in build/admin.js
+// Register script built in build/admin.js
 function content_machine_plugin_admin_register_scripts() {
-	$dependencies = [];
-	//Use asset file if it exists
+	$dependencies = array();
+	// Use asset file if it exists
 	if ( file_exists( __DIR__ . '/build/admin.asset.php' ) ) {
-		$asset_file = include __DIR__ . '/build/admin.asset.php';
+		$asset_file   = include __DIR__ . '/build/admin.asset.php';
 		$dependencies = $asset_file['dependencies'];
 	}
 	wp_register_script(

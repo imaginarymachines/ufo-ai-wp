@@ -82,6 +82,15 @@ class Settings {
 	// set a setting
 	public static function set( $key, $value ) {
 		$current = static::getAll();
+		if ( ! static::isAllowedKey( $key ) ) {
+			throw new \Exception(
+				sprintf( 'Invalid key %s', $key )
+			);
+		}
+		// Sanitize the value
+		$fnName = 'sanitizeSetting' . ucfirst( $key );
+		$value  = static::$fnName( $value );
+
 		update_option(
 			self::API_SETTINGS,
 			array_merge(
@@ -89,7 +98,7 @@ class Settings {
 				array(
 					$key => $value,
 				)
-			) 
+			)
 		);
 	}
 

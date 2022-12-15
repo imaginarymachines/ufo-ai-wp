@@ -21,7 +21,7 @@ class SettingsEndpoint {
 			'/settings',
 			array(
 				'methods'             => 'POST',
-				'callback'            => array( $obj, 'forPost' ),
+				'callback'            => array( $obj, 'updateSettings' ),
 				'permission_callback' => '__return_true',
 				'args'                => array(
 					'key' => array(
@@ -30,7 +30,6 @@ class SettingsEndpoint {
 					),
 
 				),
-				'validate_callback'   => array( $obj, 'validateSettings' ),
 			)
 		);
 	}

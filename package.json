@@ -9,7 +9,7 @@
 		"build": "wp-scripts build",
 		"lint": "npm-run-all lint:*",
 		"lint:php": "composer lint",
-		"lint:css": "wp-scripts lint-style ./src/*.css",
+		"lint:css": "wp-scripts lint-style ./src/*.scss ./admin/*.css",
 		"lint:js": "wp-scripts lint-js ./src",
 		"format": "npm-run-all format:*",
 		"format:php": "composer format",
