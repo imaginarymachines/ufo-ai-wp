@@ -28,7 +28,7 @@ class Proxy {
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( $obj, 'forPost' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array( $obj, 'authorize' ),
 				'args'                => array(
 					'title'      => array(
 						'required' => true,

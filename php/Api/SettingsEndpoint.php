@@ -22,7 +22,7 @@ class SettingsEndpoint {
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( $obj, 'updateSettings' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array( $obj, 'authorize'),
 				'args'                => array(
 					'key' => array(
 						'required' => true,
