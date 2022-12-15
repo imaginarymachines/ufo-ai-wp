@@ -1,6 +1,18 @@
 # Content Machine Plugin
 
 
+## Usage
+
+1. Install and activate plugin.
+1. Go to settings page.
+1. Insert API key.
+1. Make new post
+1. Give it a title and save.
+1. Click smiley icon in top bar.
+1. Click "add blocks" button
+
+
+
 ## Develop
 
 - Install
