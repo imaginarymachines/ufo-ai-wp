@@ -52,7 +52,6 @@ class SetupTest extends WP_UnitTestCase {
 	 * Test adding admin hooks.
 	 */
 	public function test_add_admin_hooks() {
-		Admin::addHooks();
 		$this->assertGreaterThan(
 			0,
 			has_action(

@@ -16,6 +16,22 @@ if ( file_exists( __DIR__ . '/keys.php' ) ) {
 	require_once __DIR__ . '/keys.php';
 }
 
+/**
+ * Shortcut constant to the path of this file.
+ */
+define( 'CONTENT_MACHINE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
+/**
+ * Version of the plugin.
+ */
+define( 'CONTENT_MACHINE_VERSION', '0.1.0' );
+
+/**
+ * Main file of plugin
+ */
+define( 'CONTENT_MACHINE_MAIN_FILE', __FILE__ );
+
+
  //include autoloader from composer
 require_once __DIR__ . '/vendor/autoload.php';
 \ImaginaryMachines\ContentMachine\ContentMachine::addHooks();

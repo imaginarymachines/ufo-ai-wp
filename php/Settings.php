@@ -7,35 +7,25 @@ class Settings {
 
 	const URL   = 'url';
 	const KEY   = 'key';
-	const GROUP = 'cmwp-settings';
-
+	const GROUP = 'cm-settings';
+	const API_SETTINGS = 'cm_api_settings';
 	public static function registerSettings() {
 
 		register_setting(
 			static::GROUP,
-			static::settingName( static::KEY ),
+			static::API_SETTINGS,
 			array(
-				'type'              => 'string',
-				'sanitize_callback' => array( __CLASS__, 'sanitizeSettingKey' ),
-				'default'           => self::getDefault( static::KEY ),
+				'type'              => 'array',
+				'sanitize_callback' => array( __CLASS__, 'sanitizeSettings' ),
+				'default'           => self::getDefaults(),
 			)
 		);
-		register_setting(
-			static::GROUP,
-			static::settingName( static::URL ),
-			array(
-				'type'              => 'string',
-				'sanitize_callback' => array( __CLASS__, 'sanitizeSettingUrl' ),
-				'default'           => self::getDefault( static::URL ),
-			)
-		);
+
 	}
 
 	// Delete all settings
 	public static function deleteAll() {
-		foreach ( self::getDefaults() as $key => $value ) {
-			delete_option( static::settingName( $key ) );
-		}
+		delete_option(self::API_SETTINGS);
 	}
 	// static method to get default settings
 	public static function getDefaults() {
@@ -81,15 +71,17 @@ class Settings {
 				sprintf( 'Invalid key %s', $key )
 			);
 		}
-		$setting = get_option( static::settingName( $key ), null );
-		if ( ! $setting ) {
+		$settings = get_option( self::API_SETTINGS, []);
+		if ( ! is_array($settings)|| ! array_key_exists( $key, $settings ) ) {
 			$setting = $defaults[ $key ];
+		}else{
+			$setting = $settings[ $key ];
 		}
 		return $setting;
 	}
 	// set a setting
 	public static function set( $key, $value ) {
-		update_option( static::settingName( $key ), $value );
+		update_option( self::API_SETTINGS, array( $key => $value ) );
 	}
 
 	// get all settings
@@ -102,7 +94,5 @@ class Settings {
 		return $settings;
 	}
 
-	public static function settingName( $key ) {
-		return 'content_machine_' . $key;
-	}
+
 }

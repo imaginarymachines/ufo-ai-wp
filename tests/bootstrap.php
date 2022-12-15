@@ -28,7 +28,7 @@ require_once getenv( 'WP_PHPUNIT__DIR' ) . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	function() {
-		require dirname( __DIR__ ) . '/content-machine.php';
+		require dirname( __DIR__ ) . '/content-machine-plugin.php';
 		// Include fakes
 		require_once __DIR__ . '/fakes/FakeClient.php';
 	}

@@ -21,6 +21,7 @@ class ContentMachine {
 	public static function addHooks() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'load_textdomain' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'rest_api_init' ) );
+		add_action('admin_init', array( Settings::class, 'registerSettings' ) );
 	}
 
 	/**
