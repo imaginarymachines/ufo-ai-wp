@@ -20,7 +20,7 @@ class Proxy {
 	const NAMESPACE = 'content-machine/v1';
 
 	public static function factory() {
-		$obj       = new static( ContentMachine::getClient() );
+		$obj = new static( ContentMachine::getClient() );
 		\register_rest_route(
 			self::NAMESPACE,
 			'/post',
@@ -65,7 +65,7 @@ class Proxy {
 	 * Create a prompt from a post
 	 */
 	public function forPost( $request ) {
-		$what         = 'paragraphs';
+		$what = 'paragraphs';
 
 		$post_id      = $request->get_param( 'post' );
 		$categories   = $request->get_param( 'categories' );
@@ -116,15 +116,15 @@ class Proxy {
 				}
 			}
 		}
-		if( empty($that['about'])){
-			$that['about'] = get_the_excerpt($post_id);
+		if ( empty( $that['about'] ) ) {
+			$that['about'] = get_the_excerpt( $post_id );
 		}
 		$that['about'] = trim( $that['about'], ',' );
-		if( empty($that['about'])){
-			//@todo deal with this
+		if ( empty( $that['about'] ) ) {
+			// @todo deal with this
 			$that['about'] = '  ';
 		}
-		$client  = ContentMachine::getClient();
+		$client = ContentMachine::getClient();
 
 
 		$promptRequest = new PromptRequest(
@@ -135,7 +135,7 @@ class Proxy {
 		);
 		try {
 			$texts = $client->prompt( $promptRequest );
-			return ['texts' => $texts];
+			return array( 'texts' => $texts );
 		} catch ( \Throwable $th ) {
 			wp_die( $th->getMessage() );
 		}

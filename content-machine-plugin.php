@@ -32,7 +32,7 @@ define( 'CONTENT_MACHINE_VERSION', '0.1.0' );
 define( 'CONTENT_MACHINE_MAIN_FILE', __FILE__ );
 
 
- //include autoloader from composer
+ // include autoloader from composer
 require_once __DIR__ . '/vendor/autoload.php';
 \ImaginaryMachines\ContentMachine\ContentMachine::addHooks();
 

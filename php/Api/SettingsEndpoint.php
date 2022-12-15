@@ -15,7 +15,7 @@ class SettingsEndpoint {
 	const NAMESPACE = 'content-machine/v1';
 
 	public static function factory() {
-		$obj       = new static(  );
+		$obj = new static();
 		\register_rest_route(
 			self::NAMESPACE,
 			'/settings',
@@ -24,7 +24,7 @@ class SettingsEndpoint {
 				'callback'            => array( $obj, 'forPost' ),
 				'permission_callback' => '__return_true',
 				'args'                => array(
-					'key'      => array(
+					'key' => array(
 						'required' => true,
 						'type'     => 'string',
 					),
@@ -40,7 +40,7 @@ class SettingsEndpoint {
 	 * Update settings
 	 */
 	public function updateSettings( $request ) {
-		$key      = $request->get_param( 'key' );
+		$key = $request->get_param( 'key' );
 		Settings::set( Settings::KEY, $key );
 		return Settings::getAll();
 	}

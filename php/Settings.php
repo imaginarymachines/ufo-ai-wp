@@ -5,9 +5,9 @@ namespace ImaginaryMachines\ContentMachine;
 // PHP class that uses WordPress' options API to store and retrieve settings
 class Settings {
 
-	const URL   = 'url';
-	const KEY   = 'key';
-	const GROUP = 'cm-settings';
+	const URL          = 'url';
+	const KEY          = 'key';
+	const GROUP        = 'cm-settings';
 	const API_SETTINGS = 'cm_api_settings';
 	public static function registerSettings() {
 
@@ -25,7 +25,7 @@ class Settings {
 
 	// Delete all settings
 	public static function deleteAll() {
-		delete_option(self::API_SETTINGS);
+		delete_option( self::API_SETTINGS );
 	}
 	// static method to get default settings
 	public static function getDefaults() {
@@ -71,10 +71,10 @@ class Settings {
 				sprintf( 'Invalid key %s', $key )
 			);
 		}
-		$settings = get_option( self::API_SETTINGS, []);
-		if ( ! is_array($settings)|| ! array_key_exists( $key, $settings ) ) {
+		$settings = get_option( self::API_SETTINGS, array() );
+		if ( ! is_array( $settings ) || ! array_key_exists( $key, $settings ) ) {
 			$setting = $defaults[ $key ];
-		}else{
+		} else {
 			$setting = $settings[ $key ];
 		}
 		return $setting;
@@ -82,12 +82,15 @@ class Settings {
 	// set a setting
 	public static function set( $key, $value ) {
 		$current = static::getAll();
-		update_option( self::API_SETTINGS, array_merge(
-			$current,
-			array(
-				$key => $value,
-			)
-		) );
+		update_option(
+			self::API_SETTINGS,
+			array_merge(
+				$current,
+				array(
+					$key => $value,
+				)
+			) 
+		);
 	}
 
 	// get all settings
