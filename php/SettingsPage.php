@@ -1,0 +1,72 @@
+<?php
+namespace ImaginaryMachines\ContentMachine;
+
+class SettingsPage {
+
+	const SCREEN = 'content-machine-settings';
+	/**
+	 * Adds the settings page to the Settings menu.
+	 *
+	 * @since 0.0.1
+	 */
+	public static function add_page() {
+
+		// Add the page
+		$hook_suffix = add_options_page(
+			__( 'Content Machine', 'core-style-plugin' ),
+			__( 'Settings', 'core-style-plugin' ),
+			'manage_options',
+			self::SCREEN,
+			array( __CLASS__, 'render_page' )
+		);
+
+		// This adds a link in the plugins list table
+		add_action(
+			'plugin_action_links_' . plugin_basename( CONTENT_MACHINE_MAIN_FILE ),
+			array(
+				__CLASS__,
+				'plugin_action_links_add_settings',
+			)
+		);
+
+		return $hook_suffix;
+	}
+
+	/**
+	 * Adds a link to the setting page to the plugin's entry in the plugins list table.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $links List of plugin action links HTML.
+	 * @return array Modified list of plugin action links HTML.
+	 */
+	public static function plugin_action_links_add_settings( $links ) {
+		// Add link as the first plugin action link.
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( add_query_arg( 'page', self::SCREEN, admin_url( 'options-general.php' ) ) ),
+			esc_html__( 'Settings', 'core-style-plugin' )
+		);
+		array_unshift( $links, $settings_link );
+
+		return $links;
+	}
+
+	/**
+	 * Renders the settings page.
+	 *
+	 * @since 0.0.1
+	 */
+	public static function render_page() {
+		?>
+			<div class="core-style-plugin-wrap">
+				<h1>
+					<?php esc_html_e( 'Core Style Plugin', 'core-style-plugin' ); ?>
+				</h1>
+
+
+			</div>
+		<?php
+	}
+
+}

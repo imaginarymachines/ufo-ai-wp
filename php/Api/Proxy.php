@@ -19,7 +19,6 @@ class Proxy {
 
 	const NAMESPACE = 'content-machine/v1';
 
-
 	public static function factory() {
 		$obj       = new static( ContentMachine::getClient() );
 		\register_rest_route(
@@ -67,7 +66,6 @@ class Proxy {
 	 */
 	public function forPost( $request ) {
 		$what         = 'paragraphs';
-		$post = get_post($post_id);
 
 		$post_id      = $request->get_param( 'post' );
 		$categories   = $request->get_param( 'categories' );

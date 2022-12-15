@@ -69,5 +69,6 @@ class SetupTest extends WP_UnitTestCase {
 				'content_machine_plugin_content_machine_plugin_block_init'
 			)
 		);
+
 	}
 }

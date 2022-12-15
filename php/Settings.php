@@ -81,7 +81,13 @@ class Settings {
 	}
 	// set a setting
 	public static function set( $key, $value ) {
-		update_option( self::API_SETTINGS, array( $key => $value ) );
+		$current = static::getAll();
+		update_option( self::API_SETTINGS, array_merge(
+			$current,
+			array(
+				$key => $value,
+			)
+		) );
 	}
 
 	// get all settings

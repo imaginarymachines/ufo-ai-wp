@@ -3,6 +3,7 @@
 namespace ImaginaryMachines\ContentMachine;
 
 use ImaginaryMachines\ContentMachine\Api\Proxy;
+use ImaginaryMachines\ContentMachine\Api\SettingsEndpoint;
 use ImaginaryMachines\ContentMachine\Contracts\ClientContract;
 
 
@@ -22,6 +23,7 @@ class ContentMachine {
 		add_action( 'plugins_loaded', array( __CLASS__, 'load_textdomain' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'rest_api_init' ) );
 		add_action('admin_init', array( Settings::class, 'registerSettings' ) );
+		add_action( 'admin_menu', array( SettingsPage::class, 'add_page' ) );
 	}
 
 	/**
@@ -43,7 +45,7 @@ class ContentMachine {
 		// Routes that proxy content machine api
 		Proxy::factory();
 		// Routes for settings
-		// @todo
+		SettingsEndpoint::factory();
 	}
 
 	public static function getClient(): ClientContract {
