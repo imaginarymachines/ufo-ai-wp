@@ -1,5 +1,8 @@
 # Content Machine Plugin
 
+Content Machine is a WordPress plugin, that uses a large lanaguage model to suggest content for your post, based on the post you’re working on.
+
+https://pluginmachine.com/content-machine/
 
 ## Usage
 

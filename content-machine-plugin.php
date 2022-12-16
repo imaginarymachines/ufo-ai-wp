@@ -1,11 +1,13 @@
 <?php
 /**
- * Plugin Name:       Generate Words
- * Description:       Example block scaffolded with Create Block tool.
+ * Plugin Name:       Content Machine Plugin
+ * Description:       Generates words.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           0.1.0
- * Author:            The WordPress Contributors
+ * Version:           0.2.0
+ * Author:            Imaginary Machines
+ * Plugin URI: 		  https://pluginmachine.com/content-machine/
+ * Author URI:        https://www.tumblr.com/blog/imaginary-machines
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       content-machine-plugin
@@ -27,7 +29,7 @@ define( 'CONTENT_MACHINE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 /**
  * Version of the plugin.
  */
-define( 'CONTENT_MACHINE_VERSION', '0.1.0' );
+define( 'CONTENT_MACHINE_VERSION', '0.2.0' );
 
 /**
  * Main file of plugin

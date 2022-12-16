@@ -1,12 +1,12 @@
-=== Generate Words ===
-Contributors:      The WordPress Contributors
+=== Content Machine ===
+Contributors:      shelob9
 Tags:              block
 Tested up to:      6.1
-Stable tag:        0.1.0
+Stable tag:        0.3.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Example block scaffolded with Create Block tool.
+Content Machine is a WordPress plugin, that uses a large lanaguage model to suggest content for your post, based on the post you’re working on.
 
 == Description ==
 
@@ -45,7 +45,7 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Changelog ==
 
-= 0.1.0 =
+= 0.2.0 =
 * Release
 
 == Arbitrary section ==
