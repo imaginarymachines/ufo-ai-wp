@@ -77,7 +77,7 @@ class Proxy {
 		$categories   = $request->get_param( 'categories' );
 		$tags         = $request->get_param( 'tags' );
 		$title        = $request->get_param( 'title' );
-		$length       = (int)$request->get_param( 'length',1 );
+		$length       = (int) $request->get_param( 'length', 1 );
 		$that         = array(
 			'about' => '',
 		);
@@ -128,8 +128,7 @@ class Proxy {
 		}
 		$that['about'] = trim( $that['about'], ',' );
 		if ( empty( $that['about'] ) ) {
-			// @todo deal with this
-			$that['about'] = '  ';
+			$that['about'] = $title ? $title : 'Something';
 		}
 		$client = ContentMachine::getClient();
 
@@ -144,7 +143,7 @@ class Proxy {
 			$texts = $client->prompt( $promptRequest );
 			return array( 'texts' => $texts );
 		} catch ( \Throwable $th ) {
-			wp_die( $th->getMessage() );
+			return new \WP_Error( 'content-machine-error', $th->getMessage() );
 		}
 	}
 
