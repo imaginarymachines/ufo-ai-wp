@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanelBody, Button, Spinner,TextControl } from '@wordpress/components';
+import { PanelBody, Button, Spinner, TextControl } from '@wordpress/components';
 import { PluginSidebar } from '@wordpress/edit-post';
 import { registerPlugin } from '@wordpress/plugins';
 import { dispatch, select } from '@wordpress/data';
@@ -25,10 +25,6 @@ const prompt = async ( data ) => {
 			} );
 			dispatch( 'core/block-editor' ).insertBlocks( block );
 		} );
-
-
-
-
 	} );
 };
 const SideBar = () => {
@@ -81,9 +77,14 @@ const SideBar = () => {
 					Add Blocks
 				</Button>
 				<TextControl
-					onChange={ ( val ) =>  setLength( val ) }
+					onChange={ ( val ) => setLength( val ) }
 					value={ length }
-				label={__('How Many?')} type="number" min="0" step="1" max="4" />
+					label={ __( 'How Many?' ) }
+					type="number"
+					min="1"
+					step="1"
+					max="4"
+				/>
 			</PanelBody>
 			{ loading ? <Spinner /> : null }
 			{ error ? <Notice description={ error } type="error" /> : null }
