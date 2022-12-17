@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanelBody, Button, Spinner } from '@wordpress/components';
+import { PanelBody, Button, Spinner,TextControl } from '@wordpress/components';
 import { PluginSidebar } from '@wordpress/edit-post';
 import { registerPlugin } from '@wordpress/plugins';
 import { dispatch, select } from '@wordpress/data';
@@ -14,15 +14,21 @@ const prompt = async ( data ) => {
 		method: 'POST',
 		data,
 	} ).then( ( res ) => {
-		if ( ! res.texts ) {
+		if ( ! res.texts || ! res.texts.length ) {
 			return;
 		}
-		//Create a paragrah block
-		const block = createBlock( 'core/paragraph', {
-			content: res.texts[ 0 ],
+
+		//loop through array with forEach
+		res.texts.forEach( ( text ) => {
+			const block = createBlock( 'core/paragraph', {
+				content: text,
+			} );
+			dispatch( 'core/block-editor' ).insertBlocks( block );
 		} );
-		//Insert that block
-		dispatch( 'core/block-editor' ).insertBlocks( block );
+
+
+
+
 	} );
 };
 const SideBar = () => {
@@ -30,6 +36,8 @@ const SideBar = () => {
 	const [ error, setError ] = React.useState( '' );
 	//state for loading
 	const [ loading, setLoading ] = React.useState( false );
+	//state for number of blocks
+	const [ length, setLength ] = React.useState( 1 );
 	const handler = () => {
 		const categories =
 			select( 'core/editor' ).getEditedPostAttribute( 'categories' );
@@ -41,6 +49,7 @@ const SideBar = () => {
 			tags,
 			title,
 			post: post ? post.id : 0,
+			length,
 		};
 		prompt( data )
 			.then( ( r ) => {
@@ -71,6 +80,10 @@ const SideBar = () => {
 				<Button onClick={ handler } variant="primary">
 					Add Blocks
 				</Button>
+				<TextControl
+					onChange={ ( val ) =>  setLength( val ) }
+					value={ length }
+				label={__('How Many?')} type="number" min="0" step="1" max="4" />
 			</PanelBody>
 			{ loading ? <Spinner /> : null }
 			{ error ? <Notice description={ error } type="error" /> : null }
