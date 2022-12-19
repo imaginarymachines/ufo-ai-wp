@@ -1,5 +1,11 @@
 import React from 'react';
-import { PanelBody, Button, Spinner, TextControl } from '@wordpress/components';
+import {
+	PanelBody,
+	PanelRow,
+	Button,
+	Spinner,
+	TextControl,
+} from '@wordpress/components';
 import { PluginSidebar } from '@wordpress/edit-post';
 import { registerPlugin } from '@wordpress/plugins';
 import { dispatch, select } from '@wordpress/data';
@@ -72,20 +78,25 @@ const SideBar = () => {
 			title={ __( 'Content Machine' ) }
 			icon={ 'smiley' }
 		>
-			<PanelBody>
-				<Button onClick={ handler } variant="primary">
-					Add Blocks
-				</Button>
-				<TextControl
-					onChange={ ( val ) => setLength( val ) }
-					value={ length }
-					label={ __( 'How Many?' ) }
-					type="number"
-					min="1"
-					step="1"
-					max="4"
-				/>
+			<PanelBody title="Add Content">
+				<PanelRow>
+					<Button onClick={ handler } variant="primary">
+						Add Blocks
+					</Button>
+				</PanelRow>
+				<PanelRow>
+					<TextControl
+						onChange={ ( val ) => setLength( val ) }
+						value={ length }
+						label={ __( 'How Many?' ) }
+						type="number"
+						min="1"
+						step="1"
+						max="4"
+					/>
+				</PanelRow>
 			</PanelBody>
+
 			{ loading ? <Spinner /> : null }
 			{ error ? <Notice description={ error } type="error" /> : null }
 		</PluginSidebar>
