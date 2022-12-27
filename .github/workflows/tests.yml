@@ -7,8 +7,8 @@ on:
     branches:
       - '*'
 jobs:
-  build:
-    name: Install And Build
+  tests:
+    name: Install And Test
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -29,20 +29,8 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
 
-  lint:
-    name: Lint PHP
-    runs-on: ubuntu-20.04
-    needs: build
-    steps:
-
       - name: Lint PHP
         run: npm run lint:php
-
-  test:
-    name: Test PHP
-    runs-on: ubuntu-20.04
-    needs: build
-    steps:
 
       - name: Start the Docker testing environment
         run: npm run env start --xdebug=coverage
