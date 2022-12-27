@@ -6,12 +6,6 @@ on:
     # any branch
     branches:
       - '*'
-    # If files matching these patterns have changed
-    paths:
-      - 'composer.json'
-      - '**.php'
-      - readme.txt
-      - .github/workflows/tests.yml
 jobs:
   build:
     name: Install And Build
