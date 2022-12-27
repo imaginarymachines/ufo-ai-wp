@@ -25,10 +25,16 @@ class ClientTest extends WP_UnitTestCase {
 	 * Test that we can use the client to make a prompt request
 	 *
 	 * @group realApi
+	 * @group now
 	 */
 	public function test_prompt_request_real() {
-		$this->markTestSkipped('Real API test');
-		$client = ContentMachine::getClient();
+		if( empty(CONTENT_MACHINE_API_KEY)){
+			$this->markTestSkipped('No API key found');
+		}
+		$client = new Client(
+			Settings::getDefault(Settings::URL),
+			CONTENT_MACHINE_API_KEY,
+		);
 		$prompt = new PromptRequest(
 			'words',
 			[
@@ -38,10 +44,28 @@ class ClientTest extends WP_UnitTestCase {
 			[
 				'about' => 'Space travelers'
 			],
-			5
+			1
 		);
 		$response = $client->prompt($prompt);
 		$this->assertIsArray($response);
+
+		$this->assertCount(1,$response);
+		//set length to 2
+		$prompt->setN(2);
+		$response = $client->prompt($prompt);
+		$this->assertIsArray($response);
+		$this->assertCount(2, $response);
+
+	}
+
+	/**
+	 * @return Client
+	 */
+	protected function getRealClient(){
+		return new Client(
+			Settings::getDefault(Settings::URL),
+			CONTENT_MACHINE_API_KEY,
+		);
 	}
 
 }
