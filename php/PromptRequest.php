@@ -11,12 +11,15 @@ class PromptRequest {
 
 	const LENGTH = 'length';
 
+	const N = 'n';
+
 
 	// properties for each of the constants
 	protected $what;
 	protected array $for;
 	protected array $that;
 	protected int $length;
+	protected int $n;
 
 	/**
 	 * Keys that are allowed in the 'that' array
@@ -37,7 +40,7 @@ class PromptRequest {
 	);
 
 
-	public function __construct( $what, array $for, array $that, $length ) {
+	public function __construct( $what, array $for, array $that, $length =1, $n = 1	 ) {
 		// images not supported yet
 		if ( ! in_array( $what, array( 'words', 'sentences', 'paragraphs' ) ) ) {
 			throw new \InvalidArgumentException(
@@ -51,6 +54,7 @@ class PromptRequest {
 		$this->for    = $this->filterArray( $for, static::FOR );
 		$this->that   = $this->filterArray( $that, static::THAT );
 		$this->length = absint( $length );
+		$this->n = absint( $n );
 	}
 
 	public function getWhat() {
@@ -69,12 +73,28 @@ class PromptRequest {
 		return $this->length;
 	}
 
+	public function getN() {
+		return $this->n;
+	}
+
+	//set n
+	public function setN( $n ) {
+		$this->n = absint( $n );
+		return $this;
+	}
+
+	public function setLength( $length ) {
+		$this->length = absint( $length );
+		return $this;
+	}
+
 	public function toArray() {
 		return array(
 			self::WHAT   => $this->getWhat(),
 			self::FOR    => $this->getFor(),
 			self::THAT   => $this->getThat(),
 			self::LENGTH => $this->getLength(),
+			self::N => $this->getN(),
 		);
 	}
 	// from array
