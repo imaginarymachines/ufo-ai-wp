@@ -1,0 +1,60 @@
+name: Tests
+
+# Run on
+on:
+  push:
+    # any branch
+    branches:
+      - '*'
+    # If files matching these patterns have changed
+    paths:
+      - 'composer.json'
+      - '**.php'
+      - readme.txt
+      - .github/workflows/tests.yml
+jobs:
+  build:
+    name: Install And Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+          node-version-file: '.nvmrc'
+
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2
+
+      - name: Install NPM dependencies
+        run: npm install
+
+  lint:
+    name: Lint PHP
+    runs-on: ubuntu-20.04
+    needs: build
+    steps:
+
+      - name: Lint PHP
+        run: npm run lint:php || true # Ignore for now.
+
+      - name: Lint PHP8
+        run: composer lint-php8
+
+  test:
+    name: Test PHP
+    runs-on: ubuntu-20.04
+    needs: build
+    steps:
+
+      - name: Start the Docker testing environment
+        run: npm run env start --xdebug=coverage
+
+      - name: Test
+        run: npm run test:php
