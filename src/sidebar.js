@@ -14,6 +14,8 @@ import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { Notice } from '@imaginary-machines/wp-admin-components';
 const __ = ( str ) => str;
+
+
 const prompt = async ( data ) => {
 	return apiFetch( {
 		path: '/content-machine/v1/post',
@@ -83,17 +85,6 @@ const SideBar = () => {
 					<Button onClick={ handler } variant="primary">
 						Add Blocks
 					</Button>
-				</PanelRow>
-				<PanelRow>
-					<TextControl
-						onChange={ ( val ) => setLength( val ) }
-						value={ length }
-						label={ __( 'How Many?' ) }
-						type="number"
-						min="1"
-						step="1"
-						max="4"
-					/>
 				</PanelRow>
 			</PanelBody>
 
