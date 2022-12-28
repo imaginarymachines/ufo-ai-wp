@@ -26,6 +26,11 @@ import metadata from './block.json';
 import './sidebar';
 
 /**
+ * Filters that extend blocks
+ */
+import './filters';
+
+/**
  * Register block type
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
