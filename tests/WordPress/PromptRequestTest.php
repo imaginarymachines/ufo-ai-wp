@@ -19,6 +19,7 @@ class PromptRequstTest extends WP_UnitTestCase {
 			PromptRequest::FOR => $for,
 			PromptRequest::THAT => $that,
 			PromptRequest::LENGTH => $length,
+			PromptRequest::N => 1
 		],$promptRequest->toArray());
 	}
 
@@ -56,6 +57,7 @@ class PromptRequstTest extends WP_UnitTestCase {
 				PromptRequest::LENGTH => $length,
 			]
 		);
+		file_put_contents('prompt-request.json',json_encode($promptRequest->toArray()));
 
 		//Test the getters
 		$this->assertEquals(
