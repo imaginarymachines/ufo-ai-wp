@@ -1,36 +1,30 @@
 import React from 'react';
-
 import { dispatch, select } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import apiFetch from '@wordpress/api-fetch';
 
-const prompt = async ( data ) => {
+/**
+ * Fetches prompt from API
+ *
+ * @param  data
+ */
+export const fetchPrompt = async ( data ) => {
 	return apiFetch( {
 		path: '/content-machine/v1/post',
 		method: 'POST',
 		data,
 	} ).then( ( res ) => {
-		if ( ! res.texts || ! res.texts.length ) {
-			return;
-		}
-
-		//loop through array with forEach
-		res.texts.forEach( ( text ) => {
-			const block = createBlock( 'core/paragraph', {
-				content: text,
-			} );
-			dispatch( 'core/block-editor' ).insertBlocks( block );
-		} );
+		return res;
 	} );
 };
-const usePromptRequest = () => {
-	//state for error messages
-	const [ error, setError ] = React.useState( '' );
-	//state for loading
-	const [ loading, setLoading ] = React.useState( false );
-	//state for number of blocks
-	const [ length ] = React.useState( 1 );
-	const handler = () => {
+
+/**
+ * Hook That gets data from the post we need for prompt request
+ *
+ * @return {Object} - object with getData function
+ */
+export const usePostData = () => {
+	const getData = () => {
 		const categories =
 			select( 'core/editor' ).getEditedPostAttribute( 'categories' );
 		const tags = select( 'core/editor' ).getEditedPostAttribute( 'tags' );
@@ -43,14 +37,42 @@ const usePromptRequest = () => {
 			post: post ? post.id : 0,
 			length,
 		};
-		prompt( data )
-			.then( ( r ) => {
+		return data;
+	};
+	return { getData };
+};
+
+/**
+ * Hook that handles the prompt request and inserts blocks
+ *
+ * @return {Object} - object with error, loading, and handler
+ */
+const usePromptRequest = () => {
+	const { getData } = usePostData();
+	//state for error messages
+	const [ error, setError ] = React.useState( '' );
+	//state for loading
+	const [ loading, setLoading ] = React.useState( false );
+	//state for number of blocks
+	const [ length ] = React.useState( 1 );
+	const handler = () => {
+		const data = getData();
+		fetchPrompt( data )
+			.then( ( res ) => {
 				setError( '' );
 				setLoading( true );
-				// eslint-disable-next-line
-			const block = createBlock( 'core/paragraph', { content: r } );
-				dispatch( 'core/block-editor' ).insertBlocks( block );
-				setLoading( false );
+				if ( ! res.texts || ! res.texts.length ) {
+					setLoading( false );
+					return;
+				}
+
+				//loop through array with forEach
+				res.texts.forEach( ( text ) => {
+					const block = createBlock( 'core/paragraph', {
+						content: text,
+					} );
+					dispatch( 'core/block-editor' ).insertBlocks( block );
+				} );
 			} )
 			.catch( ( e ) => {
 				if ( e.message ) {
