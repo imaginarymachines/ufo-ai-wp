@@ -29,9 +29,6 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
 
-      - name: Lint PHP
-        run: npm run lint:php
-
       - name: Start the Docker testing environment
         run: npm run env start --xdebug=coverage
 
