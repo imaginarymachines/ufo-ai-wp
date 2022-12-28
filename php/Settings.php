@@ -40,15 +40,25 @@ class Settings {
 		return static::getDefaults()[ $key ];
 	}
 
+	/**
+	 * Sanitize API Key
+	 *
+	 * @param mixed $value
+	 * @return string
+	 */
 	public static function sanitizeSettingKey( $value ) {
 
 		if ( empty( $value ) ) {
-			$value = $_POST['content_machine_api_key'];
+			if( isset($_POST['content_machine_api_key'])&& is_string($_POST['content_machine_api_key'])){
+				return sanitize_text_field(
+					$_POST['content_machine_api_key']
+				);
+			}
+
 		}
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
-		return sanitize_text_field( $value );
 	}
 
 	public static function sanitizeSettingUrl( $value ) {
@@ -67,13 +77,11 @@ class Settings {
 		$defaults = self::getDefaults();
 		// throw if not allowed key
 		if ( ! self::isAllowedKey( $key ) ) {
-			throw new \Exception(
-				sprintf( 'Invalid key %s', $key )
-			);
+			throw new \Exception(sprintf( 'Invalid key %s', $key ) );
 		}
 		$settings = get_option( self::API_SETTINGS, array() );
 		// return if in array
-		if ( array_key_exists( $key, $settings ) ) {
+		if ( is_array($settings) && array_key_exists( $key, $settings ) ) {
 			return $settings[ $key ];
 		}
 		// return default

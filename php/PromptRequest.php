@@ -1,6 +1,10 @@
 <?php
+
 namespace ImaginaryMachines\ContentMachine;
 
+/**
+ * Represents a request to the prompt API
+ */
 class PromptRequest {
 
 	const WHAT = 'what';
@@ -14,10 +18,39 @@ class PromptRequest {
 	const N = 'n';
 
 	// properties for each of the constants
-	protected $what;
+	/**
+	 * What to generate
+	 *
+	 * @var string
+	 */
+	protected string $what;
+
+	/**
+	 * For what
+	 *
+	 * @var array
+	 */
 	protected array $for;
+
+	/**
+	 * That
+	 *
+	 * @var array
+	 */
 	protected array $that;
+
+	/**
+	 * Length of the generated text
+	 *
+	 * @var int
+	 */
 	protected int $length;
+
+	/**
+	 * Number of options to genrate
+	 *
+	 * @var int
+	 */
 	protected int $n;
 
 	/**
@@ -39,7 +72,7 @@ class PromptRequest {
 	);
 
 
-	public function __construct( $what, array $for, array $that, $length = 1, $n = 1 ) {
+	public function __construct( string $what, array $for, array $that, $length = 1, $n = 1 ) {
 		// images not supported yet
 		if ( ! in_array( $what, array( 'words', 'sentences', 'paragraphs' ) ) ) {
 			throw new \InvalidArgumentException(
@@ -56,37 +89,79 @@ class PromptRequest {
 		$this->n      = absint( $n );
 	}
 
+	/**
+	 * Get what
+	 * @return string
+	 */
 	public function getWhat() {
 		return $this->what;
 	}
 
+	/**
+	 * Get for
+	 * @return array
+	 */
 	public function getFor() {
 		return $this->for;
 	}
 
+	/**
+	 * Get that
+	 *
+	 * @return array
+	 */
 	public function getThat() {
 		return $this->that;
 	}
 
+	/**
+	 * Get length
+	 *
+	 * @return int
+	 */
 	public function getLength() {
 		return $this->length;
 	}
 
+	/**
+	 * Get N property
+	 *
+	 * @return int
+	 */
 	public function getN() {
 		return $this->n;
 	}
 
-	// set n
+	/**
+	 * Set N property
+	 *
+	 * @param int $n
+	 *
+	 * @return PromptRequest
+	 */
 	public function setN( $n ) {
 		$this->n = absint( $n );
 		return $this;
 	}
 
+	/**
+	 * Set length
+	 *
+	 * @param int $length
+	 *
+	 * @return PromptRequest
+	 */
 	public function setLength( $length ) {
 		$this->length = absint( $length );
 		return $this;
 	}
 
+	/**
+	 * Convert to array
+	 *
+	 *
+	 * @return array
+	 */
 	public function toArray() {
 		return array(
 			self::WHAT   => $this->getWhat(),
@@ -96,7 +171,13 @@ class PromptRequest {
 			self::N      => $this->getN(),
 		);
 	}
-	// from array
+	/**
+	 * Create a new PromptRequest object from an array
+	 *
+	 * @param array $data
+	 *
+	 * @throws \InvalidArgumentException if $data is not valid
+	 */
 	public static function fromArray( array $data ) {
 		// validate array has all the keys
 		if ( ! array_key_exists( self::WHAT, $data ) || ! array_key_exists( self::FOR, $data ) || ! array_key_exists( self::THAT, $data ) || ! array_key_exists( self::LENGTH, $data ) ) {
@@ -112,6 +193,10 @@ class PromptRequest {
 
 	/**
 	 * Remove keys from $data that are not in $allowedKeys
+	 *
+	 * @param array $data
+	 * @param string $type
+	 * @throws \InvalidArgumentException if $type is not valid
 	 */
 	protected function filterArray( array $data, $type ) {
 		$optional = array(
@@ -130,8 +215,6 @@ class PromptRequest {
 				break;
 			default:
 				throw new \InvalidArgumentException( 'Invalid type' );
-				break;
-
 		}
 		$prepared = array();
 		foreach ( $allowedKeys as $key ) {

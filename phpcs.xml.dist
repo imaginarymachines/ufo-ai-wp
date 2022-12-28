@@ -18,6 +18,8 @@
 	<rule ref="WordPress">
 		<exclude name="WordPress.NamingConventions"/>
 		<exclude name="WordPress.Files.FileName"/>
+		<exclude name="Squiz.Commenting"/>
+		<exclude name="Generic.Commenting.DocComment.SpacingBeforeTags"/>
 	</rule>
 	<rule ref="WordPress-VIP-Go" />
 

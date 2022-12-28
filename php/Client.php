@@ -68,6 +68,7 @@ class Client  implements ClientContract {
 			$this->makeUrl( self::ROUTE_PROMPT ),
 			array(
 				'method'  => self::METHOD_PROMPT,
+				//@phpcs:disable
 				'timeout' => 15,
 				'body'    => json_encode( $promptRequest->toArray() ),
 				'headers' => array(

@@ -14,12 +14,19 @@ class Proxy {
 
 
 	/**
+	 * Client instance
+	 *
 	 * @var Client
 	 */
 	protected $client;
 
 	const NAMESPACE = 'content-machine/v1';
 
+	/**
+	 * Factory
+	 *
+	 * @return self
+	 */
 	public static function factory() {
 		$obj = new static( ContentMachine::getClient() );
 		\register_rest_route(
@@ -63,8 +70,6 @@ class Proxy {
 	public function __construct( Client $client ) {
 		$this->client = $client;
 	}
-
-
 
 	/**
 	 * Create a prompt from a post
