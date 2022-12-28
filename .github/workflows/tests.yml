@@ -32,5 +32,8 @@ jobs:
       - name: Start the Docker testing environment
         run: npm run env start --xdebug=coverage
 
+      - name: Ensure uploads dir exists first
+        run: mkdir -p wordpress/wp-content/uploads
+
       - name: Test
         run: npm run test:php
