@@ -28,8 +28,8 @@ require_once getenv( 'WP_PHPUNIT__DIR' ) . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	function() {
-		if(file_exists(dirname( __DIR__,1) . '/keys.php')){
-			require_once dirname( __DIR__,1) . '/keys.php';
+		if ( file_exists( dirname( __DIR__, 1 ) . '/keys.php' ) ) {
+			require_once dirname( __DIR__, 1 ) . '/keys.php';
 		}
 
 
