@@ -74,7 +74,7 @@ class PromptRequest {
 
 	public function __construct( string $what, array $for, array $that, $length = 1, $n = 1 ) {
 		// images not supported yet
-		if ( ! in_array( $what, array( 'words', 'sentences', 'paragraphs' ) ) ) {
+		if ( !  static::isValidWhat( $what ) ) {
 			throw new \InvalidArgumentException(
 				sprintf(
 					'Invalid what: %s',
@@ -87,6 +87,32 @@ class PromptRequest {
 		$this->that   = $this->filterArray( $that, static::THAT );
 		$this->length = absint( $length );
 		$this->n      = absint( $n );
+	}
+
+	/**
+	 * Test if what is a valid value
+	 */
+	public static function isValidWhat( $what ) {
+		return in_array( $what, static::getValidWhats() );
+	}
+
+	/**
+	 * Get valid values for what
+	 *
+	 * @return array
+	 */
+	public static function getValidWhats() :array {
+		return array( 'words', 'sentences', 'paragraphs' );
+	}
+
+	/**
+	 * Get default what value
+	 *
+	 * @return string
+	 *
+	 */
+	public static function getDefaultWhat() :string {
+		return 'paragraphs';
 	}
 
 	/**

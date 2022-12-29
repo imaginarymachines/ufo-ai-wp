@@ -57,6 +57,11 @@ class Proxy {
 						'required' => false,
 						'type'     => 'integer',
 					),
+					'what' => [
+						'required' => false,
+						'type' => 'string',
+						'default' => PromptRequest::getDefaultWhat(),
+					],
 				),
 			)
 		);
@@ -76,7 +81,11 @@ class Proxy {
 	 */
 	public function forPost( $request ) {
 
-		$what = 'paragraphs';
+		$what = $request->get_param( 'what' );
+		//reset to default if invalid
+		if ( ! in_array( $what, PromptRequest::getValidWhats() ) ) {
+			$what = PromptRequest::getDefaultWhat();
+		}
 
 		$post_id      = $request->get_param( 'post' );
 		$categories   = $request->get_param( 'categories' );
