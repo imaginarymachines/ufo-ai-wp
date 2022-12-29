@@ -57,10 +57,11 @@ const usePromptRequest = () => {
 	const [ length ] = React.useState( 1 );
 	const handler = () => {
 		const data = getData();
+		setLoading( true );
+
 		fetchPrompt( data )
 			.then( ( res ) => {
 				setError( '' );
-				setLoading( true );
 				if ( ! res.texts || ! res.texts.length ) {
 					setLoading( false );
 					return;
@@ -73,6 +74,8 @@ const usePromptRequest = () => {
 					} );
 					dispatch( 'core/block-editor' ).insertBlocks( block );
 				} );
+				setLoading( false );
+
 			} )
 			.catch( ( e ) => {
 				if ( e.message ) {
