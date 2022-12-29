@@ -4,7 +4,7 @@ import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarButton } from '@wordpress/components';
 import { usePostData, fetchPrompt } from './usePromptRequest';
 import domReady from '@wordpress/dom-ready';
-
+import { dispatch } from '@wordpress/data';
 /**
  * Namespace for all filters
  */
@@ -13,16 +13,21 @@ const NAMESPACE = 'content-machine';
 /**
  * Add an insert button to the block toolbar
  *
- * @param  BlockEdit
+ * @param {Object} BlockEdit - BlockEdit component
  */
 const InsertText = ( BlockEdit ) => {
 	const { getData } = usePostData();
-	const handler = () => {
+	const handler = ( clientId ) => {
 		const data = getData();
 		fetchPrompt( data ).then( ( res ) => {
-			//@TODO Modfiy text of block?
-			//Maybe use a modal to give them an option to choose or regenerate?
-			console.log( res );
+			//not error and has texts key of array
+			if ( ! res.error && res.texts && res.texts.length ) {
+				//set first text to block
+				dispatch( 'core/block-editor' ).updateBlockAttributes(
+					clientId,
+					{ content: res.texts[ 0 ] }
+				);
+			}
 		} );
 	};
 	return ( props ) => {
@@ -36,7 +41,7 @@ const InsertText = ( BlockEdit ) => {
 					<ToolbarButton
 						icon={ 'smiley' }
 						label="Suggest Text"
-						onClick={ handler }
+						onClick={ () => handler( props.clientId ) }
 					/>
 				</BlockControls>
 				<BlockEdit { ...props } />

@@ -6,7 +6,7 @@ import apiFetch from '@wordpress/api-fetch';
 /**
  * Fetches prompt from API
  *
- * @param  data
+ * @param {Object} data - data to send to API
  */
 export const fetchPrompt = async ( data ) => {
 	return apiFetch( {
@@ -24,7 +24,7 @@ export const fetchPrompt = async ( data ) => {
  * @return {Object} - object with getData function
  */
 export const usePostData = () => {
-	const getData = () => {
+	const getData = ( length = 1 ) => {
 		const categories =
 			select( 'core/editor' ).getEditedPostAttribute( 'categories' );
 		const tags = select( 'core/editor' ).getEditedPostAttribute( 'tags' );
