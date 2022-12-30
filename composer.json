@@ -1,7 +1,7 @@
 {
   "name": "imaginarymachines/ufo-ai-wp",
   "type": "wordpress-plugin",
-  "description": "PLUGIN_DESCRIPTION",
+  "description": "AI-assited writing for WordPress",
   "license": "GPL-2.0-or-later",
   "homepage": "https://wordpress.org/imaginarymachines/ufo-ai-wp",
   "support": {
