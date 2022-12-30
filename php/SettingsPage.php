@@ -13,8 +13,8 @@ class SettingsPage {
 
 		// Add the page
 		$hook_suffix = add_options_page(
-			__( 'Content Machine', 'ufo-ai-wp' ),
-			__( 'Content Machine', 'ufo-ai-wp' ),
+			__( 'Upcycled Found Objects', 'ufo-ai-wp' ),
+			__( 'Upcycled Found Objects', 'ufo-ai-wp' ),
 			'manage_options',
 			self::SCREEN,
 			array( __CLASS__, 'render_page' )
@@ -72,7 +72,7 @@ class SettingsPage {
 		?>
 			<div class="ufo-ai-wp-wrap">
 				<h1>
-					<?php esc_html_e( 'Content Machine', 'ufo-ai-wp' ); ?>
+					<?php esc_html_e( 'Upcycled Found Objects', 'ufo-ai-wp' ); ?>
 				</h1>
 				<div id="ufo-ai-settings"></div>
 			</div>

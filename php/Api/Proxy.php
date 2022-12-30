@@ -8,7 +8,7 @@ use ImaginaryMachines\UfoAi\PromptRequest;
 use ImaginaryMachines\UfoAi\Settings;
 
 /**
- * REST API endpoints for proxying requests to the Content Machine API
+ * REST API endpoints for proxying requests to the Upcycled Found Objects API
  */
 class Proxy {
 

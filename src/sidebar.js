@@ -14,7 +14,7 @@ const SideBar = () => {
 	return (
 		<PluginSidebar
 			name="ufo-ai"
-			title={ __( 'Content Machine' ) }
+			title={ __( 'Upcycled Found Objects' ) }
 			icon={ 'smiley' }
 		>
 			<PanelBody title="Add Content">
