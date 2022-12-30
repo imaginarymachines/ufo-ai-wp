@@ -34,7 +34,7 @@ export default function Edit() {
 		<p { ...useBlockProps() }>
 			{ __(
 				'Generate Words – hello from the editor!',
-				'content-machine-plugin'
+				'ufo-ai-wp'
 			) }
 		</p>
 	);

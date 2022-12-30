@@ -7,7 +7,7 @@
 	<arg name="extensions" value="php" />
 
 	<!-- Lint all PHP files by default. -->
-	<file>content-machine-plugin.php</file>
+	<file>ufo-ai-wp.php</file>
 	<file>php</file>
 	<file>tests</file>
 

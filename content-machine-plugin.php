@@ -1,18 +1,18 @@
 <?php
 /**
- * Plugin Name:       Content Machine Plugin
+ * Plugin Name:       Upcylced Found Objects
  * Description:       Generates words.
  * Requires at least: 6.1
  * Requires PHP:      7.4
  * Version:           0.2.0
  * Author:            Imaginary Machines
- * Plugin URI:        https://pluginmachine.com/content-machine/
- * Author URI:        https://www.tumblr.com/blog/imaginary-machines
+ * Plugin URI:        https://upcycledfoundobjects.com/
+ * Author URI:        https://upcycledfoundobjects.com/docs/install
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       content-machine-plugin
+ * Text Domain:       ufo-ai-wp
  *
- * @package           content-machine-plugin
+ * @package           ufo-ai-wp
  */
 
 use ImaginaryMachines\ContentMachine\SettingsPage;

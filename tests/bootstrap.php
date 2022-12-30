@@ -33,7 +33,7 @@ tests_add_filter(
 		}
 
 
-		require dirname( __DIR__ ) . '/content-machine-plugin.php';
+		require dirname( __DIR__ ) . '/ufo-ai-wp.php';
 		// Include fakes
 		require_once __DIR__ . '/fakes/FakeClient.php';
 	}

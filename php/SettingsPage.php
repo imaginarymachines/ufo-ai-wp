@@ -13,8 +13,8 @@ class SettingsPage {
 
 		// Add the page
 		$hook_suffix = add_options_page(
-			__( 'Content Machine', 'content-machine-plugin' ),
-			__( 'Content Machine', 'content-machine-plugin' ),
+			__( 'Content Machine', 'ufo-ai-wp' ),
+			__( 'Content Machine', 'ufo-ai-wp' ),
 			'manage_options',
 			self::SCREEN,
 			array( __CLASS__, 'render_page' )
@@ -45,7 +45,7 @@ class SettingsPage {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( add_query_arg( 'page', self::SCREEN, admin_url( 'options-general.php' ) ) ),
-			esc_html__( 'Settings', 'content-machine-plugin' )
+			esc_html__( 'Settings', 'ufo-ai-wp' )
 		);
 		array_unshift( $links, $settings_link );
 
@@ -70,9 +70,9 @@ class SettingsPage {
 		);
 
 		?>
-			<div class="content-machine-plugin-wrap">
+			<div class="ufo-ai-wp-wrap">
 				<h1>
-					<?php esc_html_e( 'Content Machine', 'content-machine-plugin' ); ?>
+					<?php esc_html_e( 'Content Machine', 'ufo-ai-wp' ); ?>
 				</h1>
 				<div id="content-machine-settings"></div>
 			</div>

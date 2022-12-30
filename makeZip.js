@@ -1,6 +1,6 @@
 var fs = require('fs');
 var archiver = require('archiver');
-const slug = 'content-machine-plugin';
+const slug = 'ufo-ai-wp';
 var output = fs.createWriteStream(`${slug}.zip`);
 var archive = archiver('zip');
 
