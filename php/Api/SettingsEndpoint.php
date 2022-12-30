@@ -12,7 +12,7 @@ use ImaginaryMachines\ContentMachine\Settings;
  */
 class SettingsEndpoint {
 
-	const NAMESPACE = 'content-machine/v1';
+	const NAMESPACE = 'ufo-ai/v1';
 
 	public static function factory() {
 		$obj = new static();

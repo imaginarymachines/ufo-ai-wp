@@ -32,10 +32,7 @@ import './editor.scss';
 export default function Edit() {
 	return (
 		<p { ...useBlockProps() }>
-			{ __(
-				'Generate Words – hello from the editor!',
-				'ufo-ai-wp'
-			) }
+			{ __( 'Generate Words – hello from the editor!', 'ufo-ai-wp' ) }
 		</p>
 	);
 }

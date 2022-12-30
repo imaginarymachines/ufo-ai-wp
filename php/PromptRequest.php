@@ -74,7 +74,7 @@ class PromptRequest {
 
 	public function __construct( string $what, array $for, array $that, $length = 1, $n = 1 ) {
 		// images not supported yet
-		if ( !  static::isValidWhat( $what ) ) {
+		if ( ! static::isValidWhat( $what ) ) {
 			throw new \InvalidArgumentException(
 				sprintf(
 					'Invalid what: %s',
@@ -109,7 +109,6 @@ class PromptRequest {
 	 * Get default what value
 	 *
 	 * @return string
-	 *
 	 */
 	public static function getDefaultWhat() :string {
 		return 'paragraphs';

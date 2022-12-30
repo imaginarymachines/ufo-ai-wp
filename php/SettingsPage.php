@@ -3,7 +3,7 @@ namespace ImaginaryMachines\ContentMachine;
 
 class SettingsPage {
 
-	const SCREEN = 'content-machine-settings';
+	const SCREEN = 'ufo-ai-settings';
 	/**
 	 * Adds the settings page to the Settings menu.
 	 *
@@ -64,7 +64,7 @@ class SettingsPage {
 			self::SCREEN,
 			'CONTENT_MACHINE',
 			array(
-				'apiUrl'   => rest_url( 'content-machine/v1/settings' ),
+				'apiUrl'   => rest_url( 'ufo-ai/v1/settings' ),
 				'settings' => $settings,
 			)
 		);
@@ -74,7 +74,7 @@ class SettingsPage {
 				<h1>
 					<?php esc_html_e( 'Content Machine', 'ufo-ai-wp' ); ?>
 				</h1>
-				<div id="content-machine-settings"></div>
+				<div id="ufo-ai-settings"></div>
 			</div>
 		<?php
 	}

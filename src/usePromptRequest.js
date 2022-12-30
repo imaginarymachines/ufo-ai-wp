@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
  */
 export const fetchPrompt = async ( data ) => {
 	return apiFetch( {
-		path: '/content-machine/v1/post',
+		path: '/ufo-ai/v1/post',
 		method: 'POST',
 		data,
 	} ).then( ( res ) => {
@@ -75,7 +75,6 @@ const usePromptRequest = () => {
 					dispatch( 'core/block-editor' ).insertBlocks( block );
 				} );
 				setLoading( false );
-
 			} )
 			.catch( ( e ) => {
 				if ( e.message ) {

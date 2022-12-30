@@ -20,7 +20,7 @@ class Proxy {
 	 */
 	protected $client;
 
-	const NAMESPACE = 'content-machine/v1';
+	const NAMESPACE = 'ufo-ai/v1';
 
 	/**
 	 * Factory
@@ -57,11 +57,11 @@ class Proxy {
 						'required' => false,
 						'type'     => 'integer',
 					),
-					'what' => [
+					'what'       => array(
 						'required' => false,
-						'type' => 'string',
-						'default' => PromptRequest::getDefaultWhat(),
-					],
+						'type'     => 'string',
+						'default'  => PromptRequest::getDefaultWhat(),
+					),
 				),
 			)
 		);
@@ -157,7 +157,7 @@ class Proxy {
 			$texts = $client->prompt( $promptRequest );
 			return array( 'texts' => $texts );
 		} catch ( \Throwable $th ) {
-			return new \WP_Error( 'content-machine-error', $th->getMessage() );
+			return new \WP_Error( 'ufo-ai-error', $th->getMessage() );
 		}
 	}
 

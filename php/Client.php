@@ -94,13 +94,13 @@ class Client  implements ClientContract {
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 		// check if body is array with key "texts"
 		if ( ! is_array( $body ) || ! array_key_exists( 'texts', $body ) ) {
-			throw new \Exception( 'Invalid content-machine response body' );
+			throw new \Exception( 'Invalid ufo-ai response body' );
 		}
 		// Ensure each key of "texts" is a string
 		foreach ( $body['texts'] as $key => $text ) {
 			if ( ! is_string( $text ) ) {
 				throw new \Exception(
-					sprintf( 'Invalid content-machine response body, key of texts %s is not a string', $key )
+					sprintf( 'Invalid ufo-ai response body, key of texts %s is not a string', $key )
 				);
 
 			}

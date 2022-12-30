@@ -1,8 +1,9 @@
-# Content Machine Plugin
+# Upcyled Found Objects WordPress Plugin
 
-Content Machine is a WordPress plugin, that uses a large lanaguage model to suggest content for your post, based on the post you’re working on.
+A WordPress plugin, that uses a large lanaguage model to help you write your posts, for your post, based on the post you’re working on.
 
-https://pluginmachine.com/content-machine/
+- Learn more: https://upcycledfoundobjects.com/
+- Documentation: https://upcycledfoundobjects.com/docs
 
 ## Usage
 

@@ -4,7 +4,6 @@ import { render } from 'react-dom';
 import {
 	Form,
 	FormTable,
-	FormProps,
 	TrInput,
 	TrSelect,
 	TrSubmitButton
@@ -15,7 +14,7 @@ import apiFetch from '@wordpress/api-fetch';
 //Function for saving settings
 const  saveSettings = async (values) => {
 	const r = await apiFetch( {
-		path: '/content-machine/v1/settings',
+		path: '/ufo-ai/v1/settings',
 		method: 'POST',
 		data: values,
 	} ).then( ( res ) => {
@@ -101,4 +100,4 @@ const App = () => {
 	  return <SettingsForm />
 }
 
-render(<App />, document.getElementById('content-machine-settings'));
+render(<App />, document.getElementById('ufo-ai-settings'));

@@ -13,7 +13,7 @@ const SideBar = () => {
 
 	return (
 		<PluginSidebar
-			name="content-machine"
+			name="ufo-ai"
 			title={ __( 'Content Machine' ) }
 			icon={ 'smiley' }
 		>
@@ -32,7 +32,7 @@ const SideBar = () => {
 };
 
 domReady( () => {
-	registerPlugin( 'content-machine', {
+	registerPlugin( 'ufo-ai', {
 		render: SideBar,
 	} );
 } );

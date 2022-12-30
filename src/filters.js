@@ -8,7 +8,7 @@ import { dispatch, select } from '@wordpress/data';
 /**
  * Namespace for all filters
  */
-const NAMESPACE = 'content-machine';
+const NAMESPACE = 'ufo-ai';
 /**
  * Namespace for core editor data
  *
