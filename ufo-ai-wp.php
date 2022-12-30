@@ -55,33 +55,39 @@ function content_machine_plugin_content_machine_plugin_block_init() {
 
 // Register script built in build/admin.js
 
-add_action( 'admin_enqueue_scripts', function() {
-	$dependencies = array();
-	// Use asset file if it exists
-	if ( file_exists( __DIR__ . '/build/admin.asset.php' ) ) {
-		$asset_file   = include __DIR__ . '/build/admin.asset.php';
-		$dependencies = $asset_file['dependencies'];
-	}
-	wp_register_script(
-		SettingsPage::SCREEN,
-		plugins_url( 'build/admin.js', __FILE__ ),
-		$dependencies,
-		UFO_AI_WPVERSION,
-	);
-} );
+add_action(
+	'admin_enqueue_scripts',
+	function() {
+		$dependencies = array();
+		// Use asset file if it exists
+		if ( file_exists( __DIR__ . '/build/admin.asset.php' ) ) {
+			$asset_file   = include __DIR__ . '/build/admin.asset.php';
+			$dependencies = $asset_file['dependencies'];
+		}
+		wp_register_script(
+			SettingsPage::SCREEN,
+			plugins_url( 'build/admin.js', __FILE__ ),
+			$dependencies,
+			UFO_AI_WPVERSION,
+		);
+	} 
+);
 //Load assets for editor
-add_action('enqueue_block_editor_assets', function(){
-	$dependencies = array();
-	// Use asset file if it exists
-	if ( file_exists( __DIR__ . '/build/editor.asset.php' ) ) {
-		$asset_file   = include __DIR__ . '/build/editor.asset.php';
-		$dependencies = $asset_file['dependencies'];
+add_action(
+	'enqueue_block_editor_assets',
+	function() {
+		$dependencies = array();
+		// Use asset file if it exists
+		if ( file_exists( __DIR__ . '/build/editor.asset.php' ) ) {
+			$asset_file   = include __DIR__ . '/build/editor.asset.php';
+			$dependencies = $asset_file['dependencies'];
+		}
+		wp_register_script(
+			'ufo-ai-wp-editor',
+			plugins_url( 'build/editor.js', __FILE__ ),
+			$dependencies,
+			UFO_AI_WPVERSION,
+		);
+		wp_enqueue_script( 'ufo-ai-wp-editor' );
 	}
-	wp_register_script(
-		'ufo-ai-wp-editor',
-		plugins_url( 'build/editor.js', __FILE__ ),
-		$dependencies,
-		UFO_AI_WPVERSION,
-	);
-	wp_enqueue_script('ufo-ai-wp-editor');
-});
+);
