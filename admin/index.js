@@ -8,6 +8,23 @@ import {
 	TrSubmitButton
   } from  "@imaginary-machines/wp-admin-components";
 import apiFetch from '@wordpress/api-fetch';
+import { ExternalLink } from '@wordpress/components';
+
+const utm = '?utm_source=wp-plugin-settings&utm_campaign=ufo-ai-wp';
+const DocsLinks = () => (
+  <ExternalLink
+  		target="__blank"
+  		href={`https://upcycledfoundobjects.com/docs${utm}`}
+	>Documentation</ExternalLink>
+);
+const ApiKeyLink = () => (
+	  <ExternalLink
+
+	  			  target="__blank"
+				  href={`https://upcycledfoundobjects.com/api-key${utm}`}>
+									  Get API Key
+				  </ExternalLink>
+);
 
 //Function for saving settings
 const  saveSettings = async (values) => {
