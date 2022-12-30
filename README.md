@@ -19,12 +19,13 @@ A WordPress plugin, that uses a large lanaguage model to help you write your pos
 
 ## Develop
 
+- Clone
+	- git@github.com:imaginarymachines/ufo-ai-wp.git
 - Install
 	- `npm i`
 	- Installs with npm and composer
 - Start environment
 	- `npm env start`
-
 - Test PHP
 	- `npm run test:php`
 - Format all

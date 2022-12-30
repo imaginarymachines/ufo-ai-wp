@@ -24,17 +24,17 @@ if ( file_exists( __DIR__ . '/keys.php' ) ) {
 /**
  * Shortcut constant to the path of this file.
  */
-define( 'CONTENT_MACHINE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'UFO_AI_WPPLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 /**
  * Version of the plugin.
  */
-define( 'CONTENT_MACHINE_VERSION', '0.2.0' );
+define( 'UFO_AI_WPVERSION', '0.2.0' );
 
 /**
  * Main file of plugin
  */
-define( 'CONTENT_MACHINE_MAIN_FILE', __FILE__ );
+define( 'UFO_AI_WPMAIN_FILE', __FILE__ );
 
 
  // include autoloader from composer
@@ -51,10 +51,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 function content_machine_plugin_content_machine_plugin_block_init() {
 	register_block_type( __DIR__ . '/build' );
 }
-add_action( 'init', 'content_machine_plugin_content_machine_plugin_block_init' );
+//add_action( 'init', 'content_machine_plugin_content_machine_plugin_block_init' );
 
 // Register script built in build/admin.js
-function content_machine_plugin_admin_register_scripts() {
+
+add_action( 'admin_enqueue_scripts', function() {
 	$dependencies = array();
 	// Use asset file if it exists
 	if ( file_exists( __DIR__ . '/build/admin.asset.php' ) ) {
@@ -65,7 +66,22 @@ function content_machine_plugin_admin_register_scripts() {
 		SettingsPage::SCREEN,
 		plugins_url( 'build/admin.js', __FILE__ ),
 		$dependencies,
-		CONTENT_MACHINE_VERSION,
+		UFO_AI_WPVERSION,
 	);
-}
-add_action( 'admin_enqueue_scripts', 'content_machine_plugin_admin_register_scripts' );
+} );
+//Load assets for editor
+add_action('enqueue_block_editor_assets', function(){
+	$dependencies = array();
+	// Use asset file if it exists
+	if ( file_exists( __DIR__ . '/build/editor.asset.php' ) ) {
+		$asset_file   = include __DIR__ . '/build/editor.asset.php';
+		$dependencies = $asset_file['dependencies'];
+	}
+	wp_register_script(
+		'ufo-ai-wp-editor',
+		plugins_url( 'build/editor.js', __FILE__ ),
+		$dependencies,
+		UFO_AI_WPVERSION,
+	);
+	wp_enqueue_script('ufo-ai-wp-editor');
+});

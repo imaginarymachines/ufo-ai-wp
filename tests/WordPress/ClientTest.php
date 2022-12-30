@@ -28,12 +28,12 @@ class ClientTest extends WP_UnitTestCase {
 	 * @group now
 	 */
 	public function test_prompt_request_real() {
-		if( empty(CONTENT_MACHINE_API_KEY)){
+		if( empty(UFO_AI_WPAPI_KEY)){
 			$this->markTestSkipped('No API key found');
 		}
 		$client = new Client(
 			Settings::getDefault(Settings::URL),
-			CONTENT_MACHINE_API_KEY,
+			UFO_AI_WPAPI_KEY,
 		);
 		$prompt = new PromptRequest(
 			'words',
@@ -64,7 +64,7 @@ class ClientTest extends WP_UnitTestCase {
 	protected function getRealClient(){
 		return new Client(
 			Settings::getDefault(Settings::URL),
-			CONTENT_MACHINE_API_KEY,
+			UFO_AI_WPAPI_KEY,
 		);
 	}
 

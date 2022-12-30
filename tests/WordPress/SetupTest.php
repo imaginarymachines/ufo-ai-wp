@@ -10,7 +10,7 @@ class SetupTest extends WP_UnitTestCase {
 	 */
 	public function test_constant_defined() {
 
-		$this->assertTrue( defined( 'CONTENT_MACHINE_PLUGIN_DIR' ) );
+		$this->assertTrue( defined( 'UFO_AI_WPPLUGIN_DIR' ) );
 
 	}
 

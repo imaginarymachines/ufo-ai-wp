@@ -22,7 +22,7 @@ class SettingsPage {
 
 		// This adds a link in the plugins list table
 		add_action(
-			'plugin_action_links_' . plugin_basename( CONTENT_MACHINE_MAIN_FILE ),
+			'plugin_action_links_' . plugin_basename( UFO_AI_WPMAIN_FILE ),
 			array(
 				__CLASS__,
 				'plugin_action_links_add_settings',
