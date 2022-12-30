@@ -1,12 +1,12 @@
 {
-  "name": "imaginarymachines/content-machine",
+  "name": "imaginarymachines/ufo-ai-wp",
   "type": "wordpress-plugin",
   "description": "PLUGIN_DESCRIPTION",
   "license": "GPL-2.0-or-later",
-  "homepage": "https://wordpress.org/imaginarymachines/content-machine",
+  "homepage": "https://wordpress.org/imaginarymachines/ufo-ai-wp",
   "support": {
-    "source": "https://github.com/imaginarymachines/content-machine",
-    "issues": "https://github.com/imaginarymachines/content-machine/issues"
+    "source": "https://github.com/imaginarymachines/ufo-ai-wp",
+    "issues": "https://github.com/imaginarymachines/ufo-ai-wp/issues"
   },
   "config": {
     "sort-packages": true,
