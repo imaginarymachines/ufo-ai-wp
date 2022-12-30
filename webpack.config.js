@@ -6,6 +6,6 @@ module.exports = {
     entry: {
         ...defaultConfig.entry,
 		editor: path.resolve( process.cwd(), 'src', 'editor.js' ),
-        admin: path.resolve( process.cwd(), 'admin', 'index.js' ),
+        settings: path.resolve( process.cwd(), 'src/settings', 'index.js' ),
     }
 };

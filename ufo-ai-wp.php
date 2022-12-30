@@ -60,17 +60,17 @@ add_action(
 	function() {
 		$dependencies = array();
 		// Use asset file if it exists
-		if ( file_exists( __DIR__ . '/build/admin.asset.php' ) ) {
-			$asset_file   = include __DIR__ . '/build/admin.asset.php';
+		if ( file_exists( __DIR__ . '/build/settings.asset.php' ) ) {
+			$asset_file   = include __DIR__ . '/build/settings.asset.php';
 			$dependencies = $asset_file['dependencies'];
 		}
 		wp_register_script(
 			SettingsPage::SCREEN,
-			plugins_url( 'build/admin.js', __FILE__ ),
+			plugins_url( 'build/settings.js', __FILE__ ),
 			$dependencies,
 			UFO_AI_WPVERSION,
 		);
-	} 
+	}
 );
 //Load assets for editor
 add_action(
