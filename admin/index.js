@@ -5,10 +5,8 @@ import {
 	Form,
 	FormTable,
 	TrInput,
-	TrSelect,
 	TrSubmitButton
-  }
-  from  "@imaginary-machines/wp-admin-components";
+  } from  "@imaginary-machines/wp-admin-components";
 import apiFetch from '@wordpress/api-fetch';
 
 //Function for saving settings
@@ -66,24 +64,6 @@ const SettingsForm = () => {
 					  name={'key'}
 					  value={values.key}
 					  onChange={(value) => setValues({...values,key:value})}
-				  />
-				  <TrSelect
-					  label={'Select Field'}
-					  id={'select'}
-					  name={'select'}
-					  value={values.select}
-					  options={[
-						{
-
-							label:'One',
-							value:'one'
-						},
-						{
-							label:'Two',
-							value:'two'
-						},
-					  ]}
-					  onChange={(value) => setValues({...values,select:value})}
 				  />
 				  <TrSubmitButton
 					  id={'submit-button'}
