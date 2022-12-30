@@ -1,8 +1,8 @@
 <?php
 
-namespace ImaginaryMachines\ContentMachine\Contracts;
+namespace ImaginaryMachines\UfoAi\Contracts;
 
-use ImaginaryMachines\ContentMachine\PromptRequest;
+use ImaginaryMachines\UfoAi\PromptRequest;
 
 /**
  * Defines the interface for the API client

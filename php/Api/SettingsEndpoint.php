@@ -1,11 +1,11 @@
 <?php
 
-namespace ImaginaryMachines\ContentMachine\Api;
+namespace ImaginaryMachines\UfoAi\Api;
 
-use ImaginaryMachines\ContentMachine\Client;
-use ImaginaryMachines\ContentMachine\ContentMachine;
-use ImaginaryMachines\ContentMachine\PromptRequest;
-use ImaginaryMachines\ContentMachine\Settings;
+use ImaginaryMachines\UfoAi\Client;
+use ImaginaryMachines\UfoAi\UfoAi;
+use ImaginaryMachines\UfoAi\PromptRequest;
+use ImaginaryMachines\UfoAi\Settings;
 
 /**
  * REST API endpoints for plugin settings

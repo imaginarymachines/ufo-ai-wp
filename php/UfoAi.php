@@ -1,13 +1,13 @@
 <?php
 
-namespace ImaginaryMachines\ContentMachine;
+namespace ImaginaryMachines\UfoAi;
 
-use ImaginaryMachines\ContentMachine\Api\Proxy;
-use ImaginaryMachines\ContentMachine\Api\SettingsEndpoint;
-use ImaginaryMachines\ContentMachine\Contracts\ClientContract;
+use ImaginaryMachines\UfoAi\Api\Proxy;
+use ImaginaryMachines\UfoAi\Api\SettingsEndpoint;
+use ImaginaryMachines\UfoAi\Contracts\ClientContract;
 
 
-class ContentMachine {
+class UfoAi {
 
 	/**
 	 * @var array

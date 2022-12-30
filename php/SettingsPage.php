@@ -1,5 +1,5 @@
 <?php
-namespace ImaginaryMachines\ContentMachine;
+namespace ImaginaryMachines\UfoAi;
 
 class SettingsPage {
 

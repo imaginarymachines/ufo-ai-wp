@@ -1,9 +1,9 @@
 <?php
 
-use ImaginaryMachines\ContentMachine\Client;
-use ImaginaryMachines\ContentMachine\ContentMachine;
-use ImaginaryMachines\ContentMachine\Endpoints\Prompt;
-use ImaginaryMachines\ContentMachine\PromptRequest;
+use ImaginaryMachines\UfoAi\Client;
+use ImaginaryMachines\UfoAi\UfoAi;
+use ImaginaryMachines\UfoAi\Endpoints\Prompt;
+use ImaginaryMachines\UfoAi\PromptRequest;
 
 class ApiTest extends WP_UnitTestCase {
 

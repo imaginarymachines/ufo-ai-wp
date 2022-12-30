@@ -1,6 +1,6 @@
 <?php
 
-namespace ImaginaryMachines\ContentMachine;
+namespace ImaginaryMachines\UfoAi;
 
 // PHP class that uses WordPress' options API to store and retrieve settings
 class Settings {
@@ -53,7 +53,7 @@ class Settings {
 				return sanitize_text_field(
 					$_POST['content_machine_api_key']
 				);
-			}       
+			}
 		}
 		if ( ! is_string( $value ) ) {
 			return '';

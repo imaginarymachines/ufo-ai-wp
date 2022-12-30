@@ -1,6 +1,6 @@
 <?php
 
-namespace ImaginaryMachines\ContentMachine;
+namespace ImaginaryMachines\UfoAi;
 
 /**
  * Represents a request to the prompt API

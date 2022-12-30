@@ -15,7 +15,7 @@
  * @package           ufo-ai-wp
  */
 
-use ImaginaryMachines\ContentMachine\SettingsPage;
+use ImaginaryMachines\UfoAi\SettingsPage;
 
 if ( file_exists( __DIR__ . '/keys.php' ) ) {
 	require_once __DIR__ . '/keys.php';
@@ -39,7 +39,7 @@ define( 'CONTENT_MACHINE_MAIN_FILE', __FILE__ );
 
  // include autoloader from composer
 require_once __DIR__ . '/vendor/autoload.php';
-\ImaginaryMachines\ContentMachine\ContentMachine::addHooks();
+\ImaginaryMachines\UfoAi\UfoAi::addHooks();
 
 /**
  * Registers the block using the metadata loaded from the `block.json` file.

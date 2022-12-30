@@ -1,9 +1,9 @@
 <?php
 
-use ImaginaryMachines\ContentMachine\Client;
-use ImaginaryMachines\ContentMachine\ContentMachine;
-use ImaginaryMachines\ContentMachine\PromptRequest;
-use ImaginaryMachines\ContentMachine\Settings;
+use ImaginaryMachines\UfoAi\Client;
+use ImaginaryMachines\UfoAi\UfoAi;
+use ImaginaryMachines\UfoAi\PromptRequest;
+use ImaginaryMachines\UfoAi\Settings;
 class ClientTest extends WP_UnitTestCase {
 
 	//test create client from settings

@@ -1,7 +1,7 @@
 <?php
 
-use ImaginaryMachines\ContentMachine\Contracts\ClientContract;
-use ImaginaryMachines\ContentMachine\PromptRequest;
+use ImaginaryMachines\UfoAi\Contracts\ClientContract;
+use ImaginaryMachines\UfoAi\PromptRequest;
 
 /**
  * Fake client for testing

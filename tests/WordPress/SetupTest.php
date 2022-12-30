@@ -1,8 +1,8 @@
 <?php
 
-use ImaginaryMachines\ContentMachine\Admin;
-use ImaginaryMachines\ContentMachine\ContentMachine;
-use ImaginaryMachines\ContentMachine\Settings;
+use ImaginaryMachines\UfoAi\Admin;
+use ImaginaryMachines\UfoAi\UfoAi;
+use ImaginaryMachines\UfoAi\Settings;
 
 class SetupTest extends WP_UnitTestCase {
 	/**
@@ -19,7 +19,7 @@ class SetupTest extends WP_UnitTestCase {
 	 */
 	public function test_classes_exist() {
 
-		$this->assertTrue( class_exists( \ImaginaryMachines\ContentMachine\ContentMachine::class ) );
+		$this->assertTrue( class_exists( \ImaginaryMachines\UfoAi\UfoAi::class ) );
 	}
 
 
@@ -28,13 +28,13 @@ class SetupTest extends WP_UnitTestCase {
 	 *
 	 */
 	public function test_add_hooks() {
-		ContentMachine::addHooks();
+		UfoAi::addHooks();
 
 		$this->assertGreaterThan(
 			0,
 			has_action(
 				'plugins_loaded',
-				[ContentMachine::class,'load_textdomain']
+				[UfoAi::class,'load_textdomain']
 			)
 		);
 
@@ -42,7 +42,7 @@ class SetupTest extends WP_UnitTestCase {
 			0,
 			has_action(
 				'rest_api_init',
-				[ContentMachine::class,'rest_api_init']
+				[UfoAi::class,'rest_api_init']
 			)
 		);
 

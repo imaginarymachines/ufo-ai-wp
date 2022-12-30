@@ -1,11 +1,11 @@
 <?php
 
-namespace ImaginaryMachines\ContentMachine\Api;
+namespace ImaginaryMachines\UfoAi\Api;
 
-use ImaginaryMachines\ContentMachine\Client;
-use ImaginaryMachines\ContentMachine\ContentMachine;
-use ImaginaryMachines\ContentMachine\PromptRequest;
-use ImaginaryMachines\ContentMachine\Settings;
+use ImaginaryMachines\UfoAi\Client;
+use ImaginaryMachines\UfoAi\UfoAi;
+use ImaginaryMachines\UfoAi\PromptRequest;
+use ImaginaryMachines\UfoAi\Settings;
 
 /**
  * REST API endpoints for proxying requests to the Content Machine API
@@ -28,7 +28,7 @@ class Proxy {
 	 * @return self
 	 */
 	public static function factory() {
-		$obj = new static( ContentMachine::getClient() );
+		$obj = new static( UfoAi::getClient() );
 		\register_rest_route(
 			self::NAMESPACE,
 			'/post',
@@ -144,7 +144,7 @@ class Proxy {
 		if ( empty( $that['about'] ) ) {
 			$that['about'] = $title ? $title : 'Something';
 		}
-		$client = ContentMachine::getClient();
+		$client = UfoAi::getClient();
 
 
 		$promptRequest = new PromptRequest(

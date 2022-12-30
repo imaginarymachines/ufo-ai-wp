@@ -1,7 +1,7 @@
 <?php
 
-use ImaginaryMachines\ContentMachine\ContentMachine;
-use ImaginaryMachines\ContentMachine\Settings;
+use ImaginaryMachines\UfoAi\UfoAi;
+use ImaginaryMachines\UfoAi\Settings;
 class SettingsTest extends WP_UnitTestCase {
 	//Test get and save a setting that is allowed
 	public function test_get_save_allowed_setting() {

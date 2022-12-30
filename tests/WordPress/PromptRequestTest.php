@@ -1,7 +1,7 @@
 <?php
 
-use ImaginaryMachines\ContentMachine\ContentMachine;
-use ImaginaryMachines\ContentMachine\PromptRequest;
+use ImaginaryMachines\UfoAi\UfoAi;
+use ImaginaryMachines\UfoAi\PromptRequest;
 
 //Class that tests PromptRequest class
 //All tests are in the form of public function test*()

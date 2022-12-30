@@ -1,8 +1,8 @@
 <?php
 
-namespace ImaginaryMachines\ContentMachine;
+namespace ImaginaryMachines\UfoAi;
 
-use ImaginaryMachines\ContentMachine\Contracts\ClientContract;
+use ImaginaryMachines\UfoAi\Contracts\ClientContract;
 
 /**
  * Interfact with API
