@@ -4,7 +4,7 @@
  * Description:       Generates words.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           0.2.0
+ * Version:           0.3.0
  * Author:            Imaginary Machines
  * Plugin URI:        https://upcycledfoundobjects.com/
  * Author URI:        https://upcycledfoundobjects.com/docs/install
@@ -29,7 +29,7 @@ define( 'UFO_AI_WPPLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 /**
  * Version of the plugin.
  */
-define( 'UFO_AI_WPVERSION', '0.2.0' );
+define( 'UFO_AI_WPVERSION', '0.3.0' );
 
 /**
  * Main file of plugin
