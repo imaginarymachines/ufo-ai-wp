@@ -58,6 +58,7 @@ class Settings {
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
+		return sanitize_text_field( $value );
 	}
 
 	public static function sanitizeSettingUrl( $value ) {

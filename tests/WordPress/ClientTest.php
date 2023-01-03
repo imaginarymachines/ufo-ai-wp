@@ -28,7 +28,7 @@ class ClientTest extends WP_UnitTestCase {
 	 * @group now
 	 */
 	public function test_prompt_request_real() {
-		if( empty(UFO_AI_WPAPI_KEY)){
+		if( ! defined('UFO_AI_WPAPI_KEY')|| empty(UFO_AI_WPAPI_KEY) ){
 			$this->markTestSkipped('No API key found');
 		}
 		$client = new Client(

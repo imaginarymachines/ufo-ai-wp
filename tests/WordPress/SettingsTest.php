@@ -4,6 +4,9 @@ use ImaginaryMachines\UfoAi\UfoAi;
 use ImaginaryMachines\UfoAi\Settings;
 class SettingsTest extends WP_UnitTestCase {
 	//Test get and save a setting that is allowed
+	/**
+	 * @group now
+	 */
 	public function test_get_save_allowed_setting() {
 		$setting = Settings::KEY;
 		$value = 'value';
