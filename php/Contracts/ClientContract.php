@@ -8,6 +8,13 @@ use ImaginaryMachines\UfoAi\PromptRequest;
  * Defines the interface for the API client
  */
 interface ClientContract {
+
+	/**
+	 * Check if is connected via API
+	 *
+	 * @return bool
+	 */
+	public function isConnected(): bool;
 	/**
 	 * Get api key
 	 *

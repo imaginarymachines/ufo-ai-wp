@@ -30,7 +30,7 @@ class Settings {
 	// static method to get default settings
 	public static function getDefaults() {
 		return array(
-			self::URL => 'https://cma-pclz7.ondigitalocean.app/',
+			self::URL => 'https://upcycledfoundobjects.com/',
 			self::KEY => '',
 		);
 	}

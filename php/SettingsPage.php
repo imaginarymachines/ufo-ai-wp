@@ -66,9 +66,9 @@ class SettingsPage {
 			array(
 				'apiUrl'   => rest_url( 'ufo-ai/v1/settings' ),
 				'settings' => $settings,
+
 			)
 		);
-
 		?>
 			<div class="ufo-ai-wp-wrap">
 				<h1>

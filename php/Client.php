@@ -31,6 +31,31 @@ class Client  implements ClientContract {
 		$this->version = $version;
 	}
 
+	/**
+	 * Check if client is connected with a valid API key
+	 */
+	public function isConnected():bool {
+
+		$response = wp_remote_get(
+			$this->makeUrl( '/user', false ),
+			array(
+				'method'  => 'GET',
+				'timeout' => 10,
+				'headers' => array(
+					'Authorization' => 'Bearer ' . $this->key,
+					'Accept'        => 'application/json',
+				),
+			)
+		);
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			return false;
+		}
+		return true;
+	}
+
 	public static function latestApiVersion():string {
 		return 'v1';
 	}
@@ -109,8 +134,15 @@ class Client  implements ClientContract {
 		return $body['texts'];
 	}
 
-	protected function makeUrl( string $endpoint ):string {
-		return $this->url . 'api/' . $this->version . $endpoint;
+	protected function makeUrl( string $endpoint, bool $withVersion = true ):string {
+		$url = $this->url;
+		if ( $withVersion ) {
+			$url .= 'api/' . $this->version;
+		}else{
+			$url .= 'api';
+		}
+		$url .= $endpoint;
+		return $url;
 	}
 
 }

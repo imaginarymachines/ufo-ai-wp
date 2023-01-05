@@ -41,34 +41,26 @@ define( 'UFO_AI_WPMAIN_FILE', __FILE__ );
 require_once __DIR__ . '/vendor/autoload.php';
 \ImaginaryMachines\UfoAi\UfoAi::addHooks();
 
-/**
- * Registers the block using the metadata loaded from the `block.json` file.
- * Behind the scenes, it registers also all assets so they can be enqueued
- * through the block editor in the corresponding context.
- *
- * @see https://developer.wordpress.org/reference/functions/register_block_type/
- */
-function content_machine_plugin_content_machine_plugin_block_init() {
-	register_block_type( __DIR__ . '/build' );
-}
-//add_action( 'init', 'content_machine_plugin_content_machine_plugin_block_init' );
 
 // Register script built in build/admin.js
-
 add_action(
 	'admin_enqueue_scripts',
 	function() {
-		$dependencies = array();
+		$dependencies        = array();
+					$version = UFO_AI_WPVERSION;
+
 		// Use asset file if it exists
 		if ( file_exists( __DIR__ . '/build/settings.asset.php' ) ) {
 			$asset_file   = include __DIR__ . '/build/settings.asset.php';
 			$dependencies = $asset_file['dependencies'];
+			$version      = $asset_file['version'];
+
 		}
 		wp_register_script(
 			SettingsPage::SCREEN,
 			plugins_url( 'build/settings.js', __FILE__ ),
 			$dependencies,
-			UFO_AI_WPVERSION,
+			$version,
 		);
 	}
 );
@@ -77,16 +69,18 @@ add_action(
 	'enqueue_block_editor_assets',
 	function() {
 		$dependencies = array();
+		$version      = UFO_AI_WPVERSION;
 		// Use asset file if it exists
 		if ( file_exists( __DIR__ . '/build/editor.asset.php' ) ) {
 			$asset_file   = include __DIR__ . '/build/editor.asset.php';
 			$dependencies = $asset_file['dependencies'];
+			$version      = $asset_file['version'];
 		}
 		wp_register_script(
 			'ufo-ai-wp-editor',
 			plugins_url( 'build/editor.js', __FILE__ ),
 			$dependencies,
-			UFO_AI_WPVERSION,
+			$version,
 		);
 		wp_enqueue_script( 'ufo-ai-wp-editor' );
 	}

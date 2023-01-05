@@ -68,4 +68,19 @@ class ClientTest extends WP_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Test isConnected
+	 *
+	 * @group realApi
+	 * @group now
+	 */
+	public function test_is_connected_real() {
+		if( ! defined('UFO_AI_WPAPI_KEY')|| empty(UFO_AI_WPAPI_KEY) ){
+			$this->markTestSkipped('No API key found');
+		}
+		$client = $this->getRealClient();
+		$this->assertTrue($client->isConnected());
+
+	}
+
 }

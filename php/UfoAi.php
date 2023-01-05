@@ -10,6 +10,8 @@ use ImaginaryMachines\UfoAi\Contracts\ClientContract;
 class UfoAi {
 
 	/**
+	 * Container for shared objects.
+	 *
 	 * @var array
 	 */
 	protected static $container = array();
@@ -41,13 +43,17 @@ class UfoAi {
 	 * @return void
 	 */
 	public static function rest_api_init() {
-		// .
 		// Routes that proxy content machine api
 		Proxy::factory();
 		// Routes for settings
 		SettingsEndpoint::factory();
 	}
 
+	/**
+	 * Get API client.
+	 *
+	 * @return ClientContract
+	 */
 	public static function getClient(): ClientContract {
 		if ( ! isset( self::$container['client'] ) ) {
 			self::$container['client'] = Client::fromSettings();
@@ -57,6 +63,13 @@ class UfoAi {
 		return self::$container['client'];
 	}
 
+	/**
+	 * Set API client.
+	 *
+	 * @param ClientContract $client
+	 *
+	 * @return void
+	 */
 	public static function setClient( ClientContract $client ) {
 		self::$container['client'] = $client;
 	}

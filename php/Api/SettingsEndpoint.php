@@ -32,6 +32,7 @@ class SettingsEndpoint {
 				),
 			)
 		);
+
 	}
 
 

@@ -9,9 +9,16 @@ use ImaginaryMachines\UfoAi\PromptRequest;
 class FakeClient implements ClientContract {
 
 	public array $nextData = array();
+
+	public bool $isConnected = true;
 	public function prompt( PromptRequest $promptRequest ):array {
 		return $this->nextData;
 	}
+
+	public function isConnected(): bool {
+		return $this->isConnected;
+	}
+
 
 
 	public function getKey(): string {

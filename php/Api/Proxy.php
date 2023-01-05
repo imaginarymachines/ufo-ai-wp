@@ -65,6 +65,17 @@ class Proxy {
 				),
 			)
 		);
+
+		\register_rest_route(
+			self::NAMESPACE,
+			'/connected',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $obj, 'checkConnection' ),
+				'permission_callback' => array( $obj, 'authorize' ),
+
+			)
+		);
 	}
 
 	/**
@@ -76,6 +87,22 @@ class Proxy {
 		$this->client = $client;
 	}
 
+	/**
+	 * Check if account connected
+	 */
+	public function checkConnection() {
+		$key = Settings::get( Settings::KEY );
+		if ( empty( $key ) ) {
+			return new \WP_Error(
+				'no_api_key',
+				'No Saved API Key',
+			);
+		}
+		$connected = $this->client->isConnected();
+		return array(
+			'connected' => $connected,
+		);
+	}
 	/**
 	 * Create a prompt from a post
 	 */

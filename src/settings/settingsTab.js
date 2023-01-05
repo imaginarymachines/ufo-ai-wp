@@ -3,11 +3,11 @@ import React from 'react';
 import {
 	Form,
 	FormTable,
-	TrInput,
 	TrSubmitButton,
 } from '@imaginary-machines/wp-admin-components';
 import apiFetch from '@wordpress/api-fetch';
-import { ApiKeyLink, DocsLinks } from './links';
+import { DocsLinks } from './links';
+import ApiKeyField from '../components/ApiKeyField';
 
 //Function for saving settings
 const saveSettings = async ( values ) => {
@@ -21,9 +21,27 @@ const saveSettings = async ( values ) => {
 	return { update: r };
 };
 
+const checkConnection = async () => {
+	const is = await apiFetch( {
+		path: '/ufo-ai/v1/connected',
+		method: 'GET',
+	} )
+		.then( ( res ) => {
+			if ( res ) {
+				return res.connected;
+			}
+			return false;
+		} )
+		.catch( () => {
+			return false;
+		} );
+	return is;
+};
+
 const SettingsForm = () => {
 	const [ isSaving, setIsSaving ] = React.useState( false );
 	const [ hasSaved, setHasSaved ] = React.useState( false );
+	const [ connected, setConnected ] = React.useState( false );
 	const [ values, setValues ] = React.useState( () => {
 		// eslint-disable-next-line no-undef
 		if ( CONTENT_MACHINE.settings ) {
@@ -54,20 +72,27 @@ const SettingsForm = () => {
 			return () => clearTimeout( timer );
 		}
 	}, [ hasSaved ] );
+
+	//Check if connected
+	React.useEffect( () => {
+		checkConnection().then( ( is ) => {
+			setConnected( is );
+		} );
+	}, [ hasSaved ] );
+
 	return (
 		<div>
 			<DocsLinks />
 			<Form id={ id } onSubmit={ onSubmit }>
 				<FormTable>
 					<>
-						<TrInput
-							label={ 'Api Key' }
-							id={ 'input' }
-							name={ 'key' }
+						<ApiKeyField
+							connected={ connected }
 							value={ values.key }
 							onChange={ ( value ) =>
 								setValues( { ...values, key: value } )
 							}
+							isSaving={ isSaving }
 						/>
 						<TrSubmitButton
 							id={ 'submit-button' }
@@ -78,7 +103,6 @@ const SettingsForm = () => {
 					</>
 				</FormTable>
 			</Form>
-			<ApiKeyLink />
 		</div>
 	);
 };
