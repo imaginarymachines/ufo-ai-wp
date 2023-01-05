@@ -31,32 +31,6 @@ class Client  implements ClientContract {
 		$this->version = $version;
 	}
 
-	/**
-	 * Check if client is connected with a valid API key
-	 */
-	public function isConnected():bool {
-
-		$response = wp_remote_get(
-			$this->makeUrl( '/user', false ),
-			array(
-				'method'  => 'GET',
-				'timeout' => 10,
-				'headers' => $this->getHeaders(),
-
-			)
-		);
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-		if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
-			return false;
-		}
-		return true;
-	}
-
-	public static function latestApiVersion():string {
-		return 'v1';
-	}
 
 	/**
 	 * Create instance from saved settings
@@ -79,21 +53,26 @@ class Client  implements ClientContract {
 	}
 
 	/**
-	 * Get API key
-	 *
-	 * @return string
+	 * Check if client is connected with a valid API key
 	 */
-	public function getKey(): string {
-		return $this->key;
-	}
+	public function isConnected():bool {
 
-	/**
-	 *  Get api url
-	 *
-	 * @return string
-	 */
-	public function getUrl(): string {
-		return $this->url;
+		$response = wp_remote_get(
+			$this->makeUrl( '/user', false ),
+			array(
+				'method'  => 'GET',
+				'timeout' => 10,
+				'headers' => $this->getHeaders(),
+
+			)
+		);
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -142,6 +121,35 @@ class Client  implements ClientContract {
 		// return the texts
 		return $body['texts'];
 	}
+
+	/**
+	 * Get latest api version
+	 *
+	 * @return string
+	 */
+	public static function latestApiVersion():string {
+		return 'v1';
+	}
+
+
+	/**
+	 * Get API key
+	 *
+	 * @return string
+	 */
+	public function getKey(): string {
+		return $this->key;
+	}
+
+	/**
+	 *  Get api url
+	 *
+	 * @return string
+	 */
+	public function getUrl(): string {
+		return $this->url;
+	}
+
 
 	/**
 	 * Make a url
