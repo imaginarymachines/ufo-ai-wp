@@ -76,6 +76,27 @@ class Proxy {
 
 			)
 		);
+
+		\register_rest_route(
+			self::NAMESPACE,
+			'/edit',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $obj, 'handleEdit' ),
+				'permission_callback' => array( $obj, 'authorize' ),
+				'args'                => array(
+					'input'       => array(
+						'required' => true,
+						'type'     => 'string',
+					),
+					'instruction' => array(
+						'required' => true,
+						'type'     => 'string',
+					),
+				),
+
+			)
+		);
 	}
 
 	/**
@@ -171,8 +192,6 @@ class Proxy {
 		if ( empty( $that['about'] ) ) {
 			$that['about'] = $title ? $title : 'Something';
 		}
-		$client = UfoAi::getClient();
-
 
 		$promptRequest = new PromptRequest(
 			$what,
@@ -181,7 +200,23 @@ class Proxy {
 			$length
 		);
 		try {
-			$texts = $client->prompt( $promptRequest );
+			$texts = $this->client->prompt( $promptRequest );
+			return array( 'texts' => $texts );
+		} catch ( \Throwable $th ) {
+			return new \WP_Error( 'ufo-ai-error', $th->getMessage() );
+		}
+	}
+
+	/**
+	 * Handle edit request
+	 * @param \WP_REST_Request $request
+	 * @return array
+	 */
+	public function handleEdit( $request ) {
+		$input       = $request->get_param( 'input' );
+		$instruction = $request->get_param( 'instruction' );
+		try {
+			$texts = $this->client->edit( $input, $instruction );
 			return array( 'texts' => $texts );
 		} catch ( \Throwable $th ) {
 			return new \WP_Error( 'ufo-ai-error', $th->getMessage() );

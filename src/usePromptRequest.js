@@ -2,6 +2,7 @@ import React from 'react';
 import { dispatch, select } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import apiFetch from '@wordpress/api-fetch';
+import useLoadingStatus from './useLoadingStatus';
 
 /**
  * Fetches prompt from API
@@ -49,10 +50,12 @@ export const usePostData = () => {
  */
 const usePromptRequest = () => {
 	const { getData } = usePostData();
-	//state for error messages
-	const [ error, setError ] = React.useState( '' );
-	//state for loading
-	const [ loading, setLoading ] = React.useState( false );
+	const {
+		error,
+		setError,
+		loading,
+		setLoading,
+	} = useLoadingStatus();
 	//state for number of blocks
 	const [ length ] = React.useState( 1 );
 	const handler = () => {

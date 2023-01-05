@@ -1,10 +1,12 @@
 import React from 'react';
 import { addFilter } from '@wordpress/hooks';
 import { BlockControls } from '@wordpress/block-editor';
-import { ToolbarButton } from '@wordpress/components';
 import { usePostData, fetchPrompt } from './usePromptRequest';
 import domReady from '@wordpress/dom-ready';
 import { dispatch, select } from '@wordpress/data';
+import { Toolbar, ToolbarDropdownMenu } from '@wordpress/components';
+import { EditMark, LoadingSpinner } from './components/icons';
+import useLoadingStatus from './useLoadingStatus';
 /**
  * Namespace for all filters
  */
@@ -17,14 +19,30 @@ const NAMESPACE = 'ufo-ai';
  */
 const CORE_NAMESPACE = 'core/block-editor';
 
+import apiFetch from '@wordpress/api-fetch';
+
 /**
- * Add an insert button to the block toolbar
+ * Fetches edit from API
+ *
+ * @param {Object} data - data to send to API
+ */
+export const fetchEdit = async ( data ) => {
+	return apiFetch( {
+		path: '/ufo-ai/v1/edit',
+		method: 'POST',
+		data,
+	} ).then( ( res ) => {
+		return res;
+	} );
+};
+
+/**
+ * Add menu  to the block toolbar
  *
  * @param {Object} BlockEdit - BlockEdit component
  */
-const InsertText = ( BlockEdit ) => {
-	const { getData } = usePostData();
-	const handler = ( clientId ) => {
+const UfoMenu = ( BlockEdit ) => {
+	const insertHandler = ( clientId ) => {
 		const data = getData();
 		data.what = 'sentences';
 		fetchPrompt( data ).then( ( res ) => {
@@ -43,19 +61,65 @@ const InsertText = ( BlockEdit ) => {
 			}
 		} );
 	};
+
+	const editHandler = ( clientId, type ) => {
+		const instruction = 'Fix spelling';
+		switch ( type ) {
+			default:
+				break;
+		}
+		//get block
+		const block = select( CORE_NAMESPACE ).getBlock( clientId );
+		//if found, get conent
+		if ( block ) {
+			const input = block.attributes.content;
+			//send to api
+			fetchEdit( { input, instruction } ).then( ( res ) => {
+				//if no error, update block
+				if ( ! res.error && res.texts ) {
+					dispatch( CORE_NAMESPACE ).updateBlockAttributes(
+						clientId,
+						{
+							content: res.texts[0],
+						}
+					);
+				}
+			} );
+		}
+	};
+
 	return ( props ) => {
 		if ( props.name !== 'core/paragraph' ) {
 			return <BlockEdit { ...props } />;
 		}
+		const [loading,setLoading] = React.useState(false);
+
+		//Remove controls when loading
+		const controls = loading ? [] : [
+			{
+				title: 'Add More Text',
+				icon: 'smiley',
+				onClick: () =>
+					insertHandler( props.clientId ),
+			},
+			{
+				title: 'Fix Block Spelling',
+				icon: <EditMark />,
+				onClick: () =>
+					editHandler( props.clientId ),
+			},
+		];
 
 		return (
 			<>
 				<BlockControls>
-					<ToolbarButton
-						icon={ 'smiley' }
-						label="Suggest Text"
-						onClick={ () => handler( props.clientId ) }
-					/>
+					<Toolbar label="Options">
+						<ToolbarDropdownMenu
+							icon={ loading? <LoadingSpinner /> :'smiley' }
+							label="UFO AI"
+							controls={ controls }
+						/>
+					</Toolbar>
 				</BlockControls>
 				<BlockEdit { ...props } />
 			</>
@@ -64,5 +128,5 @@ const InsertText = ( BlockEdit ) => {
 };
 
 domReady( () => {
-	addFilter( 'editor.BlockEdit', NAMESPACE, InsertText );
+	addFilter( 'editor.BlockEdit', NAMESPACE, UfoMenu );
 } );
