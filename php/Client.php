@@ -41,10 +41,8 @@ class Client  implements ClientContract {
 			array(
 				'method'  => 'GET',
 				'timeout' => 10,
-				'headers' => array(
-					'Authorization' => 'Bearer ' . $this->key,
-					'Accept'        => 'application/json',
-				),
+				'headers' => $this->getHeaders(),
+
 			)
 		);
 		if ( is_wp_error( $response ) ) {
@@ -60,7 +58,11 @@ class Client  implements ClientContract {
 		return 'v1';
 	}
 
-	// Create from saved settings
+	/**
+	 * Create instance from saved settings
+	 *
+	 * @return Client
+	 */
 	public static function fromSettings(): Client {
 		$settings = Settings::getAll();
 		if ( isset( $settings[ SETTINGS::KEY ] ) ) {
@@ -76,17 +78,30 @@ class Client  implements ClientContract {
 		);
 	}
 
-	// Get api key
+	/**
+	 * Get API key
+	 *
+	 * @return string
+	 */
 	public function getKey(): string {
 		return $this->key;
 	}
 
-	// Get api url
+	/**
+	 *  Get api url
+	 *
+	 * @return string
+	 */
 	public function getUrl(): string {
 		return $this->url;
 	}
 
-	// Make prompt request
+	/**
+	 * Make a prompt request
+	 *
+	 * @param PromptRequest $promptRequest
+	 * @return array
+	 */
 	public function prompt( PromptRequest $promptRequest ):array {
 
 		$response = wp_remote_post(
@@ -96,13 +111,7 @@ class Client  implements ClientContract {
 				//@phpcs:disable
 				'timeout' => 15,
 				'body'    => json_encode( $promptRequest->toArray() ),
-				'headers' => array(
-					// content type json
-					'Content-Type'  => 'application/json; charset=utf-8',
-					// api key as bearer token
-					'Authorization' => 'Bearer ' . $this->key,
-					'Accept'        => 'application/json',
-				),
+				'headers' => $this->getHeaders(),
 			)
 		);
 		// check if is_wp_error
@@ -134,6 +143,13 @@ class Client  implements ClientContract {
 		return $body['texts'];
 	}
 
+	/**
+	 * Make a url
+	 *
+	 * @param string $endpoint
+	 * @param bool $withVersion
+	 * @return string
+	 */
 	protected function makeUrl( string $endpoint, bool $withVersion = true ):string {
 		$url = $this->url;
 		if ( $withVersion ) {
@@ -143,6 +159,22 @@ class Client  implements ClientContract {
 		}
 		$url .= $endpoint;
 		return $url;
+	}
+
+	/**
+	 * Array of headers for requests
+	 *
+	 * @return array
+	 */
+	protected function getHeaders():array {
+		return [
+			// content type json
+			'Content-Type'  => 'application/json; charset=utf-8',
+			'Accept'        => 'application/json',
+			// api key as bearer token
+			'Authorization' => 'Bearer ' . $this->key,
+			'Accept'        => 'application/json',
+		];
 	}
 
 }
