@@ -59,6 +59,33 @@ class ClientTest extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test that we can use the client to make a prompt request
+	 *
+	 * @group realApi
+	 * @group edits
+	 */
+	public function test_prompt_edit_real() {
+		if( ! defined('UFO_AI_WPAPI_KEY')|| empty(UFO_AI_WPAPI_KEY) ){
+			$this->markTestSkipped('No API key found');
+		}
+		$client = new Client(
+			Settings::getDefault(Settings::URL),
+			UFO_AI_WPAPI_KEY,
+		);
+
+		$input = 'There are fOre dogs';
+		$instruction = 'Fix spelling';
+		$response = $client->edit($input,$instruction);
+		$this->assertIsArray($response);
+
+		$this->assertCount(1,$response);
+		$this->assertEquals('There are four dogs',
+			substr($response[0],0, strlen('There are four dogs'))
+		);
+
+	}
+
+	/**
 	 * @return Client
 	 */
 	protected function getRealClient(){

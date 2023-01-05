@@ -93,6 +93,29 @@ class Client  implements ClientContract {
 				'headers' => $this->getHeaders(),
 			)
 		);
+		return $this->handleResponse( $response );
+
+	}
+
+	public function edit(string $input, string $instruction){
+		$data = [
+			'input' => $input,
+			'instruction' => $instruction
+		];
+		$response = wp_remote_post(
+			$this->makeUrl( '/text/edit' ),
+			array(
+				'method'  => 'POST',
+				'timeout' => 15,
+				'body'    => json_encode( $data ),
+				'headers' => $this->getHeaders(),
+			)
+		);
+		return $this->handleResponse( $response );
+
+	}
+
+	protected function handleResponse($response){
 		// check if is_wp_error
 		if ( is_wp_error( $response ) ) {
 			throw new \Exception( $response->get_error_message() );
