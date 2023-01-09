@@ -50,12 +50,7 @@ export const usePostData = () => {
  */
 const usePromptRequest = () => {
 	const { getData } = usePostData();
-	const {
-		error,
-		setError,
-		loading,
-		setLoading,
-	} = useLoadingStatus();
+	const { error, setError, loading, setLoading } = useLoadingStatus();
 	//state for number of blocks
 	const [ length ] = React.useState( 1 );
 	const handler = () => {

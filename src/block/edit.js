@@ -1,38 +1,37 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
 import { useBlockProps } from '@wordpress/block-editor';
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
+import { fetchPrompt, usePostData } from '../usePromptRequest';
+import useLoadingStatus from '../useLoadingStatus';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit() {
+import RunOnce from '../components/RunOnce';
+import { LoadingSpinner } from '../components/icons';
+export default function Edit( props ) {
+	const content = props.attributes.content || '';
+	const hasRan = props.attributes.hasRan;
+	const setAttributes = props.setAttributes;
+	const { getData } = usePostData();
+
+	const insertHanlder = () => {
+		setLoading( true );
+		const data = getData();
+		fetchPrompt( data ).then( ( r ) => {
+			if ( r && r.texts ) {
+				setAttributes( { content: r.texts[ 0 ], hasRan: true } );
+			}
+			setLoading( false );
+		} );
+	};
+
+	const { loading, setLoading } = useLoadingStatus();
+
 	return (
 		<p { ...useBlockProps() }>
-			{ __( 'AI-Generated Text – hello from the editor!', 'ufo-ai-wp' ) }
+			{ loading ? <LoadingSpinner /> : null }
+			{ ! hasRan ? <RunOnce fn={ insertHanlder } /> : null }
+			{ content }
 		</p>
 	);
 }

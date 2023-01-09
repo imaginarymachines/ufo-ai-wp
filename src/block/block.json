@@ -10,6 +10,17 @@
 	"supports": {
 		"html": false
 	},
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": "p"
+		},
+	"hasRan" : {
+		"type": "boolean",
+		"default": false
+	}
+},
 	"textdomain": "ufo-ai-wp",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

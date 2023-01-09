@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanelBody, PanelRow, Button, } from '@wordpress/components';
+import { PanelBody, PanelRow, Button } from '@wordpress/components';
 import { PluginSidebar } from '@wordpress/edit-post';
 import { registerPlugin } from '@wordpress/plugins';
 import domReady from '@wordpress/dom-ready';

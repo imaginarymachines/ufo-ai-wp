@@ -21,11 +21,8 @@ import Edit from './edit';
 import save from './save';
 import metadata from './block.json';
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
+import { createBlock } from '@wordpress/blocks';
+
 registerBlockType( metadata.name, {
 	/**
 	 * @see ./edit.js
@@ -36,4 +33,27 @@ registerBlockType( metadata.name, {
 	 * @see ./save.js
 	 */
 	save,
+	transforms: {
+		from: [
+			{
+				type: 'block',
+				priority: 7,
+				blocks: [ 'core/paragraph' ],
+				transform( attributes ) {
+					return createBlock( metadata.name, {
+						content: attributes.content,
+						hasRan: true,
+					} );
+				},
+			},
+		],
+		to: [
+			{
+				type: 'block',
+				blocks: [ 'core/paragraph' ],
+				transform: ( { content } ) =>
+					createBlock( 'core/paragraph', { content } ),
+			},
+		],
+	},
 } );

@@ -11,14 +11,13 @@ import { useBlockProps } from '@wordpress/block-editor';
  * be combined into the final markup, which is then serialized by the block
  * editor into `post_content`.
  *
+ * @param  root0
+ * @param  root0.attributes
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
  *
  * @return {WPElement} Element to render.
  */
-export default function save() {
-	return (
-		<p { ...useBlockProps.save() }>
-			{ 'AI-Generated Text – hello from the saved content!' }
-		</p>
-	);
+export default function save( { attributes } ) {
+	const content = attributes.content || '';
+	return <p { ...useBlockProps.save() }>{ content }</p>;
 }

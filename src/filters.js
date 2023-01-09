@@ -6,7 +6,6 @@ import domReady from '@wordpress/dom-ready';
 import { dispatch, select } from '@wordpress/data';
 import { Toolbar, ToolbarDropdownMenu } from '@wordpress/components';
 import { EditMark, LoadingSpinner } from './components/icons';
-import useLoadingStatus from './useLoadingStatus';
 /**
  * Namespace for all filters
  */
@@ -42,8 +41,7 @@ export const fetchEdit = async ( data ) => {
  * @param {Object} BlockEdit - BlockEdit component
  */
 const UfoMenu = ( BlockEdit ) => {
-	const {getData} = usePostData();
-	console.log(1);
+	const { getData } = usePostData();
 	const insertHandler = ( clientId ) => {
 		const data = getData();
 		data.what = 'sentences';
@@ -82,7 +80,7 @@ const UfoMenu = ( BlockEdit ) => {
 					dispatch( CORE_NAMESPACE ).updateBlockAttributes(
 						clientId,
 						{
-							content: res.texts[0],
+							content: res.texts[ 0 ],
 						}
 					);
 				}
@@ -94,30 +92,30 @@ const UfoMenu = ( BlockEdit ) => {
 		if ( props.name !== 'core/paragraph' ) {
 			return <BlockEdit { ...props } />;
 		}
-		const [loading,setLoading] = React.useState(false);
+		const [ loading, setLoading ] = React.useState( false );
 
 		//Remove controls when loading
-		const controls = loading ? [] : [
-			{
-				title: 'Add More Text',
-				icon: 'smiley',
-				onClick: () =>
-					insertHandler( props.clientId ),
-			},
-			{
-				title: 'Fix Block Spelling',
-				icon: <EditMark />,
-				onClick: () =>
-					editHandler( props.clientId ),
-			},
-		];
+		const controls = loading
+			? []
+			: [
+					{
+						title: 'Add More Text',
+						icon: 'smiley',
+						onClick: () => insertHandler( props.clientId ),
+					},
+					{
+						title: 'Fix Block Spelling',
+						icon: <EditMark />,
+						onClick: () => editHandler( props.clientId ),
+					},
+			  ];
 
 		return (
 			<>
 				<BlockControls>
 					<Toolbar label="Options">
 						<ToolbarDropdownMenu
-							icon={ loading? <LoadingSpinner /> :'smiley' }
+							icon={ loading ? <LoadingSpinner /> : 'smiley' }
 							label="UFO AI"
 							controls={ controls }
 						/>
