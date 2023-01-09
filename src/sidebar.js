@@ -11,7 +11,6 @@ import usePromptRequest from './usePromptRequest';
 import { LoadingSpinner } from './components/icons';
 const SideBar = () => {
 	const { error, loading, handler } = usePromptRequest();
-
 	return (
 		<PluginSidebar
 			name="ufo-ai"

@@ -101,13 +101,13 @@ const UfoMenu = ( BlockEdit ) => {
 					{
 						title: 'Add More Text',
 						icon: 'smiley',
-						onClick: () => insertHandler( props.clientId ),
+						onClick: () => {
+							setLoading( true );
+							insertHandler( props.clientId );
+							setLoading( false );
+						},
 					},
-					{
-						title: 'Fix Block Spelling',
-						icon: <EditMark />,
-						onClick: () => editHandler( props.clientId ),
-					},
+
 			  ];
 
 		return (
