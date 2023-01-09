@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "ufo-ai-wp/create-text",
+	"version": "0.1.0",
+	"title": "AI-Generated Text",
+	"category": "text",
+	"icon": "smiley",
+	"description": "Generates Another Paragraph Of Text, Based On The Post",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "ufo-ai-wp",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

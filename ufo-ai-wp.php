@@ -42,6 +42,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 \ImaginaryMachines\UfoAi\UfoAi::addHooks();
 
 
+add_action('init', function(){
+	register_block_type( __DIR__ . '/build/block' );
+});
 // Register script built in build/admin.js
 add_action(
 	'admin_enqueue_scripts',

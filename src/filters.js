@@ -42,6 +42,8 @@ export const fetchEdit = async ( data ) => {
  * @param {Object} BlockEdit - BlockEdit component
  */
 const UfoMenu = ( BlockEdit ) => {
+	const {getData} = usePostData();
+	console.log(1);
 	const insertHandler = ( clientId ) => {
 		const data = getData();
 		data.what = 'sentences';
