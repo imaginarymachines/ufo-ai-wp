@@ -89,7 +89,7 @@ const UfoMenu = ( BlockEdit ) => {
 	};
 
 	return ( props ) => {
-		if ( ! ['core/paragraph',].includes( props.name ) ) {
+		if ( ! [ 'core/paragraph' ].includes( props.name ) ) {
 			return <BlockEdit { ...props } />;
 		}
 		const [ loading, setLoading ] = React.useState( false );
@@ -107,7 +107,6 @@ const UfoMenu = ( BlockEdit ) => {
 							setLoading( false );
 						},
 					},
-
 			  ];
 
 		return (

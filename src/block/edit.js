@@ -7,8 +7,8 @@ import { fetchPrompt, usePostData } from '../usePromptRequest';
 import useLoadingStatus from '../useLoadingStatus';
 
 import RunOnce from '../components/RunOnce';
-import { LoadingSpinner,RefreshMark } from '../components/icons';
-import {BlockControls} from '@wordpress/block-editor';
+import { LoadingSpinner, RefreshMark } from '../components/icons';
+import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 
 export default function Edit( props ) {
@@ -29,7 +29,7 @@ export default function Edit( props ) {
 	};
 
 	const refresHandler = () => {
-		setAttributes({ content: '' });
+		setAttributes( { content: '' } );
 		insertHanlder();
 	};
 
@@ -38,14 +38,13 @@ export default function Edit( props ) {
 	return (
 		<p { ...useBlockProps() }>
 			<BlockControls>
-			<ToolbarGroup>
-                <ToolbarButton
-                    icon={ RefreshMark }
-                    label="Edit"
-                    onClick={ refresHandler }
-                />
-            </ToolbarGroup>
-
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={ RefreshMark }
+						label="Edit"
+						onClick={ refresHandler }
+					/>
+				</ToolbarGroup>
 			</BlockControls>
 			{ loading ? <LoadingSpinner /> : null }
 			{ ! hasRan ? <RunOnce fn={ insertHanlder } /> : null }

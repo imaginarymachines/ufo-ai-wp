@@ -21,23 +21,6 @@ const saveSettings = async ( values ) => {
 	return { update: r };
 };
 
-const checkConnection = async () => {
-	const is = await apiFetch( {
-		path: '/ufo-ai/v1/connected',
-		method: 'GET',
-	} )
-		.then( ( res ) => {
-			if ( res ) {
-				return res.connected;
-			}
-			return false;
-		} )
-		.catch( () => {
-			return false;
-		} );
-	return is;
-};
-
 const SettingsForm = () => {
 	const [ isSaving, setIsSaving ] = React.useState( false );
 	const [ hasSaved, setHasSaved ] = React.useState( false );
