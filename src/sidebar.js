@@ -23,26 +23,7 @@ const SideBar = () => {
 			icon={ 'smiley' }
 		>
 			<PanelBody title="AI Content">
-				{ connected ? (
-					<PanelRow>
-						<Button
-							onClick={ handler }
-							variant="primary"
-							disabled={ loading }
-						>
-							{ loading ? (
-								<>
-									<span className="screen-reader-text">
-										Loading
-									</span>
-									<LoadingSpinner />
-								</>
-							) : (
-								<>Add Generated Text</>
-							) }
-						</Button>
-					</PanelRow>
-				) : null }
+
 				<PanelRow>
 					<p>
 						You can also click the smiley icon in any paragraph
