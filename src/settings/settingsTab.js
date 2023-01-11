@@ -8,7 +8,7 @@ import {
 import apiFetch from '@wordpress/api-fetch';
 import { DocsLinks } from './links';
 import ApiKeyField from '../components/ApiKeyField';
-
+import checkConnection from '../api/checkConnection';
 //Function for saving settings
 const saveSettings = async ( values ) => {
 	const r = await apiFetch( {
