@@ -7,7 +7,7 @@ import { fetchPrompt, usePostData } from '../usePromptRequest';
 import useLoadingStatus from '../useLoadingStatus';
 
 import RunOnce from '../components/RunOnce';
-import { LoadingSpinner, RefreshMark } from '../components/icons';
+import { LoadingSpinner } from '../components/icons';
 import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 
@@ -40,7 +40,7 @@ export default function Edit( props ) {
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-						icon={ RefreshMark }
+						icon={ 'redo' }
 						label="Edit"
 						onClick={ refresHandler }
 					/>
