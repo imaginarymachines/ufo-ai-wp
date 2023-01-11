@@ -4,7 +4,7 @@
  * Description:       Generates words.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           0.3.2
+ * Version:           0.1.2
  * Author:            Imaginary Machines
  * Plugin URI:        https://upcycledfoundobjects.com/
  * Author URI:        https://upcycledfoundobjects.com/docs/install
@@ -42,15 +42,19 @@ require_once __DIR__ . '/vendor/autoload.php';
 \ImaginaryMachines\UfoAi\UfoAi::addHooks();
 
 
-add_action('init', function(){
-	register_block_type( __DIR__ . '/build/block' );
-});
+add_action(
+	'init',
+	function() {
+		register_block_type( __DIR__ . '/build/block' );
+	}
+);
+
 // Register script built in build/admin.js
 add_action(
 	'admin_enqueue_scripts',
 	function() {
-		$dependencies        = array();
-					$version = UFO_AI_WPVERSION;
+		$dependencies = array();
+		$version      = UFO_AI_WPVERSION;
 
 		// Use asset file if it exists
 		if ( file_exists( __DIR__ . '/build/settings.asset.php' ) ) {

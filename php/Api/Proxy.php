@@ -215,10 +215,11 @@ class Proxy {
 	public function handleEdit( $request ) {
 		$input       = $request->get_param( 'input' );
 		$instruction = $request->get_param( 'instruction' );
-		wp_send_json_error([
-			'input' => $input,
-			'instruction' => $instruction,
-		]
+		wp_send_json_error(
+			array(
+				'input'       => $input,
+				'instruction' => $instruction,
+			)
 		);
 		exit;
 		try {

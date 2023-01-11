@@ -26,6 +26,9 @@ class UfoAi {
 		add_action( 'rest_api_init', array( __CLASS__, 'rest_api_init' ) );
 		add_action( 'admin_init', array( Settings::class, 'registerSettings' ) );
 		add_action( 'admin_menu', array( SettingsPage::class, 'add_page' ) );
+		if ( $updater = Updater::factory() ) {
+			Updater::addHooks( $updater );
+		}
 	}
 
 	/**
