@@ -83,8 +83,7 @@ class Updater {
 		if ( $key ) {
 			//create updater
 			$updater = new Updater(
-				'0.2.0',
-				//UFO_AI_WPVERSION,
+				UFO_AI_WPVERSION,
 				'ufo-ai-wp',
 				UFO_AI_WPMAIN_FILE,
 				$key,
