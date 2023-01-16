@@ -75,6 +75,31 @@ class Client  implements ClientContract {
 		return true;
 	}
 
+	public function text(string $prompt, float $temperature = 0.8):array {
+		$this->version = 'v2';
+
+		$response = wp_remote_get(
+			$this->makeUrl( '/text', true ),
+			array(
+				'method'  => 'POST',
+				'timeout' => 15,
+				'headers' => $this->getHeaders(),
+				'body' => json_encode(
+					array(
+						'prompt' => $prompt,
+						'temperature' => $temperature,
+					)
+				),
+
+			)
+		);
+		if( is_wp_error( $response ) ){
+			return $response;
+		}
+
+		return $this->handleResponse( $response );
+	}
+
 	/**
 	 * Make a prompt request
 	 *
