@@ -1,11 +1,10 @@
 import React from 'react';
 import { addFilter } from '@wordpress/hooks';
 import { BlockControls } from '@wordpress/block-editor';
-import { usePostData, fetchPrompt } from './usePromptRequest';
 import domReady from '@wordpress/dom-ready';
 import { dispatch, select } from '@wordpress/data';
 import { Toolbar, ToolbarDropdownMenu } from '@wordpress/components';
-import { EditMark, LoadingSpinner } from './components/icons';
+import {  LoadingSpinner } from './components/icons';
 /**
  * Namespace for all filters
  */
@@ -19,21 +18,29 @@ const NAMESPACE = 'ufo-ai';
 const CORE_NAMESPACE = 'core/block-editor';
 
 import apiFetch from '@wordpress/api-fetch';
+import useLoadingStatus from './useLoadingStatus';
 
-/**
- * Fetches edit from API
- *
- * @param {Object} data - data to send to API
- */
-export const fetchEdit = async ( data ) => {
-	return apiFetch( {
-		path: '/ufo-ai/v1/edit',
-		method: 'POST',
-		data,
-	} ).then( ( res ) => {
-		return res;
-	} );
-};
+const getTextBefore = (clientId) => {
+	const blocks = select( 'core/block-editor' ).getBlocks();
+	const index = blocks.findIndex( ( block ) => block.clientId === clientId );
+	if ( index === 0 ) {
+		return false;
+	}
+	let parts = [];
+	//find the first block of the type before this block
+	for ( let i = index; i >= 0; i-- ) {
+		//Push the content of the block to the array
+		//If is a heading or paragraph
+		if( ['core/heading', 'core/paragraph'].includes(blocks[ i ].name) ){
+			parts.push(blocks[ i ].attributes.content);
+		}
+		if( parts.length > 2){
+			break;
+		}
+	}
+	//return parts in reverse order
+	return parts.reverse().join('\n');
+}
 
 /**
  * Add menu  to the block toolbar
@@ -41,16 +48,30 @@ export const fetchEdit = async ( data ) => {
  * @param {Object} BlockEdit - BlockEdit component
  */
 const UfoMenu = ( BlockEdit ) => {
-	const { getData } = usePostData();
+
 	const insertHandler = ( clientId ) => {
-		const data = getData();
-		data.what = 'sentences';
-		fetchPrompt( data ).then( ( res ) => {
-			//not error and has texts key of array
-			if ( ! res.error && res.texts && res.texts.length ) {
-				let content = res.texts[ 0 ];
-				//Get block
+		let prompt = getTextBefore(clientId);
+		if( prompt.length < 50){
+			let title = select( 'core/editor' ).getEditedPostAttribute( 'title' );
+			prompt = title + '\n' + prompt;
+		}
+		//Random temp to keep things spicy
+		let temperatrue = Math.random() * 0.8 + 0.2;
+		//round to 2
+		temperatrue = Math.round(temperatrue * 100) / 100;
+
+		apiFetch( {
+			path: '/ufo-ai/v1/text',
+			method: 'POST',
+			data: { prompt,temperatrue}
+		} ).then((res)=>{
+
+
+			if ( ! res.error  ) {
+				let content = res[0];
 				const block = select( CORE_NAMESPACE ).getBlock( clientId );
+
+				//Get block
 				if ( block.attributes.content.length > 0 ) {
 					content = block.attributes.content + ' ' + content;
 				}
@@ -59,36 +80,15 @@ const UfoMenu = ( BlockEdit ) => {
 					content,
 				} );
 			}
-		} );
-	};
 
-	const editHandler = ( clientId, type ) => {
-		const instruction = 'Fix spelling';
-		switch ( type ) {
-			default:
-				break;
-		}
-		//get block
-		const block = select( CORE_NAMESPACE ).getBlock( clientId );
-		//if found, get conent
-		if ( block ) {
-			const input = block.attributes.content;
-			//send to api
-			fetchEdit( { input, instruction } ).then( ( res ) => {
-				//if no error, update block
-				if ( ! res.error && res.texts ) {
-					dispatch( CORE_NAMESPACE ).updateBlockAttributes(
-						clientId,
-						{
-							content: res.texts[ 0 ],
-						}
-					);
-				}
-			} );
-		}
-	};
+		} );
+	}
+
+
+
 
 	return ( props ) => {
+
 		if ( ! [ 'core/paragraph' ].includes( props.name ) ) {
 			return <BlockEdit { ...props } />;
 		}
@@ -108,7 +108,6 @@ const UfoMenu = ( BlockEdit ) => {
 						},
 					},
 			  ];
-
 		return (
 			<>
 				<BlockControls>
@@ -120,11 +119,11 @@ const UfoMenu = ( BlockEdit ) => {
 						/>
 					</Toolbar>
 				</BlockControls>
-				<BlockEdit { ...props } />
+				<BlockEdit { ...props } />{loading && <LoadingSpinner />}
 			</>
 		);
 	};
-};
+}
 
 domReady( () => {
 	addFilter( 'editor.BlockEdit', NAMESPACE, UfoMenu );
