@@ -79,19 +79,20 @@ class Proxy {
 
 		\register_rest_route(
 			self::NAMESPACE,
-			'/edit',
+			'/text',
 			array(
-				'methods'             => 'POST',
-				'callback'            => array( $obj, 'handleEdit' ),
+				'methods'             => ['POST','GET'],
+				'callback'            => array( $obj, 'handleText' ),
 				'permission_callback' => array( $obj, 'authorize' ),
 				'args'                => array(
-					'input'       => array(
+					'prompt'       => array(
 						'required' => true,
 						'type'     => 'string',
 					),
-					'instruction' => array(
-						'required' => true,
-						'type'     => 'string',
+					'temperature' => array(
+						'required' => false,
+						'type'     => 'float',
+						'default'  => 0.8,
 					),
 				),
 
@@ -123,6 +124,13 @@ class Proxy {
 		return array(
 			'connected' => $connected,
 		);
+	}
+
+	public function handleText($request){
+		$prompt = $request->get_param( 'prompt' );
+		$temperature = $request->get_param( 'temperature',0.8 );
+
+		return $this->client->text($prompt,$temperature);
 	}
 	/**
 	 * Create a prompt from a post
