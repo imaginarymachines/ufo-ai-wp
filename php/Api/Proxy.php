@@ -215,28 +215,6 @@ class Proxy {
 		}
 	}
 
-	/**
-	 * Handle edit request
-	 * @param \WP_REST_Request $request
-	 * @return array
-	 */
-	public function handleEdit( $request ) {
-		$input       = $request->get_param( 'input' );
-		$instruction = $request->get_param( 'instruction' );
-		wp_send_json_error(
-			array(
-				'input'       => $input,
-				'instruction' => $instruction,
-			)
-		);
-		exit;
-		try {
-			$texts = $this->client->edit( $input, $instruction );
-			return array( 'texts' => $texts );
-		} catch ( \Throwable $th ) {
-			return new \WP_Error( 'ufo-ai-error', $th->getMessage() );
-		}
-	}
 
 	/**
 	 * Default permission_callback
@@ -246,6 +224,7 @@ class Proxy {
 	 */
 	public function authorize( $request ) {
 		$capability = is_multisite() ? 'delete_sites' : 'manage_options';
+
 		return current_user_can( $capability );
 	}
 

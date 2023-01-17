@@ -96,7 +96,9 @@ class Client  implements ClientContract {
 		if( is_wp_error( $response ) ){
 			return $response;
 		}
-
+		if( wp_remote_retrieve_response_code( $response ) !== 201 ){
+			return [];
+		}
 		return $this->handleResponse( $response );
 	}
 
