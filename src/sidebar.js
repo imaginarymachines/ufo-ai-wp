@@ -23,7 +23,6 @@ const SideBar = () => {
 			icon={ 'smiley' }
 		>
 			<PanelBody title="AI Content">
-
 				<PanelRow>
 					<p>
 						You can also click the smiley icon in any paragraph
