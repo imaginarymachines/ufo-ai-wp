@@ -10,13 +10,16 @@ import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { select } from '@wordpress/data';
 import { getAiText } from '../api/useAiText';
+import {Spinner} from '@wordpress/components';
+import useLoadingStatus from '../useLoadingStatus';
 export default function Edit( props ) {
-	const loading = false;
+	const {loading,setLoading} = useLoadingStatus();
 	const content = props.attributes.content || '';
 	const hasRan = props.attributes.hasRan;
 	const setAttributes = props.setAttributes;
 	const [ temperature, setTemperature ] = React.useState( 1 );
-	const insertHanlder = () => {
+	const insertHandler = () => {
+		setLoading(true);
 		const { title, excerpt } = select( 'core/editor' ).getCurrentPost();
 		const about = excerpt ? `about ${ excerpt }` : '';
 		const prompt = `A paragraph for a blog post called ${ title } ${ about }`;
@@ -25,12 +28,8 @@ export default function Edit( props ) {
 			//Change temperature for next request
 			const newTemp = Math.random() * 0.8 + 0.2;
 			setTemperature( Math.round( newTemp * 100 ) / 100 );
+			setLoading(false);
 		} );
-	};
-
-	const refresHandler = () => {
-		setAttributes( { content: '' } );
-		insertHanlder();
 	};
 
 	return (
@@ -40,12 +39,12 @@ export default function Edit( props ) {
 					<ToolbarButton
 						icon={ 'redo' }
 						label="Edit"
-						onClick={ refresHandler }
+						onClick={ insertHandler }
 					/>
 				</ToolbarGroup>
 			</BlockControls>
-			{ loading ? <LoadingSpinner /> : null }
-			{ ! hasRan ? <RunOnce fn={ insertHanlder } /> : null }
+			{ loading ? <Spinner /> : null }
+			{ ! hasRan ? <RunOnce fn={ insertHandler } /> : null }
 			{ content }
 		</p>
 	);

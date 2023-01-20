@@ -16,10 +16,8 @@ const NAMESPACE = 'ufo-ai';
  *
  */
 const CORE_NAMESPACE = 'core/block-editor';
-
-import apiFetch from '@wordpress/api-fetch';
-import useLoadingStatus from './useLoadingStatus';
 import { getAiText } from './api/useAiText';
+import useLoadingStatus from './useLoadingStatus';
 
 const getTextBefore = ( clientId ) => {
 	const blocks = select( 'core/block-editor' ).getBlocks();
@@ -45,14 +43,17 @@ const getTextBefore = ( clientId ) => {
 	return parts.reverse().join( '\n' );
 };
 
-/**
- * Add menu  to the block toolbar
- *
- * @param {Object} BlockEdit - BlockEdit component
- */
-const UfoMenu = ( BlockEdit ) => {
-	const insertHandler = ( clientId ) => {
+const WrappedBlockEdit = ( props ) => {
+	const {BlockEdit,clientId} = props;
+
+	const {setLoading,loading} = useLoadingStatus();
+
+	const insertHandler = (  ) => {
+		setLoading( true );
 		let prompt = getTextBefore( clientId );
+		if( ! prompt ){
+			setLoading( false );
+		}
 		if ( prompt.length < 50 ) {
 			const title =
 				select( 'core/editor' ).getEditedPostAttribute( 'title' );
@@ -76,44 +77,54 @@ const UfoMenu = ( BlockEdit ) => {
 					content,
 				} );
 			}
+			setLoading( false );
+
 		} );
 	};
+
+
+	//Remove controls when loading
+	const controls = loading
+		? []
+		: [
+				{
+					title: 'Add More Text',
+					icon: 'smiley',
+					onClick: insertHandler,
+				},
+		  ];
+	return (
+		<>
+			<BlockControls>
+				<Toolbar label="Options">
+					<ToolbarDropdownMenu
+						icon={ loading ? <LoadingSpinner /> : 'smiley' }
+						label="UFO AI"
+						controls={ controls }
+					/>
+				</Toolbar>
+			</BlockControls>
+			<BlockEdit { ...props } />
+			{ loading && <LoadingSpinner /> }
+		</>
+	);
+};
+
+
+/**
+ * Add menu  to the block toolbar
+ *
+ * @param {Object} BlockEdit - BlockEdit component
+ */
+const UfoMenu = ( BlockEdit ) => {
+
 
 	return ( props ) => {
 		if ( ! [ 'core/paragraph' ].includes( props.name ) ) {
 			return <BlockEdit { ...props } />;
 		}
-		const [ loading, setLoading ] = React.useState( false );
+		return <WrappedBlockEdit BlockEdit={ BlockEdit } { ...props } />;
 
-		//Remove controls when loading
-		const controls = loading
-			? []
-			: [
-					{
-						title: 'Add More Text',
-						icon: 'smiley',
-						onClick: () => {
-							setLoading( true );
-							insertHandler( props.clientId );
-							setLoading( false );
-						},
-					},
-			  ];
-		return (
-			<>
-				<BlockControls>
-					<Toolbar label="Options">
-						<ToolbarDropdownMenu
-							icon={ loading ? <LoadingSpinner /> : 'smiley' }
-							label="UFO AI"
-							controls={ controls }
-						/>
-					</Toolbar>
-				</BlockControls>
-				<BlockEdit { ...props } />
-				{ loading && <LoadingSpinner /> }
-			</>
-		);
 	};
 };
 
