@@ -48,19 +48,24 @@ class SettingsPage {
 			esc_html__( 'Settings', 'ufo-ai-wp' )
 		);
 		array_unshift( $links, $settings_link );
-		$appLinks = [
-			'https://upcycledfoundobjects.com/login' => __( 'Login', 'ufo-ai-wp' ),
+		$appLinks = array(
+			'https://upcycledfoundobjects.com/login'    => __( 'Login', 'ufo-ai-wp' ),
 			'https://upcycledfoundobjects.com/register' => __( 'Register', 'ufo-ai-wp' ),
 
-		];
+		);
 		foreach ( $appLinks as $url => $label ) {
 			$links[] = sprintf(
 				'<a href="%s" target="_blank">%s</a>',
-				esc_url( add_query_arg( [
-					'utm_source' => 'wordpress',
-					'utm_medium' => 'plugin-screen',
-					'utm_campaign' => 'ufo-ai-wp',
-				], $url)),
+				esc_url(
+					add_query_arg(
+						array(
+							'utm_source'   => 'wordpress',
+							'utm_medium'   => 'plugin-screen',
+							'utm_campaign' => 'ufo-ai-wp',
+						),
+						$url
+					)
+				),
 				esc_html( $label )
 			);
 		}

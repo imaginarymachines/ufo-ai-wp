@@ -81,11 +81,11 @@ class Proxy {
 			self::NAMESPACE,
 			'/text',
 			array(
-				'methods'             => ['POST','GET'],
+				'methods'             => array( 'POST', 'GET' ),
 				'callback'            => array( $obj, 'handleText' ),
 				'permission_callback' => array( $obj, 'authorize' ),
 				'args'                => array(
-					'prompt'       => array(
+					'prompt'      => array(
 						'required' => true,
 						'type'     => 'string',
 					),
@@ -126,11 +126,11 @@ class Proxy {
 		);
 	}
 
-	public function handleText($request){
-		$prompt = $request->get_param( 'prompt' );
-		$temperature = $request->get_param( 'temperature',0.8 );
+	public function handleText( $request ) {
+		$prompt      = $request->get_param( 'prompt' );
+		$temperature = $request->get_param( 'temperature', 0.8 );
 
-		return $this->client->text($prompt,$temperature);
+		return $this->client->text( $prompt, $temperature );
 	}
 	/**
 	 * Create a prompt from a post

@@ -75,7 +75,7 @@ class Client  implements ClientContract {
 		return true;
 	}
 
-	public function text(string $prompt, float $temperature = 0.8):array {
+	public function text( string $prompt, float $temperature = 0.8 ):array {
 		$this->version = 'v2';
 
 		$response = wp_remote_get(
@@ -84,20 +84,20 @@ class Client  implements ClientContract {
 				'method'  => 'POST',
 				'timeout' => 15,
 				'headers' => $this->getHeaders(),
-				'body' => json_encode(
+				'body'    => json_encode(
 					array(
-						'prompt' => $prompt,
+						'prompt'      => $prompt,
 						'temperature' => $temperature,
 					)
 				),
 
 			)
 		);
-		if( is_wp_error( $response ) ){
+		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
-		if( wp_remote_retrieve_response_code( $response ) !== 201 ){
-			return [];
+		if ( wp_remote_retrieve_response_code( $response ) !== 201 ) {
+			return array();
 		}
 		return $this->handleResponse( $response );
 	}
