@@ -5,6 +5,7 @@ import domReady from '@wordpress/dom-ready';
 import { dispatch, select } from '@wordpress/data';
 import { Toolbar, ToolbarDropdownMenu } from '@wordpress/components';
 import { LoadingSpinner } from './components/icons';
+const __ = ( text ) => text;
 /**
  * Namespace for all filters
  */
@@ -44,15 +45,18 @@ const getTextBefore = ( clientId ) => {
 };
 
 const WrappedBlockEdit = ( props ) => {
-	const {BlockEdit,clientId} = props;
+	const { BlockEdit, clientId } = props;
 
-	const {setLoading,loading} = useLoadingStatus();
+	const { setLoading, loading, setError, ErrorSnackBar, hasError } =
+		useLoadingStatus();
 
-	const insertHandler = (  ) => {
+	const insertHandler = () => {
 		setLoading( true );
 		let prompt = getTextBefore( clientId );
-		if( ! prompt ){
+		if ( ! prompt ) {
+			setError( __( 'Not enough text to generate a prompt' ) );
 			setLoading( false );
+			return;
 		}
 		if ( prompt.length < 50 ) {
 			const title =
@@ -63,25 +67,31 @@ const WrappedBlockEdit = ( props ) => {
 		let temperature = Math.random() * 0.8 + 0.2;
 		//round to 2
 		temperature = Math.round( temperature * 100 ) / 100;
-		getAiText( prompt, temperature ).then( ( res ) => {
-			if ( ! res.error ) {
-				let content = res[ 0 ];
-				const block = select( CORE_NAMESPACE ).getBlock( clientId );
+		getAiText( prompt, temperature )
+			.then( ( res ) => {
+				if ( ! res.error ) {
+					let content = res[ 0 ];
+					const block = select( CORE_NAMESPACE ).getBlock( clientId );
 
-				//Get block
-				if ( block.attributes.content.length > 0 ) {
-					content = block.attributes.content + ' ' + content;
+					//Get block
+					if ( block.attributes.content.length > 0 ) {
+						content = block.attributes.content + ' ' + content;
+					}
+					//set first text to block
+					dispatch( CORE_NAMESPACE ).updateBlockAttributes(
+						clientId,
+						{
+							content,
+						}
+					);
 				}
-				//set first text to block
-				dispatch( CORE_NAMESPACE ).updateBlockAttributes( clientId, {
-					content,
-				} );
-			}
-			setLoading( false );
-
-		} );
+				setLoading( false );
+			} )
+			.catch( ( error ) => {
+				setError( error.message );
+				setLoading( false );
+			} );
 	};
-
 
 	//Remove controls when loading
 	const controls = loading
@@ -105,11 +115,11 @@ const WrappedBlockEdit = ( props ) => {
 				</Toolbar>
 			</BlockControls>
 			<BlockEdit { ...props } />
-			{ loading && <LoadingSpinner /> }
+			{ loading ? <LoadingSpinner /> : null }
+			{ hasError ? <ErrorSnackBar /> : null }
 		</>
 	);
 };
-
 
 /**
  * Add menu  to the block toolbar
@@ -117,14 +127,11 @@ const WrappedBlockEdit = ( props ) => {
  * @param {Object} BlockEdit - BlockEdit component
  */
 const UfoMenu = ( BlockEdit ) => {
-
-
 	return ( props ) => {
 		if ( ! [ 'core/paragraph' ].includes( props.name ) ) {
 			return <BlockEdit { ...props } />;
 		}
 		return <WrappedBlockEdit BlockEdit={ BlockEdit } { ...props } />;
-
 	};
 };
 

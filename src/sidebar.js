@@ -14,7 +14,7 @@ import { useConnectionCheck } from './api/checkConnection';
 import { dispatch } from '@wordpress/data';
 import { DocsLinks } from './settings/links';
 const SideBar = () => {
-	const { error, loading, handler } = usePromptRequest();
+	const { error } = usePromptRequest();
 	const { connected, isCheckingConnection } = useConnectionCheck();
 	return (
 		<PluginSidebar
