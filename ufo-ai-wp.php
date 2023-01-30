@@ -23,6 +23,7 @@ if ( file_exists( __DIR__ . '/keys.php' ) ) {
 	require_once __DIR__ . '/keys.php';
 }
 
+
 /**
  * Shortcut constant to the path of this file.
  */
@@ -96,6 +97,9 @@ add_action(
 	}
 );
 
+add_action('ufoaiwp', function (UfoAi $plugin) {
+	$plugin->init();
+});
 /**
  * Start Plugin
  *

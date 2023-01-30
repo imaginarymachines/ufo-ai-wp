@@ -85,6 +85,8 @@ class UfoAi {
 	/**
 	 * Loads the plugin's text domain.
 	 *
+	 * @uses "plugins_loaded" action
+	 *
 	 * Sites on WordPress 4.6+ benefit from just-in-time loading of translations.
 	 */
 	public function load_textdomain() {
@@ -94,12 +96,14 @@ class UfoAi {
 	/**
 	 * Register the REST API endpoints
 	 *
+	 * @uses "rest_api_init" action
+	 *
 	 * @return void
 	 */
 	public function rest_api_init() {
 		// Routes that proxy content machine api
-		Proxy::factory();
+		(new Proxy($this))->registerRoutes();
 		// Routes for settings
-		SettingsEndpoint::factory();
+		(new SettingsEndpoint($this))->registerRoutes();
 	}
 }

@@ -78,6 +78,18 @@ class Updater {
 		return $instance;
 	}
 
+	/**
+	 * Remove all the hooks
+	 *
+	 * @return static
+	 */
+	public static function removeHooks( $instance ) {
+		remove_filter( 'plugins_api', array( $instance, 'info' ), 20, 3 );
+		remove_filter( 'site_transient_update_plugins', array( $instance, 'update' ) );
+		remove_action( 'upgrader_process_complete', array( $instance, 'purge' ), 10, 2 );
+		return $instance;
+	}
+
 	public static function factory() {
 		$key = Settings::get( Settings::KEY );
 		if ( $key ) {

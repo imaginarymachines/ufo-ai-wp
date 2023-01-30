@@ -31,7 +31,7 @@ class Settings {
 	public  function getDefaults() {
 		return array(
 			self::URL => 'https://upcycledfoundobjects.com/',
-			self::KEY => '',:
+			self::KEY => '',
 		);
 	}
 
@@ -112,7 +112,7 @@ class Settings {
 	}
 
 	// get all settings
-	public static function getAll() {
+	public function getAll() {
 		$defaults = $this->getDefaults();
 		$settings = array();
 		foreach ( $defaults as $key => $default ) {

@@ -9,33 +9,23 @@ use ImaginaryMachines\UfoAi\Settings;
 /**
  * REST API endpoints for proxying requests to the Upcycled Found Objects API
  */
-class Proxy {
+class Proxy extends Endpoint{
+
+
 
 
 	/**
-	 * Client instance
-	 *
-	 * @var Client
+	 * Register endpoints
 	 */
-	protected $client;
-
-	const NAMESPACE = 'ufo-ai/v1';
-
-	/**
-	 * Factory
-	 *
-	 * @return self
-	 */
-	public static function factory() {
-		$obj = new static( UfoAi::getClient() );
+	public  function registerRoutes() {
 
 		\register_rest_route(
 			self::NAMESPACE,
 			'/connected',
 			array(
 				'methods'             => 'GET',
-				'callback'            => array( $obj, 'checkConnection' ),
-				'permission_callback' => array( $obj, 'authorize' ),
+				'callback'            => array( $this, 'checkConnection' ),
+				'permission_callback' => array( $this, 'authorize' ),
 
 			)
 		);
@@ -45,8 +35,8 @@ class Proxy {
 			'/text',
 			array(
 				'methods'             => array( 'POST', 'GET' ),
-				'callback'            => array( $obj, 'handleText' ),
-				'permission_callback' => array( $obj, 'authorize' ),
+				'callback'            => array( $this, 'handleText' ),
+				'permission_callback' => array( $this, 'authorize' ),
 				'args'                => array(
 					'prompt'      => array(
 						'required' => true,
@@ -64,19 +54,13 @@ class Proxy {
 	}
 
 	/**
-	 * Constructor
-	 *
-	 * @param Client $client
-	 */
-	public function __construct( Client $client ) {
-		$this->client = $client;
-	}
-
-	/**
 	 * Check if account connected
 	 */
 	public function checkConnection() {
-		$key = Settings::get( Settings::KEY );
+		$key = $this
+			->plugin
+			->getSettings()
+			->get( Settings::KEY );
 		if ( empty( $key ) ) {
 			return new \WP_Error(
 				'no_api_key',
@@ -89,25 +73,14 @@ class Proxy {
 		);
 	}
 
+	/**
+	 * Handle text request
+	 */
 	public function handleText( $request ) {
 		$prompt      = $request->get_param( 'prompt' );
 		$temperature = $request->get_param( 'temperature', 0.8 );
 
 		return $this->client->text( $prompt, $temperature );
-	}
-
-
-
-	/**
-	 * Default permission_callback
-	 *
-	 * @param \WP_REST_Request $request
-	 * @return bool
-	 */
-	public function authorize( $request ) {
-		$capability = is_multisite() ? 'delete_sites' : 'manage_options';
-
-		return current_user_can( $capability );
 	}
 
 
