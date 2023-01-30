@@ -9,7 +9,7 @@ use ImaginaryMachines\UfoAi\Settings;
 /**
  * REST API endpoints for proxying requests to the Upcycled Found Objects API
  */
-class Proxy extends Endpoint{
+class Proxy extends Endpoint {
 
 
 
@@ -17,7 +17,7 @@ class Proxy extends Endpoint{
 	/**
 	 * Register endpoints
 	 */
-	public  function registerRoutes() {
+	public function registerRoutes() {
 
 		\register_rest_route(
 			$this->namespace,

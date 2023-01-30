@@ -46,5 +46,4 @@ class SettingsEndpoint extends Endpoint{
 			->getAll();
 	}
 
-
 }

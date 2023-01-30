@@ -37,11 +37,11 @@ class Client  implements ClientContract {
 	 * @param string $key
 	 * @param string $version
 	 */
-	public function __construct( UfoAi $plugin  ){
-		$this->plugin = $plugin;
-		$this->url = $plugin->getSettings()->get( Settings::URL );
-		$this->key = $plugin->getSettings()->get( Settings::KEY );
-		$this->version = Client::latestApiVersion();
+	public function __construct( UfoAi $plugin ) {
+		$this->plugin  = $plugin;
+		$this->url     = $plugin->getSettings()->get( Settings::URL );
+		$this->key     = $plugin->getSettings()->get( Settings::KEY );
+		$this->version = self::latestApiVersion();
 	}
 
 
@@ -114,7 +114,7 @@ class Client  implements ClientContract {
 
 	}
 
-	protected function handleResponse($response){
+	protected function handleResponse( $response ) {
 		// check if is_wp_error
 		if ( is_wp_error( $response ) ) {
 			throw new \Exception( $response->get_error_message() );
@@ -184,7 +184,7 @@ class Client  implements ClientContract {
 		$url = $this->url;
 		if ( $withVersion ) {
 			$url .= 'api/' . $this->version;
-		}else{
+		} else {
 			$url .= 'api';
 		}
 		$url .= $endpoint;

@@ -28,12 +28,10 @@ class UfoAi {
 	 * Hooks
 	 *
 	 * @var Hooks
-	 *
 	 */
 	protected $hooks;
 
-	public function __construct(Settings $settings)
-	{
+	public function __construct( Settings $settings ) {
 		$this->settings = $settings;
 
 	}
@@ -44,7 +42,7 @@ class UfoAi {
 	 * @return UfoAi
 	 */
 	public function init() {
-		$this->hooks = new Hooks($this);
+		$this->hooks = new Hooks( $this );
 		$this->hooks->addHooks();
 		return $this;
 	}
@@ -103,8 +101,8 @@ class UfoAi {
 	 */
 	public function rest_api_init() {
 		// Routes that proxy content machine api
-		(new Proxy($this))->registerRoutes();
+		( new Proxy( $this ) )->registerRoutes();
 		// Routes for settings
-		(new SettingsEndpoint($this))->registerRoutes();
+		( new SettingsEndpoint( $this ) )->registerRoutes();
 	}
 }

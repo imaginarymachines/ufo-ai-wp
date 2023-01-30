@@ -97,15 +97,21 @@ add_action(
 	}
 );
 
-add_action('ufoaiwp', function (UfoAi $plugin) {
-	$plugin->init();
-});
+add_action(
+	'ufoaiwp',
+	function ( UfoAi $plugin ) {
+		$plugin->init();
+	}
+);
 /**
  * Start Plugin
  *
  * @since 1.0.0
  * @param UfoAi $plugin
  */
-do_action('ufoaiwp', new UfoAi(
-	new Settings()
-));
+do_action(
+	'ufoaiwp',
+	new UfoAi(
+		new Settings()
+	)
+);

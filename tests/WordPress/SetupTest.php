@@ -1,13 +1,15 @@
 <?php
 namespace ImaginaryMachines\UfoAi\Tests;
 
-use ImaginaryMachines\UfoAi\Hooks;
-use ImaginaryMachines\UfoAi\UfoAi;
-use ImaginaryMachines\UfoAi\Settings;
-
+/**
+ * Tests that cover the plugin's setup
+ *
+ * Hooks, constants, etc.
+ */
 class SetupTest extends TestCase {
+
 	/**
-	 * Check that the TWO_FACTOR_DIR constant is defined.
+	 * Check that the constants are defined.
 	 */
 	public function test_constant_defined() {
 
@@ -24,10 +26,8 @@ class SetupTest extends TestCase {
 		$this->assertTrue( class_exists( \ImaginaryMachines\UfoAi\UfoAi::class ) );
 	}
 
-
 	/**
-	 * Verify adding hooks.
-	 *
+	 * Test adding hooks.
 	 */
 	public function test_add_hooks() {
 		$plugin = $this->makePlugin();
@@ -66,4 +66,5 @@ class SetupTest extends TestCase {
 		);
 
 	}
+
 }

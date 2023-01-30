@@ -9,7 +9,7 @@ class Settings {
 	const KEY          = 'key';
 	const GROUP        = 'cm-settings';
 	const API_SETTINGS = 'cm_api_settings';
-	public  function registerSettings() {
+	public function registerSettings() {
 
 		register_setting(
 			static::GROUP,
@@ -24,19 +24,19 @@ class Settings {
 	}
 
 	// Delete all settings
-	public  function deleteAll() {
+	public function deleteAll() {
 		delete_option( self::API_SETTINGS );
 	}
 	// static method to get default settings
-	public  function getDefaults() {
-		return array(
+	public function getDefaults() {
+		return [
 			self::URL => 'https://upcycledfoundobjects.com/',
 			self::KEY => '',
-		);
+		];
 	}
 
 	// static method to get default
-	public  function getDefault( string $key ) {
+	public function getDefault( string $key ) {
 		return $this->getDefaults()[ $key ];
 	}
 
@@ -46,7 +46,7 @@ class Settings {
 	 * @param mixed $value
 	 * @return string
 	 */
-	public  function sanitizeSettingKey( $value ) {
+	public function sanitizeSettingKey( $value ) {
 
 		if ( empty( $value ) ) {
 			if ( isset( $_POST['content_machine_api_key'] ) && is_string( $_POST['content_machine_api_key'] ) ) {
@@ -79,7 +79,7 @@ class Settings {
 		if ( ! $this->isAllowedKey( $key ) ) {
 			throw new \Exception( sprintf( 'Invalid key %s', $key ) );
 		}
-		$settings = get_option( static::API_SETTINGS, array() );
+		$settings = get_option( static::API_SETTINGS, [] );
 		// return if in array
 		if ( is_array( $settings ) && array_key_exists( $key, $settings ) ) {
 			return $settings[ $key ];
@@ -89,7 +89,7 @@ class Settings {
 		return $setting;
 	}
 	// set a setting
-	public  function set( $key, $value ) {
+	public function set( $key, $value ) {
 		$current = $this->getAll();
 		if ( ! $this->isAllowedKey( $key ) ) {
 			throw new \Exception(
