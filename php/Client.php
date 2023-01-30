@@ -5,52 +5,45 @@ namespace ImaginaryMachines\UfoAi;
 use ImaginaryMachines\UfoAi\Contracts\ClientContract;
 
 /**
- * Interfact with API
+ * Interact with API
  */
 class Client  implements ClientContract {
 
-	// url for the api
+	/**
+	 * Url for the api
+	 * @var string
+	 */
 	protected string $url;
-	// api key
+	/**
+	 * API key
+	 * @var string
+	 */
 	protected string $key;
-	// api version
+	/**
+	 * API version
+	 * @var string
+	 */
 	protected string $version;
 
-	const ROUTE_PROMPT  = '/from-prompt';
-	const METHOD_PROMPT = 'POST';
 	/**
-	 * Constructor
+	 * @var UfoAi
+	 */
+	protected UfoAi $plugin;
+
+	/**
+	 *
 	 *
 	 * @param string $url
 	 * @param string $key
 	 * @param string $version
 	 */
-	public function __construct( string $url, string $key, string $version = 'v1' ) {
-		$this->url     = $url;
-		$this->key     = $key;
-		$this->version = $version;
+	public function __construct( UfoAi $plugin  ){
+		$this->plugin = $plugin;
+		$this->url = $plugin->getSettings()->get( Settings::URL );
+		$this->key = $plugin->getSettings()->get( Settings::KEY );
+		$this->version = Client::latestApiVersion();
 	}
 
-
-	/**
-	 * Create instance from saved settings
-	 *
-	 * @return Client
-	 */
-	public static function fromSettings(): Client {
-		$settings = Settings::getAll();
-		if ( isset( $settings[ SETTINGS::KEY ] ) ) {
-			$key = $settings[ SETTINGS::KEY ];
-		} else {
-			$key = Settings::getDefault( Settings::KEY );
-		}
-
-		return new Client(
-			Settings::getDefault( Settings::URL ),
-			$key,
-			self::latestApiVersion()
-		);
-	}
 
 	/**
 	 * Check if client is connected with a valid API key

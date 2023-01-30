@@ -9,7 +9,7 @@ class Settings {
 	const KEY          = 'key';
 	const GROUP        = 'cm-settings';
 	const API_SETTINGS = 'cm_api_settings';
-	public static function registerSettings() {
+	public  function registerSettings() {
 
 		register_setting(
 			static::GROUP,
@@ -17,27 +17,27 @@ class Settings {
 			array(
 				'type'              => 'array',
 				'sanitize_callback' => array( __CLASS__, 'sanitizeSettings' ),
-				'default'           => self::getDefaults(),
+				'default'           => $this->getDefaults(),
 			)
 		);
 
 	}
 
 	// Delete all settings
-	public static function deleteAll() {
+	public  function deleteAll() {
 		delete_option( self::API_SETTINGS );
 	}
 	// static method to get default settings
-	public static function getDefaults() {
+	public  function getDefaults() {
 		return array(
 			self::URL => 'https://upcycledfoundobjects.com/',
-			self::KEY => '',
+			self::KEY => '',:
 		);
 	}
 
 	// static method to get default
-	public static function getDefault( string $key ) {
-		return static::getDefaults()[ $key ];
+	public  function getDefault( string $key ) {
+		return $this->getDefaults()[ $key ];
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Settings {
 	 * @param mixed $value
 	 * @return string
 	 */
-	public static function sanitizeSettingKey( $value ) {
+	public  function sanitizeSettingKey( $value ) {
 
 		if ( empty( $value ) ) {
 			if ( isset( $_POST['content_machine_api_key'] ) && is_string( $_POST['content_machine_api_key'] ) ) {
@@ -61,7 +61,7 @@ class Settings {
 		return sanitize_text_field( $value );
 	}
 
-	public static function sanitizeSettingUrl( $value ) {
+	public  function sanitizeSettingUrl( $value ) {
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
@@ -69,17 +69,17 @@ class Settings {
 	}
 
 	// Is this an allowed key?
-	public static function isAllowedKey( $key ) {
-		return in_array( $key, array_keys( self::getDefaults() ) );
+	public  function isAllowedKey( $key ) {
+		return in_array( $key, array_keys( $this->getDefaults() ) );
 	}
 	// get a setting
-	public static function get( $key ) {
-		$defaults = self::getDefaults();
+	public  function get( $key ) {
+		$defaults = $this->getDefaults();
 		// throw if not allowed key
-		if ( ! self::isAllowedKey( $key ) ) {
+		if ( ! $this->isAllowedKey( $key ) ) {
 			throw new \Exception( sprintf( 'Invalid key %s', $key ) );
 		}
-		$settings = get_option( self::API_SETTINGS, array() );
+		$settings = get_option( static::API_SETTINGS, array() );
 		// return if in array
 		if ( is_array( $settings ) && array_key_exists( $key, $settings ) ) {
 			return $settings[ $key ];
@@ -89,19 +89,19 @@ class Settings {
 		return $setting;
 	}
 	// set a setting
-	public static function set( $key, $value ) {
-		$current = static::getAll();
-		if ( ! static::isAllowedKey( $key ) ) {
+	public  function set( $key, $value ) {
+		$current = $this->getAll();
+		if ( ! $this->isAllowedKey( $key ) ) {
 			throw new \Exception(
 				sprintf( 'Invalid key %s', $key )
 			);
 		}
 		// Sanitize the value
 		$fnName = 'sanitizeSetting' . ucfirst( $key );
-		$value  = static::$fnName( $value );
+		$value  = $this->$fnName( $value );
 
 		update_option(
-			self::API_SETTINGS,
+			$this->API_SETTINGS,
 			array_merge(
 				$current,
 				array(
@@ -113,10 +113,10 @@ class Settings {
 
 	// get all settings
 	public static function getAll() {
-		$defaults = self::getDefaults();
+		$defaults = $this->getDefaults();
 		$settings = array();
 		foreach ( $defaults as $key => $default ) {
-			$settings[ $key ] = self::get( $key );
+			$settings[ $key ] = $this->get( $key );
 		}
 		return $settings;
 	}

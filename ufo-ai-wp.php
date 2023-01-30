@@ -15,7 +15,9 @@
  * @package           ufo-ai-wp
  */
 
+use ImaginaryMachines\UfoAi\Settings;
 use ImaginaryMachines\UfoAi\SettingsPage;
+use ImaginaryMachines\UfoAi\UfoAi;
 
 if ( file_exists( __DIR__ . '/keys.php' ) ) {
 	require_once __DIR__ . '/keys.php';
@@ -39,7 +41,8 @@ define( 'UFO_AI_WPMAIN_FILE', __FILE__ );
 
  // include autoloader from composer
 require_once __DIR__ . '/vendor/autoload.php';
-\ImaginaryMachines\UfoAi\UfoAi::addHooks();
+
+
 
 
 add_action(
@@ -92,3 +95,13 @@ add_action(
 		wp_enqueue_script( 'ufo-ai-wp-editor' );
 	}
 );
+
+/**
+ * Start Plugin
+ *
+ * @since 1.0.0
+ * @param UfoAi $plugin
+ */
+do_action('ufoaiwp', new UfoAi(
+	new Settings()
+));
