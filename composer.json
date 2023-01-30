@@ -42,8 +42,9 @@
   },
   "autoload": {
     "psr-4": {
-      "ImaginaryMachines\\UfoAi\\": "php/"
-    }
+      "ImaginaryMachines\\UfoAi\\": "php/",
+			"ImaginaryMachines\\UfoAi\\Tests\\": "tests/WordPress/"
+		}
   },
   "scripts": {
     "lint": "phpcs",

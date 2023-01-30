@@ -61,7 +61,7 @@ class Settings {
 		return sanitize_text_field( $value );
 	}
 
-	public  function sanitizeSettingUrl( $value ) {
+	public function sanitizeSettingUrl( $value ) {
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
@@ -69,11 +69,11 @@ class Settings {
 	}
 
 	// Is this an allowed key?
-	public  function isAllowedKey( $key ) {
+	public function isAllowedKey( $key ) {
 		return in_array( $key, array_keys( $this->getDefaults() ) );
 	}
 	// get a setting
-	public  function get( $key ) {
+	public function get( $key ) {
 		$defaults = $this->getDefaults();
 		// throw if not allowed key
 		if ( ! $this->isAllowedKey( $key ) ) {
@@ -101,7 +101,7 @@ class Settings {
 		$value  = $this->$fnName( $value );
 
 		update_option(
-			$this->API_SETTINGS,
+			self::API_SETTINGS,
 			array_merge(
 				$current,
 				array(

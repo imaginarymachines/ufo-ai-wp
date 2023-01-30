@@ -16,7 +16,6 @@ class FakeClient implements ClientContract {
 	}
 
 
-
 	public function getKey(): string {
 		return 'fake';
 	}
