@@ -5,25 +5,15 @@ import {
 	FormTable,
 	TrSubmitButton,
 } from '@imaginary-machines/wp-admin-components';
-import apiFetch from '@wordpress/api-fetch';
+
 import { DocsLinks } from './links';
 import ApiKeyField from '../components/ApiKeyField';
 import checkConnection from '../api/checkConnection';
-//Function for saving settings
-const saveSettings = async ( values ) => {
-	const r = await apiFetch( {
-		path: '/ufo-ai/v1/settings',
-		method: 'POST',
-		data: values,
-	} ).then( ( res ) => {
-		return res;
-	} );
-	return { update: r };
-};
+import useSettings from '../api/useSettings';
+
 
 const SettingsForm = () => {
-	const [ isSaving, setIsSaving ] = React.useState( false );
-	const [ hasSaved, setHasSaved ] = React.useState( false );
+	const {isSaving,hasSaved, saveSettings} = useSettings();
 	const [ connected, setConnected ] = React.useState( false );
 	const [ values, setValues ] = React.useState( () => {
 		// eslint-disable-next-line no-undef
@@ -37,26 +27,16 @@ const SettingsForm = () => {
 		};
 	} );
 	const id = 'settings-form';
+
+	//Save settings handler
 	const onSubmit = ( e ) => {
 		e.preventDefault();
-		setIsSaving( true );
 		saveSettings( values ).then( ( { update } ) => {
 			setValues( { ...values, update } );
-			setHasSaved( true );
 		} );
 	};
 
-	//Reset the isSaving state after 2 seconds
-	React.useEffect( () => {
-		if ( hasSaved ) {
-			const timer = setTimeout( () => {
-				setIsSaving( false );
-			}, 2000 );
-			return () => clearTimeout( timer );
-		}
-	}, [ hasSaved ] );
-
-	//Check if connected
+	//Check if connected, when has saved
 	React.useEffect( () => {
 		checkConnection().then( ( is ) => {
 			setConnected( is );

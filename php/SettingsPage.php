@@ -97,7 +97,10 @@ class SettingsPage {
 	 */
 	public  function renderPage() {
 		wp_enqueue_script( self::SCREEN );
-		$settings = $this->plugin->getSettings();
+		$settings = $this
+			->plugin
+			->getSettings()
+			->getAll();
 		wp_localize_script(
 			self::SCREEN,
 			'CONTENT_MACHINE',

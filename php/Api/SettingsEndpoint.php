@@ -36,7 +36,6 @@ class SettingsEndpoint extends Endpoint{
 	 */
 	public function updateSettings( $request ) {
 		$key = $request->get_param( 'key' );
-		return[$key];
 		$this->plugin
 			->getSettings()
 			->set( Settings::KEY, $key );
