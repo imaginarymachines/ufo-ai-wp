@@ -4,7 +4,8 @@ namespace ImaginaryMachines\UfoAi;
 
 use ImaginaryMachines\UfoAi\Api\Proxy;
 use ImaginaryMachines\UfoAi\Api\SettingsEndpoint;
-use ImaginaryMachines\UfoAi\Contracts\ClientContract as Client;
+use ImaginaryMachines\UfoAi\Contracts\ClientContract;
+use ImaginaryMachines\UfoAi\Client;
 
 
 class UfoAi {
@@ -65,7 +66,7 @@ class UfoAi {
 	 */
 	public function getClient(): Client {
 		if ( ! isset( $this->client ) ) {
-			$this->client = new Client( $this->settings );
+			$this->client = new Client( $this );
 		}
 		return $this->client;
 	}

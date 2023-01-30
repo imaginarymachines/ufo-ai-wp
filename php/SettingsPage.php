@@ -4,32 +4,49 @@ namespace ImaginaryMachines\UfoAi;
 class SettingsPage {
 
 	const SCREEN = 'ufo-ai-settings';
+
+
+	/**
+	 * @var UfoAi
+	 *
+	 */
+	protected $plugin;
+
+	public function __construct(UfoAi $plugin)
+	{
+		$this->plugin = $plugin;
+	}
 	/**
 	 * Adds the settings page to the Settings menu.
 	 *
 	 * @since 0.0.1
+	 *
+	 * @return string
 	 */
-	public static function add_page() {
+	public function addPage() {
 
 		// Add the page
-		$hook_suffix = add_options_page(
+		$suffix = add_options_page(
 			__( 'Upcycled Found Objects', 'ufo-ai-wp' ),
 			__( 'Upcycled Found Objects', 'ufo-ai-wp' ),
 			'manage_options',
 			self::SCREEN,
-			array( __CLASS__, 'render_page' )
+			[
+				$this,
+				'renderPage',
+			]
 		);
 
 		// This adds a link in the plugins list table
 		add_action(
 			'plugin_action_links_' . plugin_basename( UFO_AI_WPMAIN_FILE ),
-			array(
-				__CLASS__,
-				'plugin_action_links_add_settings',
-			)
+			[
+				$this,
+				'addLinks',
+			]
 		);
 
-		return $hook_suffix;
+		return $suffix;
 	}
 
 	/**
@@ -40,7 +57,7 @@ class SettingsPage {
 	 * @param array $links List of plugin action links HTML.
 	 * @return array Modified list of plugin action links HTML.
 	 */
-	public static function plugin_action_links_add_settings( $links ) {
+	public function addLinks( $links ) {
 		// Add link as the first plugin action link.
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
@@ -78,17 +95,17 @@ class SettingsPage {
 	 *
 	 * @since 0.0.1
 	 */
-	public static function render_page() {
+	public  function renderPage() {
 		wp_enqueue_script( self::SCREEN );
-		$settings = Settings::getAll();
+		$settings = $this->plugin->getSettings();
 		wp_localize_script(
 			self::SCREEN,
 			'CONTENT_MACHINE',
-			array(
+			[
 				'apiUrl'   => rest_url( 'ufo-ai/v1/settings' ),
 				'settings' => $settings,
 
-			)
+			]
 		);
 		?>
 			<div class="ufo-ai-wp-wrap">

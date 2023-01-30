@@ -9,9 +9,15 @@ class Hooks {
 	 */
 	protected $plugin;
 
+	/**
+	 * @var SettingsPage
+	 */
+	protected $settingsPage;
+
 
 	public function __construct( UfoAi $plugin ) {
 		$this->plugin = $plugin;
+		$this->settingsPage = new SettingsPage($plugin);
 	}
 
 	/**
@@ -23,7 +29,7 @@ class Hooks {
 		);
 		add_action( 'plugins_loaded', [$this->plugin, 'load_textdomain']);
 		add_action( 'rest_api_init', [$this->plugin, 'rest_api_init' ]);
-		add_action( 'admin_menu', [ SettingsPage::class, 'add_page' ]);
+		add_action( 'admin_menu', [$this->settingsPage, 'addPage' ]);
 
 	}
 
@@ -36,7 +42,7 @@ class Hooks {
 		);
 		remove_action( 'plugins_loaded', [$this->plugin, 'load_textdomain']);
 		remove_action( 'rest_api_init', [$this->plugin, 'rest_api_init' ]);
-		remove_action( 'admin_menu', [ SettingsPage::class, 'add_page' ]);
+		remove_action( 'admin_menu', [$this->settingsPage, 'addPage' ]);
 	}
 
 }

@@ -20,7 +20,7 @@ class Proxy extends Endpoint{
 	public  function registerRoutes() {
 
 		\register_rest_route(
-			self::NAMESPACE,
+			$this->namespace,
 			'/connected',
 			array(
 				'methods'             => 'GET',
@@ -31,7 +31,7 @@ class Proxy extends Endpoint{
 		);
 
 		\register_rest_route(
-			self::NAMESPACE,
+			$this->namespace,
 			'/text',
 			array(
 				'methods'             => array( 'POST', 'GET' ),
