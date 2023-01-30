@@ -28,7 +28,7 @@ class Proxy {
 	 * @return self
 	 */
 	public static function factory() {
-		$obj = new static( UfoAi::getClient() )
+		$obj = new static( UfoAi::getClient() );
 
 		\register_rest_route(
 			self::NAMESPACE,
@@ -96,8 +96,6 @@ class Proxy {
 
 		return $this->client->text( $prompt, $temperature );
 	}
-
-
 
 	/**
 	 * Default permission_callback
