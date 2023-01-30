@@ -1,12 +1,15 @@
 <?php
+namespace ImaginaryMachines\UfoAi\Tests;
 
-use ImaginaryMachines\UfoAi\Admin;
-use ImaginaryMachines\UfoAi\UfoAi;
-use ImaginaryMachines\UfoAi\Settings;
+/**
+ * Tests that cover the plugin's setup
+ *
+ * Hooks, constants, etc.
+ */
+class SetupTest extends TestCase {
 
-class SetupTest extends WP_UnitTestCase {
 	/**
-	 * Check that the TWO_FACTOR_DIR constant is defined.
+	 * Check that the constants are defined.
 	 */
 	public function test_constant_defined() {
 
@@ -23,19 +26,17 @@ class SetupTest extends WP_UnitTestCase {
 		$this->assertTrue( class_exists( \ImaginaryMachines\UfoAi\UfoAi::class ) );
 	}
 
-
 	/**
-	 * Verify adding hooks.
-	 *
+	 * Test adding hooks.
 	 */
 	public function test_add_hooks() {
-		UfoAi::addHooks();
-
+		$plugin = $this->makePlugin();
+		$plugin->init();
 		$this->assertGreaterThan(
 			0,
 			has_action(
 				'plugins_loaded',
-				[UfoAi::class,'load_textdomain']
+				[$plugin,'load_textdomain']
 			)
 		);
 
@@ -43,7 +44,7 @@ class SetupTest extends WP_UnitTestCase {
 			0,
 			has_action(
 				'rest_api_init',
-				[UfoAi::class,'rest_api_init']
+				[$plugin,'rest_api_init']
 			)
 		);
 
@@ -53,13 +54,17 @@ class SetupTest extends WP_UnitTestCase {
 	 * Test adding admin hooks.
 	 */
 	public function test_add_admin_hooks() {
+		$plugin = $this->makePlugin();
+		$plugin->init();
+
 		$this->assertGreaterThan(
 			0,
 			has_action(
 				'admin_init',
-				[Settings::class,'registerSettings']
+				[$plugin->getSettings(),'registerSettings']
 			)
 		);
 
 	}
+
 }

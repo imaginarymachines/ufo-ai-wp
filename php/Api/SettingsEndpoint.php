@@ -7,29 +7,27 @@ use ImaginaryMachines\UfoAi\Settings;
 /**
  * REST API endpoints for plugin settings
  */
-class SettingsEndpoint {
+class SettingsEndpoint extends Endpoint{
 
-	const NAMESPACE = 'ufo-ai/v1';
 
-	public static function factory() {
-		$obj = new static();
+	public function registerRoutes()
+	{
 		\register_rest_route(
-			self::NAMESPACE,
+			$this->namespace,
 			'/settings',
-			array(
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $obj, 'updateSettings' ),
-				'permission_callback' => array( $obj, 'authorize' ),
-				'args'                => array(
-					'key' => array(
+				'callback'            => [$this, 'updateSettings'],
+				'permission_callback' => [$this, 'authorize'],
+				'args'                => [
+					'key' => [
 						'required' => true,
 						'type'     => 'string',
-					),
+					],
 
-				),
-			)
+				],
+			]
 		);
-
 	}
 
 
@@ -38,20 +36,14 @@ class SettingsEndpoint {
 	 */
 	public function updateSettings( $request ) {
 		$key = $request->get_param( 'key' );
-		Settings::set( Settings::KEY, $key );
-		return Settings::getAll();
+		return[$key];
+		$this->plugin
+			->getSettings()
+			->set( Settings::KEY, $key );
+		return $this
+			->plugin
+			->getSettings()
+			->getAll();
 	}
-
-	/**
-	 * Default permission_callback
-	 *
-	 * @param \WP_REST_Request $request
-	 * @return bool
-	 */
-	public function authorize( $request ) {
-		$capability = is_multisite() ? 'delete_sites' : 'manage_options';
-		return current_user_can( $capability );
-	}
-
 
 }

@@ -1,8 +1,8 @@
 <?php
+namespace ImaginaryMachines\UfoAi\Tests;
 
-use ImaginaryMachines\UfoAi\UfoAi;
 use ImaginaryMachines\UfoAi\Settings;
-class SettingsTest extends WP_UnitTestCase {
+class SettingsTest extends TestCase {
 	//Test get and save a setting that is allowed
 	/**
 	 * @group now
@@ -10,26 +10,29 @@ class SettingsTest extends WP_UnitTestCase {
 	public function test_get_save_allowed_setting() {
 		$setting = Settings::KEY;
 		$value = 'value';
-		Settings::set($setting, $value);
+		$settings = new Settings();
+		$settings->set($setting, $value);
 		$this->assertEquals(
 			$value,
-			Settings::get($setting),
+			$settings->get($setting),
 		);
 	}
 
 	//Test throws for invalid key
 	public function test_throws_for_get_invalid_key() {
 		$this->expectException(\Exception::class);
-		Settings::get('invalid_key');
+		$settings = new Settings();
+		$settings->get('invalid_key');
 	}
 
 	//Test get all settings
 	public function test_get_all_settings() {
-		Settings::deleteAll();
-		$settings = Settings::getAll();
+		$settings = new Settings();
+		$settings->deleteAll();
+		$current = $settings->getAll();
 		$this->assertEquals(
-			Settings::getDefaults(),
-			$settings,
+			$settings->getDefaults(),
+			$current,
 		);
 	}
 }

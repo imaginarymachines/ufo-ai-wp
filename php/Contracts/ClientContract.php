@@ -2,8 +2,6 @@
 
 namespace ImaginaryMachines\UfoAi\Contracts;
 
-
-
 /**
  * Defines the interface for the API client
  */

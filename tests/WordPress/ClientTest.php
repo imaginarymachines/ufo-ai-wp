@@ -1,25 +1,9 @@
 <?php
+namespace ImaginaryMachines\UfoAi\Tests;
 
 use ImaginaryMachines\UfoAi\Client;
-use ImaginaryMachines\UfoAi\UfoAi;
-use ImaginaryMachines\UfoAi\Settings;
-class ClientTest extends WP_UnitTestCase {
 
-	//test create client from settings
-	public function test_create_client_from_settings() {
-		$settings = Settings::getDefaults();
-		$client = Client::fromSettings($settings);
-		$this->assertEquals(
-			$settings[Settings::KEY],
-			$client->getKey(),
-		);
-		$this->assertEquals(
-			$settings[Settings::URL],
-			$client->getUrl(),
-		);
-	}
-
-
+class ClientTest extends TestCase {
 
 
 	/**
@@ -32,10 +16,9 @@ class ClientTest extends WP_UnitTestCase {
 		if( ! defined('UFO_AI_WPAPI_KEY')|| empty(UFO_AI_WPAPI_KEY) ){
 			$this->markTestSkipped('No API key found');
 		}
-		$client = new Client(
-			Settings::getDefault(Settings::URL),
-			UFO_AI_WPAPI_KEY,
-		);
+		$plugin = $this->makePlugin();
+
+		$client = $plugin->getClient();
 
 		$input = 'There are fOre dogs';
 		$instruction = 'Fix spelling';
@@ -53,10 +36,7 @@ class ClientTest extends WP_UnitTestCase {
 	 * @return Client
 	 */
 	protected function getRealClient(){
-		return new Client(
-			Settings::getDefault(Settings::URL),
-			UFO_AI_WPAPI_KEY,
-		);
+		return $this->makePlugin()->getClient();
 	}
 
 	/**

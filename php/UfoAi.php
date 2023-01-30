@@ -5,65 +5,68 @@ namespace ImaginaryMachines\UfoAi;
 use ImaginaryMachines\UfoAi\Api\Proxy;
 use ImaginaryMachines\UfoAi\Api\SettingsEndpoint;
 use ImaginaryMachines\UfoAi\Contracts\ClientContract;
+use ImaginaryMachines\UfoAi\Client;
 
 
 class UfoAi {
 
 	/**
-	 * Container for shared objects.
+	 * The API client.
 	 *
-	 * @var array
+	 * @var Client
 	 */
-	protected static $container = array();
+	protected $client;
 
 	/**
-	 * Set up filters and actions.
+	 * Plugin settings.
 	 *
-	 * @since 0.1-dev
+	 * @var Settings
 	 */
-	public static function addHooks() {
-		add_action( 'plugins_loaded', array( __CLASS__, 'load_textdomain' ) );
-		add_action( 'rest_api_init', array( __CLASS__, 'rest_api_init' ) );
-		add_action( 'admin_init', array( Settings::class, 'registerSettings' ) );
-		add_action( 'admin_menu', array( SettingsPage::class, 'add_page' ) );
-		if ( $updater = Updater::factory() ) {
-			Updater::addHooks( $updater );
-		}
+	protected $settings;
+
+	/**
+	 * Hooks
+	 *
+	 * @var Hooks
+	 */
+	protected $hooks;
+
+	public function __construct( Settings $settings ) {
+		$this->settings = $settings;
+
 	}
 
 	/**
-	 * Loads the plugin's text domain.
+	 * Set up the plugin.
 	 *
-	 * Sites on WordPress 4.6+ benefit from just-in-time loading of translations.
+	 * @return UfoAi
 	 */
-	public static function load_textdomain() {
-		load_plugin_textdomain( 'ufo-ai' );
+	public function init() {
+		$this->hooks = new Hooks( $this );
+		$this->hooks->addHooks();
+		return $this;
 	}
 
+
 	/**
-	 * Register the REST API endpoints
+	 * Get plugin settings.
 	 *
-	 * @return void
+	 * @return Settings
 	 */
-	public static function rest_api_init() {
-		// Routes that proxy content machine api
-		Proxy::factory();
-		// Routes for settings
-		SettingsEndpoint::factory();
+	public function getSettings() {
+		return $this->settings;
 	}
 
 	/**
 	 * Get API client.
 	 *
-	 * @return ClientContract
+	 * @return Client
 	 */
-	public static function getClient(): ClientContract {
-		if ( ! isset( self::$container['client'] ) ) {
-			self::$container['client'] = Client::fromSettings();
-
-
+	public function getClient(): Client {
+		if ( ! isset( $this->client ) ) {
+			$this->client = new Client( $this );
 		}
-		return self::$container['client'];
+		return $this->client;
 	}
 
 	/**
@@ -71,9 +74,35 @@ class UfoAi {
 	 *
 	 * @param ClientContract $client
 	 *
+	 * @return UfoAi
+	 */
+	public function setClient( Client $client ) {
+		$this->client = $client;
+		return $this;
+	}
+
+	/**
+	 * Loads the plugin's text domain.
+	 *
+	 * @uses "plugins_loaded" action
+	 *
+	 * Sites on WordPress 4.6+ benefit from just-in-time loading of translations.
+	 */
+	public function load_textdomain() {
+		load_plugin_textdomain( 'ufo-ai' );
+	}
+
+	/**
+	 * Register the REST API endpoints
+	 *
+	 * @uses "rest_api_init" action
+	 *
 	 * @return void
 	 */
-	public static function setClient( ClientContract $client ) {
-		self::$container['client'] = $client;
+	public function rest_api_init() {
+		// Routes that proxy content machine api
+		( new Proxy( $this ) )->registerRoutes();
+		// Routes for settings
+		( new SettingsEndpoint( $this ) )->registerRoutes();
 	}
 }
