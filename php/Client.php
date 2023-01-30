@@ -102,27 +102,6 @@ class Client  implements ClientContract {
 		return $this->handleResponse( $response );
 	}
 
-	/**
-	 * Make a prompt request
-	 *
-	 * @param PromptRequest $promptRequest
-	 * @return array
-	 */
-	public function prompt( PromptRequest $promptRequest ):array {
-
-		$response = wp_remote_post(
-			$this->makeUrl( self::ROUTE_PROMPT ),
-			array(
-				'method'  => self::METHOD_PROMPT,
-				//@phpcs:disable
-				'timeout' => 15,
-				'body'    => json_encode( $promptRequest->toArray() ),
-				'headers' => $this->getHeaders(),
-			)
-		);
-		return $this->handleResponse( $response );
-
-	}
 
 	public function edit(string $input, string $instruction){
 		$data = [

@@ -4,7 +4,6 @@ namespace ImaginaryMachines\UfoAi\Api;
 
 use ImaginaryMachines\UfoAi\Client;
 use ImaginaryMachines\UfoAi\UfoAi;
-use ImaginaryMachines\UfoAi\PromptRequest;
 use ImaginaryMachines\UfoAi\Settings;
 
 /**
@@ -96,6 +95,8 @@ class Proxy {
 
 		return $this->client->text( $prompt, $temperature );
 	}
+
+
 
 	/**
 	 * Default permission_callback
