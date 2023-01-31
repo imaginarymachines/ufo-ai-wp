@@ -31,7 +31,9 @@ tests_add_filter(
 		if ( file_exists( dirname( __DIR__, 1 ) . '/keys.php' ) ) {
 			require_once dirname( __DIR__, 1 ) . '/keys.php';
 		}
-
+		if ( file_exists( __DIR__ . '/keys.php' ) ) {
+			require_once __DIR__ . '/keys.php';
+		}
 
 		require dirname( __DIR__ ) . '/ufo-ai-wp.php';
 		// Include fakes
