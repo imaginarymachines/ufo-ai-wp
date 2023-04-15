@@ -2,7 +2,7 @@
 Contributors:      shelob9
 Tags:              block
 Tested up to:      6.1
-Stable tag:        0.5.0
+Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 

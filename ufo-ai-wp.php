@@ -4,7 +4,7 @@
  * Description:       Uses a large lanaguage model to help you write your posts, for your post, based on the post you’re working on.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           0.5.0
+ * Version:           1.0.0
  * Author:            Imaginary Machines
  * Plugin URI:        https://upcycledfoundobjects.com/
  * Author URI:        https://upcycledfoundobjects.com/docs/install
@@ -30,7 +30,7 @@ define( 'UFO_AI_WPPLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 /**
  * Version of the plugin.
  */
-define( 'UFO_AI_WPVERSION', '0.5.0' );
+define( 'UFO_AI_WPVERSION', '1.0.0' );
 
 /**
  * Main file of plugin

@@ -1,6 +1,6 @@
 {
 	"name": "ufo-ai-wp",
-	"version": "0.5.0",
+	"version": "1.0.0",
 	"description": "Example block scaffolded with Create Block tool.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
@@ -29,7 +29,7 @@
 		"zip": "npm run prezip && node makeZip.js"
 	},
 	"devDependencies": {
-		"@wordpress/env": "^5.8.0",
+		"@wordpress/env": "^5.13.0",
 		"@wordpress/scripts": "^25.0.0"
 	},
 	"dependencies": {
