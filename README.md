@@ -19,11 +19,21 @@ A WordPress plugin, that uses a large lanaguage model to help you write your pos
 
 - `ufoaiwp_get_setting`
 	- Runs before returning setting value
-	- `mixed $setting` setting value
-	- `string $key` Setting  name
-	- `array $settings` All settings
-
-
+		- `mixed $setting` setting value
+		- `string $key` Setting  name
+		- `array $settings` All
+- `ufoai_api_version`
+	- Change API version
+		- `string $version` Current version
+- `ufoai_client_url`
+	- Change the URL for API request
+		- `string $url URL` for request
+		- `string $endpoint`
+		- `Client $client` API client
+- `ufoaiwp_request_args`
+	- Change wp_remote_request API request arguments
+		- `array $args` Request arguments
+		- `string $url`
 ## Develop
 
 - Clone
