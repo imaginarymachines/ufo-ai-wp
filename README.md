@@ -5,16 +5,23 @@ A WordPress plugin, that uses a large lanaguage model to help you write your pos
 - Learn more: https://upcycledfoundobjects.com/
 - Documentation: https://upcycledfoundobjects.com/docs
 
-## Usage
 
-1. Install and activate plugin.
-1. Go to settings page.
-1. Insert API key.
-1. Make new post
-1. Give it a title and save.
-1. Click smiley icon in top bar.
-1. Click "add blocks" button
+## Hooks
 
+### Actions
+
+- `ufoaiwp`
+	- Runs when plugin is initalized
+		- `ImaginaryMachines\UfoAi\Plugin $plugin`
+
+
+### Filters
+
+- `ufoaiwp_get_setting`
+	- Runs before returning setting value
+	- `mixed $setting` setting value
+	- `string $key` Setting  name
+	- `array $settings` All settings
 
 
 ## Develop

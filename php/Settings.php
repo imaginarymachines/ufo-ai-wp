@@ -3,32 +3,35 @@
 namespace ImaginaryMachines\UfoAi;
 
 // PHP class that uses WordPress' options API to store and retrieve settings
-class Settings {
+class Settings
+{
 
 	const URL          = 'url';
 	const KEY          = 'key';
 	const GROUP        = 'cm-settings';
 	const API_SETTINGS = 'cm_api_settings';
-	public function registerSettings() {
+	public function registerSettings()
+	{
 
 		register_setting(
 			static::GROUP,
 			static::API_SETTINGS,
 			array(
 				'type'              => 'array',
-				'sanitize_callback' => array( __CLASS__, 'sanitizeSettings' ),
+				'sanitize_callback' => array(__CLASS__, 'sanitizeSettings'),
 				'default'           => $this->getDefaults(),
 			)
 		);
-
 	}
 
 	// Delete all settings
-	public function deleteAll() {
-		delete_option( self::API_SETTINGS );
+	public function deleteAll()
+	{
+		delete_option(self::API_SETTINGS);
 	}
 	// static method to get default settings
-	public function getDefaults() {
+	public function getDefaults()
+	{
 		return [
 			self::URL => 'https://upcycledfoundobjects.com/',
 			self::KEY => '',
@@ -36,8 +39,9 @@ class Settings {
 	}
 
 	// static method to get default
-	public function getDefault( string $key ) {
-		return $this->getDefaults()[ $key ];
+	public function getDefault(string $key)
+	{
+		return $this->getDefaults()[$key];
 	}
 
 	/**
@@ -46,59 +50,76 @@ class Settings {
 	 * @param mixed $value
 	 * @return string
 	 */
-	public function sanitizeSettingKey( $value ) {
+	public function sanitizeSettingKey($value)
+	{
 
-		if ( empty( $value ) ) {
-			if ( isset( $_POST['content_machine_api_key'] ) && is_string( $_POST['content_machine_api_key'] ) ) {
+		if (empty($value)) {
+			if (isset($_POST['content_machine_api_key']) && is_string($_POST['content_machine_api_key'])) {
 				return sanitize_text_field(
 					$_POST['content_machine_api_key']
 				);
 			}
 		}
-		if ( ! is_string( $value ) ) {
+		if (!is_string($value)) {
 			return '';
 		}
-		return sanitize_text_field( $value );
+		return sanitize_text_field($value);
 	}
 
-	public function sanitizeSettingUrl( $value ) {
-		if ( ! is_string( $value ) ) {
+	public function sanitizeSettingUrl($value)
+	{
+		if (!is_string($value)) {
 			return '';
 		}
-		return esc_url_raw( $value );
+		return esc_url_raw($value);
 	}
 
 	// Is this an allowed key?
-	public function isAllowedKey( $key ) {
-		return in_array( $key, array_keys( $this->getDefaults() ) );
+	public function isAllowedKey($key)
+	{
+		return in_array($key, array_keys($this->getDefaults()));
 	}
 	// get a setting
-	public function get( $key ) {
+	public function get($key)
+	{
 		$defaults = $this->getDefaults();
 		// throw if not allowed key
-		if ( ! $this->isAllowedKey( $key ) ) {
-			throw new \Exception( sprintf( 'Invalid key %s', $key ) );
+		if (!$this->isAllowedKey($key)) {
+			throw new \Exception(sprintf('Invalid key %s', $key));
 		}
-		$settings = get_option( static::API_SETTINGS, [] );
+		$settings = get_option(static::API_SETTINGS, []);
 		// return if in array
-		if ( is_array( $settings ) && array_key_exists( $key, $settings ) ) {
-			return $settings[ $key ];
+		if (is_array($settings) && array_key_exists($key, $settings)) {
+			$setting =  $settings[$key];
+		} else {
+			// return default
+			$setting = $defaults[$key];
 		}
-		// return default
-		$setting = $defaults[ $key ];
-		return $setting;
+
+		/**
+		 * Filter the setting
+		 *
+		 * @param mixed $setting Setting value
+		 * @param string $key Setting key
+		 * @param array $settings All settings
+		 *
+		 * @return mixed
+		 * @since 1.0.0
+		 */
+		return apply_filters('ufoaiwp_get_setting', $setting, $key, $settings);
 	}
 	// set a setting
-	public function set( $key, $value ) {
+	public function set($key, $value)
+	{
 		$current = $this->getAll();
-		if ( ! $this->isAllowedKey( $key ) ) {
+		if (!$this->isAllowedKey($key)) {
 			throw new \Exception(
-				sprintf( 'Invalid key %s', $key )
+				sprintf('Invalid key %s', $key)
 			);
 		}
 		// Sanitize the value
-		$fnName = 'sanitizeSetting' . ucfirst( $key );
-		$value  = $this->$fnName( $value );
+		$fnName = 'sanitizeSetting' . ucfirst($key);
+		$value  = $this->$fnName($value);
 
 		update_option(
 			self::API_SETTINGS,
@@ -112,14 +133,13 @@ class Settings {
 	}
 
 	// get all settings
-	public function getAll() {
+	public function getAll()
+	{
 		$defaults = $this->getDefaults();
 		$settings = array();
-		foreach ( $defaults as $key => $default ) {
-			$settings[ $key ] = $this->get( $key );
+		foreach ($defaults as $key => $default) {
+			$settings[$key] = $this->get($key);
 		}
 		return $settings;
 	}
-
-
 }
