@@ -8,12 +8,10 @@ class SettingsPage {
 
 	/**
 	 * @var UfoAi
-	 *
 	 */
 	protected $plugin;
 
-	public function __construct(UfoAi $plugin)
-	{
+	public function __construct( UfoAi $plugin ) {
 		$this->plugin = $plugin;
 	}
 	/**
@@ -31,19 +29,19 @@ class SettingsPage {
 			__( 'Upcycled Found Objects', 'ufo-ai-wp' ),
 			'manage_options',
 			self::SCREEN,
-			[
+			array(
 				$this,
 				'renderPage',
-			]
+			)
 		);
 
 		// This adds a link in the plugins list table
 		add_action(
 			'plugin_action_links_' . plugin_basename( UFO_AI_WPMAIN_FILE ),
-			[
+			array(
 				$this,
 				'addLinks',
-			]
+			)
 		);
 
 		return $suffix;
@@ -95,7 +93,7 @@ class SettingsPage {
 	 *
 	 * @since 0.0.1
 	 */
-	public  function renderPage() {
+	public function renderPage() {
 		wp_enqueue_script( self::SCREEN );
 		$settings = $this
 			->plugin
@@ -104,11 +102,11 @@ class SettingsPage {
 		wp_localize_script(
 			self::SCREEN,
 			'CONTENT_MACHINE',
-			[
+			array(
 				'apiUrl'   => rest_url( 'ufo-ai/v1/settings' ),
 				'settings' => $settings,
 
-			]
+			)
 		);
 		?>
 			<div class="ufo-ai-wp-wrap">

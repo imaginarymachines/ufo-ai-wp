@@ -7,26 +7,25 @@ use ImaginaryMachines\UfoAi\Settings;
 /**
  * REST API endpoints for plugin settings
  */
-class SettingsEndpoint extends Endpoint{
+class SettingsEndpoint extends Endpoint {
 
 
-	public function registerRoutes()
-	{
+	public function registerRoutes() {
 		\register_rest_route(
 			$this->namespace,
 			'/settings',
-			[
+			array(
 				'methods'             => 'POST',
-				'callback'            => [$this, 'updateSettings'],
-				'permission_callback' => [$this, 'authorize'],
-				'args'                => [
-					'key' => [
+				'callback'            => array( $this, 'updateSettings' ),
+				'permission_callback' => array( $this, 'authorize' ),
+				'args'                => array(
+					'key' => array(
 						'required' => true,
 						'type'     => 'string',
-					],
+					),
 
-				],
-			]
+				),
+			)
 		);
 	}
 

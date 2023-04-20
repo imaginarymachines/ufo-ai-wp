@@ -7,8 +7,8 @@ use ImaginaryMachines\UfoAi\Contracts\ClientContract;
 /**
  * Interact with API
  */
-class Client  implements ClientContract
-{
+class Client implements ClientContract {
+
 
 	/**
 	 * Url for the api
@@ -38,11 +38,10 @@ class Client  implements ClientContract
 	 * @param string $key
 	 * @param string $version
 	 */
-	public function __construct(UfoAi $plugin)
-	{
+	public function __construct( UfoAi $plugin ) {
 		$this->plugin  = $plugin;
-		$this->url     = $plugin->getSettings()->get(Settings::URL);
-		$this->key     = $plugin->getSettings()->get(Settings::KEY);
+		$this->url     = $plugin->getSettings()->get( Settings::URL );
+		$this->key     = $plugin->getSettings()->get( Settings::KEY );
 		$this->version = self::latestApiVersion();
 	}
 
@@ -50,11 +49,10 @@ class Client  implements ClientContract
 	/**
 	 * Check if client is connected with a valid API key
 	 */
-	public function isConnected(): bool
-	{
+	public function isConnected(): bool {
 
 		$response = wp_remote_request(
-			$this->makeUrl('/user', false),
+			$this->makeUrl( '/user', false ),
 			array(
 				'method'  => 'GET',
 				'timeout' => 10,
@@ -62,20 +60,19 @@ class Client  implements ClientContract
 
 			)
 		);
-		if (is_wp_error($response)) {
+		if ( is_wp_error( $response ) ) {
 			return false;
 		}
-		if (wp_remote_retrieve_response_code($response) !== 200) {
+		if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
 			return false;
 		}
 		return true;
 	}
 
-	public function text(string $prompt, float $temperature = 0.8): array
-	{
+	public function text( string $prompt, float $temperature = 0.8 ): array {
 
 		$response = wp_remote_request(
-			$this->makeUrl('/text', true),
+			$this->makeUrl( '/text', true ),
 			array(
 				'method'  => 'POST',
 				'timeout' => 15,
@@ -89,17 +86,17 @@ class Client  implements ClientContract
 
 			)
 		);
-		if (is_wp_error($response)) {
+		if ( is_wp_error( $response ) ) {
 			throw new \Exception(
 				$response->get_error_message()
 			);
 
 			return $response;
 		}
-		if (wp_remote_retrieve_response_code($response) !== 201) {
+		if ( wp_remote_retrieve_response_code( $response ) !== 201 ) {
 			return array();
 		}
-		return $this->handleResponse($response);
+		return $this->handleResponse( $response );
 	}
 
 	/**
@@ -111,8 +108,7 @@ class Client  implements ClientContract
 	 * @param string $url
 	 * @return array
 	 */
-	protected function requestArgs(array $args, string $url)
-	{
+	protected function requestArgs( array $args, string $url ) {
 		$args = array_merge(
 			array(
 				'timeout' => 15,
@@ -129,52 +125,50 @@ class Client  implements ClientContract
 		 * @param string $url Request url
 		 * @return array
 		 */
-		return apply_filters('ufoaiwp_request_args', $args, $url);
+		return apply_filters( 'ufoaiwp_request_args', $args, $url );
 	}
 
 
-	public function edit(string $input, string $instruction)
-	{
-		$data = [
-			'input' => $input,
-			'instruction' => $instruction
-		];
+	public function edit( string $input, string $instruction ) {
+		$data     = array(
+			'input'       => $input,
+			'instruction' => $instruction,
+		);
 		$response = wp_remote_request(
-			$this->makeUrl('/text/edit'),
+			$this->makeUrl( '/text/edit' ),
 			array(
 				'method'  => 'POST',
 				'timeout' => 15,
-				'body'    => json_encode($data),
+				'body'    => json_encode( $data ),
 				'headers' => $this->getHeaders(),
 			)
 		);
-		return $this->handleResponse($response);
+		return $this->handleResponse( $response );
 	}
 
 
-	protected function handleResponse($response)
-	{
+	protected function handleResponse( $response ) {
 		// check if is_wp_error
-		if (is_wp_error($response)) {
-			throw new \Exception($response->get_error_message());
+		if ( is_wp_error( $response ) ) {
+			throw new \Exception( $response->get_error_message() );
 		}
 		// Check if status is 201 with wp_remote_retrieve_response_code
-		if (wp_remote_retrieve_response_code($response) !== 201) {
-			$message  = 'Response failed with ' . wp_remote_retrieve_response_code($response);
-			$message .= '. ' . wp_remote_retrieve_response_message($response);
-			throw new \Exception($message);
+		if ( wp_remote_retrieve_response_code( $response ) !== 201 ) {
+			$message  = 'Response failed with ' . wp_remote_retrieve_response_code( $response );
+			$message .= '. ' . wp_remote_retrieve_response_message( $response );
+			throw new \Exception( $message );
 		}
 		// decode the body with json_decode
-		$body = json_decode(wp_remote_retrieve_body($response), true);
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 		// check if body is array with key "texts"
-		if (!is_array($body) || !array_key_exists('texts', $body)) {
-			throw new \Exception('Invalid ufo-ai response body');
+		if ( ! is_array( $body ) || ! array_key_exists( 'texts', $body ) ) {
+			throw new \Exception( 'Invalid ufo-ai response body' );
 		}
 		// Ensure each key of "texts" is a string
-		foreach ($body['texts'] as $key => $text) {
-			if (!is_string($text)) {
+		foreach ( $body['texts'] as $key => $text ) {
+			if ( ! is_string( $text ) ) {
 				throw new \Exception(
-					sprintf('Invalid ufo-ai response body, key of texts %s is not a string', $key)
+					sprintf( 'Invalid ufo-ai response body, key of texts %s is not a string', $key )
 				);
 			}
 		}
@@ -187,8 +181,7 @@ class Client  implements ClientContract
 	 *
 	 * @return string
 	 */
-	public static function latestApiVersion(): string
-	{
+	public static function latestApiVersion(): string {
 		/**
 		 * Filter the api version
 		 *
@@ -208,8 +201,7 @@ class Client  implements ClientContract
 	 *
 	 * @return string
 	 */
-	public function getKey(): string
-	{
+	public function getKey(): string {
 		return $this->key;
 	}
 
@@ -218,8 +210,7 @@ class Client  implements ClientContract
 	 *
 	 * @return string
 	 */
-	public function getUrl(): string
-	{
+	public function getUrl(): string {
 		return $this->url;
 	}
 
@@ -231,13 +222,12 @@ class Client  implements ClientContract
 	 * @param bool $withVersion
 	 * @return string
 	 */
-	protected function makeUrl(string $endpoint, bool $withVersion = true): string
-	{
+	protected function makeUrl( string $endpoint, bool $withVersion = true ): string {
 		//Ensure $endpoint starts with a slash
-		if (substr($endpoint, 0, 1) !== '/') {
+		if ( substr( $endpoint, 0, 1 ) !== '/' ) {
 			$endpoint = '/' . $endpoint;
 		}
-		if ($withVersion) {
+		if ( $withVersion ) {
 			$endpoint = 'api/' . $this->version . $endpoint;
 		} else {
 			$endpoint = 'api' . $endpoint;
@@ -265,15 +255,14 @@ class Client  implements ClientContract
 	 *
 	 * @return array
 	 */
-	protected function getHeaders(): array
-	{
-		return [
+	protected function getHeaders(): array {
+		return array(
 			// content type json
 			'Content-Type'  => 'application/json; charset=utf-8',
 			'Accept'        => 'application/json',
 			// api key as bearer token
 			'Authorization' => 'Bearer ' . $this->key,
 			'Accept'        => 'application/json',
-		];
+		);
 	}
 }
