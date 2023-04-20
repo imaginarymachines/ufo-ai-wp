@@ -5,11 +5,23 @@ namespace ImaginaryMachines\UfoAi\Actions;
 use ImaginaryMachines\UfoAi\Client;
 use ImaginaryMachines\UfoAi\Settings;
 
+/**
+ * Check connection to API
+ */
 class CheckConnection {
-
+	/**
+	 * @var Client
+	 */
 	protected Client $client;
+	/**
+	 * @var Settings
+	 */
 	protected Settings $settings;
 
+	/**
+	 * @param Client $client
+	 * @param Settings $settings
+	 */
 	public function __construct(
 		Client $client,
 		Settings $settings
@@ -20,6 +32,8 @@ class CheckConnection {
 
 	/**
 	 * Check if client is connected with a valid API key
+	 *
+	 * @return array|WP_Error
 	 */
 	public function handle() {
 		$key = $this->settings
