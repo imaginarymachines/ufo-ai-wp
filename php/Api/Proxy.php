@@ -2,6 +2,7 @@
 
 namespace ImaginaryMachines\UfoAi\Api;
 
+use ImaginaryMachines\UfoAi\Actions\CheckConnection;
 use ImaginaryMachines\UfoAi\Client;
 use ImaginaryMachines\UfoAi\UfoAi;
 use ImaginaryMachines\UfoAi\Settings;
@@ -57,19 +58,9 @@ class Proxy extends Endpoint {
 	 * Check if account connected
 	 */
 	public function checkConnection() {
-		$key = $this
-			->plugin
-			->getSettings()
-			->get( Settings::KEY );
-		if ( empty( $key ) ) {
-			return new \WP_Error(
-				'no_api_key',
-				'No Saved API Key',
-			);
-		}
-		$connected = $this->client->isConnected();
-		return array(
-			'connected' => $connected,
+		return new CheckConnection(
+			$this->plugin->getSettings()->get( Settings::URL ),
+			$this->plugin->getSettings()->get( Settings::KEY )
 		);
 	}
 
